@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "strategy-library-mcp"
+version = "0.1.0"
+description = "MCP server providing strategic cognition capabilities for Claude Code"
+authors = ["Strategy Library Team <strategy@example.com>"]
+packages = []
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+pydantic = "^2.0.0"
+typing-extensions = "^4.7.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+mypy = "^1.5.0"
+black = "^23.0.0"
+flake8 = "^6.0.0"
+pytest-asyncio = "^0.21.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=. --cov-report=term-missing"

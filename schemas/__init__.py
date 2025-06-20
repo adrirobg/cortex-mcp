@@ -1,0 +1,1 @@
+"""Strategy Library MCP - Schema definitions."""
