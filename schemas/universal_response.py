@@ -7,6 +7,7 @@ Following Principio Rector #1: Dogmatismo con Universal Response Schema.
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 from pydantic import BaseModel, Field
 from enum import Enum
+from datetime import datetime
 
 
 class StrategyType(str, Enum):
@@ -23,6 +24,7 @@ class ExecutionType(str, Enum):
     USER_CONFIRMATION = "user_confirmation"
     MULTI_STEP = "multi_step"
     DELEGATED = "delegated"
+    COLLABORATIVE = "collaborative"  # NEW: Multi-step with Claude interaction
 
 
 class Strategy(BaseModel):
@@ -119,6 +121,7 @@ class StrategyResponse(BaseModel, Generic[PayloadType]):
     payload: PayloadType = Field(..., description="Tool-specific structured data")
     metadata: Metadata = Field(..., description="Execution metadata")
     error_handling: Optional[ErrorHandling] = Field(None, description="Error handling configuration")
+    debug_payload: Optional[Dict[str, Any]] = Field(None, description="Debug information (populated when debug_mode=true)")
 
     model_config = {
         "extra": "forbid",  # No additional fields allowed
@@ -134,3 +137,101 @@ class BasePayload(BaseModel):
     suggested_next_state: Optional[Dict[str, Any]] = Field(None, description="Suggested state for next call")
     
     model_config = {"extra": "allow"}
+
+
+# ========================================
+# PHASE 2.7: COLLABORATIVE ENHANCEMENTS
+# ========================================
+
+class DelegationType(str, Enum):
+    """Types of delegation to Claude for collaborative refinement."""
+    REFINE_ANALYSIS = "refine_analysis"
+    VALIDATE_DEPENDENCIES = "validate_dependencies"
+    OPTIMIZE_ASSIGNMENT = "optimize_assignment"
+    CRITICAL_REVIEW = "critical_review"
+    ARCHITECTURE_ALTERNATIVES = "architecture_alternatives"
+
+
+class CollaborationPoint(BaseModel):
+    """Definition of a point where Claude collaboration adds value."""
+    point_id: str = Field(..., description="Unique identifier for collaboration point")
+    stage: str = Field(..., description="Workflow stage where collaboration occurs")
+    delegation_type: DelegationType = Field(..., description="Type of delegation needed")
+    confidence_threshold: float = Field(default=0.75, description="Confidence threshold for triggering")
+    description: str = Field(..., description="Description of collaboration value")
+
+
+class DelegationContext(BaseModel):
+    """Context for delegating analysis refinement to Claude."""
+    delegation_id: str = Field(..., description="Unique delegation identifier")
+    delegation_type: DelegationType = Field(..., description="Type of delegation")
+    
+    preliminary_result: Dict[str, Any] = Field(..., description="Preliminary analysis result")
+    refinement_prompt: str = Field(..., description="Specific prompt for Claude refinement")
+    expected_improvements: List[str] = Field(default_factory=list, description="Expected improvement areas")
+    
+    validation_criteria: str = Field(..., description="Criteria for validating refinement quality")
+    confidence_threshold: float = Field(default=0.75, ge=0.0, le=1.0, description="Confidence threshold")
+    continuation_state: Dict[str, Any] = Field(default_factory=dict, description="State for workflow continuation")
+    created_at: str = Field(default_factory=lambda: datetime.now().isoformat(), description="Creation timestamp")
+
+
+class RefinementRecord(BaseModel):
+    """Record of a collaborative refinement interaction."""
+    refinement_id: str = Field(..., description="Unique refinement identifier")
+    delegation_type: DelegationType = Field(..., description="Type of delegation performed")
+    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat(), description="When refinement occurred")
+    
+    original_confidence: float = Field(..., description="Original confidence score")
+    refined_confidence: float = Field(..., description="Post-refinement confidence score")
+    quality_improvement: float = Field(..., description="Measured quality improvement")
+    duration_ms: Optional[float] = Field(None, description="Refinement duration in milliseconds")
+
+
+# Enhanced Action for Collaborative Workflows
+class CollaborativeAction(Action):
+    """Enhanced action supporting collaborative delegation."""
+    # Collaborative-specific fields
+    delegation_context: Optional[DelegationContext] = Field(None, description="Delegation context if applicable")
+    requires_claude_input: bool = Field(default=False, description="Whether action requires Claude input")
+    collaboration_stage: Optional[str] = Field(None, description="Collaboration stage identifier")
+
+
+# Enhanced StrategyResponse for Collaborative Intelligence
+class CollaborativeStrategyResponse(BaseModel, Generic[PayloadType]):
+    """Enhanced StrategyResponse supporting collaborative intelligence workflows.
+    
+    Extends the Universal Response Schema with Phase 2.7 collaborative capabilities
+    while maintaining 100% backward compatibility.
+    """
+    
+    # Core Universal Response Schema (unchanged for compatibility)
+    strategy: Strategy = Field(..., description="Strategy identification")
+    user_facing: UserFacing = Field(..., description="User communication")
+    claude_instructions: ClaudeInstructions = Field(..., description="Claude execution instructions")
+    payload: PayloadType = Field(..., description="Tool-specific structured data")
+    metadata: Metadata = Field(..., description="Execution metadata")
+    error_handling: Optional[ErrorHandling] = Field(None, description="Error handling configuration")
+    debug_payload: Optional[Dict[str, Any]] = Field(None, description="Debug information")
+    
+    # NEW: Collaborative Intelligence Extensions (Phase 2.7)
+    collaboration_mode: bool = Field(default=False, description="Whether collaborative mode is active")
+    delegation_context: Optional[DelegationContext] = Field(None, description="Active delegation context")
+    collaboration_points: Optional[List[CollaborationPoint]] = Field(None, description="Available collaboration points")
+    refinement_history: Optional[List[RefinementRecord]] = Field(None, description="History of refinements")
+    
+    # Workflow continuation support
+    requires_claude_refinement: bool = Field(default=False, description="Whether Claude refinement is needed")
+    collaboration_stage: Optional[str] = Field(None, description="Current collaboration stage")
+    
+    model_config = {
+        "extra": "forbid",
+        "validate_assignment": True,
+        "use_enum_values": True
+    }
+
+
+# Type alias for backward compatibility
+# Existing code can continue using StrategyResponse
+# New collaborative code can use CollaborativeStrategyResponse
+EnhancedStrategyResponse = CollaborativeStrategyResponse

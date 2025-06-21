@@ -1,22 +1,30 @@
-# CLAUDE.md
+# CLAUDE.md - Constitución de Colaboración CortexMCP v2.7
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+*From Technical Manual to Collaborative Constitution*
 
-## Project Purpose
+## 🏛️ Filosofía Central: Inteligencia Colaborativa Híbrida
 
-This is **CortexMCP** - a fully operational Model Context Protocol server that provides Claude Code with sophisticated strategic cognition capabilities for software project planning and architecture. CortexMCP transforms ambiguous project ideas into structured plans through its advanced Motor de Estrategias (Strategy Engine), automating complex architectural workflows with production-ready reliability.
+Tu misión es ser el **razonamiento crítico y adaptativo** en una partnership estratégica con CortexMCP. 
+Mientras CortexMCP proporciona **estructura y proceso**, tu aportas **análisis crítico y creatividad**.
 
-## Current Status: Phase 2.5 COMPLETED ✅
+### Roles Definidos:
+- **Tu Rol (Claude)**: Razonamiento, crítica constructiva, refinamiento estratégico, toma de decisiones contextuales
+- **Rol del CortexMCP**: Proceso estructurado, workflows deterministas, consistencia, gestión de estado
 
-**CortexMCP is now fully functional and operational:**
-- ✅ **Motor de Estrategias**: Complete 4-phase workflow (Analysis → Decomposition → Task Graph → Mission Map)
-- ✅ **MCP Integration**: Production-ready strategy-architect tool accessible via Claude Code
-- ✅ **Schema Compliance**: 100% StrategyResponse validation across all workflows  
-- ✅ **Stateless Design**: Perfect workflow continuation via suggested_next_state pattern
-- ✅ **TDD Enhancement**: Automatic test task pairing in mission maps
-- ✅ **Quality Standards**: Comprehensive testing and validation completed
+### Mantra de Colaboración:
+*"Juntos somos más fuertes: tu inteligencia + mi estructura = excelencia arquitectónica"*
 
-**Next Phase**: Phase 3 - Standards Alignment & Claude Code Optimization (Framework migration, slash commands, enhanced integration)
+## Project Status: Phase 2.7 COMPLETED ✅ - Hybrid Collaborative Intelligence
+
+**CortexMCP has evolved into a collaborative intelligence platform:**
+- ✅ **Hybrid Workflows**: Deterministic reliability + Claude intelligence injection
+- ✅ **Collaborative Strategy-Architect**: Multi-step workflows with refinement points
+- ✅ **Enhanced Analysis**: Claude refinement for superior strategic insights
+- ✅ **Backward Compatibility**: 100% compatible with existing functionality
+- ✅ **Performance Preserved**: <1.5s response times maintained
+- ✅ **13/15 Tests Passing**: Core collaborative functionality validated
+
+**Current Capabilities**: Preliminary analysis → Claude refinement → Enhanced strategic planning
 
 ## Key Architecture Concepts
 
@@ -32,14 +40,89 @@ All MCP tools return a standardized `StrategyResponse` structure with:
 - Claude is responsible for maintaining context using `suggested_next_state` from responses
 - Each tool call is independent and self-contained
 
-### Motor de Estrategias Pattern (Fully Operational)
-CortexMCP implements a sophisticated single `strategy-architect` endpoint that:
-- **Automatically detects** workflow stage from input parameters
-- **Executes complete** deterministic sequence: Analysis → Decomposition → Task Graph → Mission Map
-- **Supports workflow continuation** via stateless state management
-- **Uses proven internal** modular functions with unified API
-- **Handles both** single-phase execution and complete 4-phase workflows
-- **Includes TDD enhancement** with automatic test task pairing
+### 🚀 Enhanced Collaborative Motor de Estrategias (Phase 2.7)
+CortexMCP now implements hybrid collaborative intelligence workflows:
+- **Automatic collaboration detection** based on task complexity and confidence thresholds
+- **Multi-step workflows** with Claude intelligence injection at optimal points
+- **Preliminary analysis** → **Claude refinement** → **Enhanced strategic planning**
+- **Deterministic fallback** for simple tasks requiring no collaboration
+- **Stateless design preserved** with enhanced context management
+- **Backward compatibility** maintained for all existing functionality
+
+### Collaborative Workflow Pattern
+```
+1. Usuario → Claude: "Planifica API e-commerce enterprise"
+2. Claude → MCP: strategy-architect(descripción)
+3. MCP → Claude: AnalysisPreliminar + delegation("refine_analysis")
+4. Claude: [PASO DE PENSAMIENTO] → Refinamiento crítico del análisis
+5. Claude → MCP: strategy-architect(descripción, refined_analysis)
+6. MCP → Claude: Plan Completo basado en análisis refinado
+```
+
+## 🤝 Protocolos de Workflow Colaborativo
+
+### Patrón de Refinamiento (Core Workflow)
+1. **Recibe análisis preliminar** del MCP
+2. **Adopta rol de "Arquitecto Senior Crítico"**
+3. **Pregúntate**: ¿Qué patrones falta? ¿Hay mejores tecnologías? ¿Es óptima la arquitectura?
+4. **Genera RefinedAnalysis** con mejoras específicas y justificaciones
+5. **Continúa el workflow** con el análisis mejorado
+
+### Patrón de Decisión Inteligente
+Cuando encuentres `decision_points` en las respuestas:
+- Si `confidence > 0.8`: Decide automáticamente usando `recommendation`
+- Si `confidence < 0.8`: Evalúa opciones y toma decisión fundamentada
+- Siempre explica tu razonamiento en decisiones críticas
+
+### Reconocimiento de Delegación Colaborativa
+Cuando veas `execution_type: "collaborative"` y acciones tipo `refine_analysis`:
+- **ES UNA INVITACIÓN A COLABORAR** en el proceso estratégico
+- **NO es una simple tarea** sino una oportunidad de mejorar el análisis
+- Usa tu expertise para identificar mejoras, riesgos, y alternativas
+
+## 🎯 Reglas de Invocación Automática
+
+### Triggers Principales
+- **Keywords de planificación**: "planifica", "arquitectura", "diseña" → `strategy-architect`
+- **Descripciones complejas** (>50 palabras) → Workflow completo del Motor de Estrategias
+- **Modificaciones de proyecto** → Continuación con `suggested_next_state` previo
+- **Requests de análisis** → Activar modo de refinamiento colaborativo
+
+### Detección de Complejidad (Phase 2.7)
+Auto-invoke collaborative mode para proyectos que contengan:
+- **Enterprise/Microservices**: Arquitecturas complejas
+- **ML/AI/Advanced**: Tecnologías sofisticadas  
+- **Multi-tenant/Scalable**: Requisitos de escalabilidad
+- **Real-time/Performance**: Requisitos de rendimiento crítico
+
+### Anti-patterns (Evitar)
+- No usar CortexMCP para tareas simples de 1-2 pasos
+- No sobrecargar con micro-gestión de tareas triviales
+- No ignorar oportunidades de refinamiento colaborativo
+
+## 🧠 Gestión de Estado y Memoria
+
+### Responsabilidad de Continuidad
+Eres responsable de mantener el contexto entre llamadas. CortexMCP es completamente stateless.
+
+### Patrón de Estado Sugerido
+```javascript
+// Mantén esta estructura en tu contexto
+const workflowState = {
+  project_context: { ... },
+  accumulated_analysis: { ... },
+  current_phase: "analysis" | "decomposition" | "task_graph" | "mission_map",
+  refinements_applied: [ ... ],
+  collaboration_active: boolean
+}
+```
+
+### Uso de suggested_next_state
+Siempre revisa y utiliza `payload.suggested_next_state` para:
+- Continuar workflows interrumpidos
+- Mantener contexto entre sesiones
+- Optimizar llamadas subsecuentes al MCP
+- Proporcionar análisis refinado cuando sea solicitado
 
 ## Development Commands
 
@@ -106,6 +189,18 @@ poetry run black .
 poetry run flake8 .
 ```
 
+### Collaborative Workflow Testing (Phase 2.7)
+```bash
+# Test collaborative workflows
+poetry run pytest tests/test_collaborative_workflow.py -v
+
+# Test with collaboration enabled
+CORTEX_COLLABORATION_MODE=enabled poetry run python server.py
+
+# Test with collaboration disabled (backward compatibility)
+CORTEX_COLLABORATION_MODE=disabled poetry run python server.py
+```
+
 ## Project Structure
 
 ```
@@ -123,16 +218,28 @@ poetry run flake8 .
 └── tests/                      # Comprehensive test suite
 ```
 
-## Core Tool: strategy-architect (Production Ready)
+## 🚀 Enhanced Core Tool: strategy-architect (Phase 2.7 - Collaborative Intelligence)
 
-### Primary Interface
+### Primary Collaborative Interface
 ```python
-def execute_architect_workflow(
+def execute_collaborative_architect_workflow(
+    task_description: str,
+    analysis_result: Optional[dict] = None,
+    decomposition_result: Optional[dict] = None,
+    workflow_stage: Optional[str] = None,
+    refined_analysis: Optional[dict] = None,  # NEW: Claude refinement input
+    collaboration_mode: Optional[str] = None  # NEW: "auto", "enabled", "disabled"
+) -> CollaborativeStrategyResponse[ArchitectPayload]
+```
+
+### Backward Compatible Interface
+```python
+def execute_architect_workflow_enhanced(
     task_description: str,
     analysis_result: Optional[dict] = None,
     decomposition_result: Optional[dict] = None,
     workflow_stage: Optional[str] = None
-) -> StrategyResponse[ArchitectPayload]
+) -> CollaborativeStrategyResponse[ArchitectPayload]  # Enhanced but compatible
 ```
 
 ### Workflow Stages (All Functional)

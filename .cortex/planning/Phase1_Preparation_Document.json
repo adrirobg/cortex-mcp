@@ -1,0 +1,284 @@
+{
+  "strategy": {
+    "name": "motor-de-estrategias-refactorization",
+    "version": "2.7.1",
+    "type": "execution"
+  },
+  "user_facing": {
+    "summary": "🔧 Phase 1 Preparation: Refactoring Strategy-Architect from Monolithic to Stage-Based Collaborative Engine",
+    "visualization": "```mermaid\nsequenceDiagram\n    participant Claude\n    participant MCP\n    \n    Note over Claude,MCP: Current (Monolithic)\n    Claude->>MCP: strategy-architect(description)\n    MCP->>MCP: analyze → decompose → task_graph → mission_map\n    MCP-->>Claude: Complete Plan\n    \n    Note over Claude,MCP: Target (Stage-Based)\n    Claude->>MCP: strategy-architect(description, stage=\"analysis\")\n    MCP->>MCP: _analyze_project_idea() ONLY\n    MCP-->>Claude: AnalysisResult + next_stage=\"decomposition\"\n    \n    Claude->>MCP: strategy-architect(analysis_result, stage=\"decomposition\")\n    MCP->>MCP: _decompose_to_phases() ONLY\n    MCP-->>Claude: DecompositionResult + next_stage=\"task_graph\"\n```",
+    "key_points": [
+      "🎯 **Core Objective**: Transform monolithic execution into granular workflow control",
+      "⚙️ **Technical Approach**: Modify inputSchema + refactor orchestrator + enhance response structure",
+      "🔄 **Workflow Control**: Each call executes ONE stage, returns intermediate result + next_stage guidance",
+      "📊 **Backward Compatibility**: Maintain existing API when workflow_stage is None (auto-complete)",
+      "🧪 **Testing Strategy**: Unit tests for each stage + integration tests for full workflow"
+    ],
+    "next_steps": [
+      "1. Implement inputSchema modifications in server.py",
+      "2. Refactor orchestrator logic in strategy_architect_collaborative.py", 
+      "3. Enhance StrategyResponse with stage-specific payloads",
+      "4. Create comprehensive test suite for stage-based execution",
+      "5. Validate backward compatibility with existing workflows"
+    ]
+  },
+  "claude_instructions": {
+    "execution_type": "multi_step",
+    "actions": [
+      {
+        "type": "modify_input_schema",
+        "description": "Add workflow_stage parameter to strategy-architect tool definition",
+        "priority": 1,
+        "validation_criteria": "FastMCP accepts new parameter and validates enum values",
+        "parameters": {
+          "file": "server.py",
+          "location": "strategy_architect function signature",
+          "changes": [
+            "Add workflow_stage: Optional[Literal[\"analysis\", \"decomposition\", \"task_graph\", \"mission_map\", \"complete\"]] = None",
+            "Update docstring to explain stage-based execution",
+            "Maintain backward compatibility when stage is None"
+          ]
+        }
+      },
+      {
+        "type": "refactor_orchestrator",
+        "description": "Modify workflow controller to execute single stages based on workflow_stage parameter",
+        "priority": 2,
+        "validation_criteria": "Each stage executes independently and returns appropriate intermediate results",
+        "parameters": {
+          "file": "tools/collaborative/workflow_controller.py",
+          "location": "execute_collaborative_workflow method",
+          "changes": [
+            "Add stage detection logic at workflow start",
+            "Implement single-stage execution paths",
+            "Return stage-specific payloads with suggested_next_state",
+            "Maintain monolithic path for backward compatibility"
+          ]
+        }
+      },
+      {
+        "type": "enhance_response_structure",
+        "description": "Modify StrategyResponse to support stage-specific data and workflow continuation",
+        "priority": 3,
+        "validation_criteria": "Response contains stage-specific payload and clear next-stage guidance",
+        "parameters": {
+          "file": "schemas/universal_response.py",
+          "location": "CollaborativeStrategyResponse class",
+          "changes": [
+            "Add current_stage field to payload",
+            "Enhance suggested_next_state with specific stage guidance",
+            "Add stage_completion_status for workflow tracking",
+            "Include validation for stage-specific payload structures"
+          ]
+        }
+      },
+      {
+        "type": "implement_stage_logic",
+        "description": "Create individual stage execution methods in workflow controller",
+        "priority": 4,
+        "validation_criteria": "Each stage method executes independently and produces expected output format",
+        "parameters": {
+          "methods_to_implement": [
+            "_execute_analysis_stage(task_description) -> AnalysisResult",
+            "_execute_decomposition_stage(analysis_result) -> DecompositionResult", 
+            "_execute_task_graph_stage(decomposition_result) -> TaskGraphResult",
+            "_execute_mission_map_stage(task_graph_result) -> MissionMapResult"
+          ],
+          "shared_logic": "Extract common validation and error handling patterns"
+        }
+      },
+      {
+        "type": "create_test_suite",
+        "description": "Develop comprehensive tests for stage-based execution and backward compatibility",
+        "priority": 5,
+        "validation_criteria": "All tests pass, including edge cases and error scenarios",
+        "parameters": {
+          "test_categories": [
+            "Unit tests for each individual stage method",
+            "Integration tests for multi-stage workflows", 
+            "Backward compatibility tests (workflow_stage=None)",
+            "Error handling tests for invalid stage transitions",
+            "Payload validation tests for each stage"
+          ]
+        }
+      }
+    ],
+    "context_requirements": {
+      "required_tools": ["Edit", "Read", "Bash"],
+      "required_info": [
+        "Current structure of strategy_architect_collaborative.py",
+        "Existing StrategyResponse schema definition",
+        "Current test patterns in tests/ directory"
+      ]
+    },
+    "decision_points": [
+      {
+        "id": "backward_compatibility_strategy",
+        "question": "How to maintain 100% backward compatibility while enabling stage-based execution?",
+        "options": [
+          {
+            "id": "auto_complete",
+            "description": "When workflow_stage=None, execute complete workflow as before",
+            "impact": "Zero breaking changes, seamless transition"
+          },
+          {
+            "id": "deprecation_path", 
+            "description": "Add deprecation warnings for monolithic usage",
+            "impact": "Encourages migration but maintains compatibility"
+          }
+        ],
+        "recommendation": "auto_complete",
+        "confidence": 0.9
+      },
+      {
+        "id": "stage_validation_approach",
+        "question": "How strict should stage transition validation be?",
+        "options": [
+          {
+            "id": "strict_validation",
+            "description": "Validate that required inputs exist for each stage",
+            "impact": "Prevents errors but adds complexity"
+          },
+          {
+            "id": "permissive_validation",
+            "description": "Allow stage execution with warnings for missing inputs",
+            "impact": "More flexible but potential for runtime errors"
+          }
+        ],
+        "recommendation": "strict_validation",
+        "confidence": 0.8
+      }
+    ],
+    "fallback_strategy": "If stage-based refactoring proves too complex, implement as separate tool strategy-architect-staged while keeping original intact"
+  },
+  "payload": {
+    "workflow_stage": "preparation", 
+    "preparation_details": {
+      "technical_specifications": {
+        "input_schema_changes": {
+          "new_parameter": {
+            "name": "workflow_stage", 
+            "type": "Optional[Literal[\"analysis\", \"decomposition\", \"task_graph\", \"mission_map\", \"complete\"]]",
+            "default": "None",
+            "description": "Specific workflow stage to execute. If None, executes complete workflow for backward compatibility."
+          },
+          "validation_rules": [
+            "workflow_stage must be valid enum value or None",
+            "stage-specific inputs validated based on workflow_stage",
+            "analysis_result required for decomposition stage",
+            "decomposition_result required for task_graph stage",
+            "task_graph_result required for mission_map stage"
+          ]
+        },
+        "orchestrator_refactoring": {
+          "current_method": "execute_collaborative_workflow",
+          "new_logic_flow": [
+            "1. Detect workflow_stage parameter",
+            "2. If None: execute complete workflow (backward compatibility)",
+            "3. If specified: validate inputs for that stage",
+            "4. Execute only the specified stage function",
+            "5. Return stage-specific result with next_stage guidance"
+          ],
+          "stage_methods": {
+            "analysis": "_execute_analysis_stage(task_description)",
+            "decomposition": "_execute_decomposition_stage(analysis_result)",
+            "task_graph": "_execute_task_graph_stage(decomposition_result)", 
+            "mission_map": "_execute_mission_map_stage(task_graph_result)",
+            "complete": "_execute_complete_workflow() [existing behavior]"
+          }
+        },
+        "response_enhancements": {
+          "new_payload_fields": {
+            "current_stage": "string indicating which stage was executed",
+            "stage_completion_status": "\"completed\" | \"partial\" | \"error\"",
+            "next_stage_requirements": "list of required inputs for next stage"
+          },
+          "suggested_next_state_format": {
+            "continue_workflow": "boolean indicating if workflow should continue",
+            "next_stage": "string indicating next stage to execute",
+            "required_inputs": "dict mapping input names to descriptions",
+            "estimated_duration": "string estimate for remaining workflow"
+          }
+        }
+      },
+      "implementation_order": [
+        {
+          "step": 1,
+          "task": "Modify server.py inputSchema",
+          "duration": "30 minutes",
+          "files": ["server.py"],
+          "validation": "FastMCP accepts new parameter without errors"
+        },
+        {
+          "step": 2, 
+          "task": "Refactor workflow_controller.py orchestrator",
+          "duration": "90 minutes",
+          "files": ["tools/collaborative/workflow_controller.py"],
+          "validation": "Stage-based execution works correctly"
+        },
+        {
+          "step": 3,
+          "task": "Enhance response schemas",
+          "duration": "45 minutes", 
+          "files": ["schemas/universal_response.py"],
+          "validation": "Response validation passes for all stages"
+        },
+        {
+          "step": 4,
+          "task": "Create comprehensive tests",
+          "duration": "45 minutes",
+          "files": ["tests/test_stage_based_workflow.py"],
+          "validation": "All tests pass including edge cases"
+        }
+      ],
+      "risk_mitigation": {
+        "backward_compatibility": "Implement feature flag system to toggle between monolithic and stage-based execution",
+        "testing_strategy": "Run existing test suite to ensure no regressions",
+        "rollback_plan": "Maintain original functions as _legacy methods for emergency rollback",
+        "validation_approach": "Strict input validation with clear error messages for stage transitions"
+      }
+    },
+    "success_criteria": [
+      "✅ Stage-based execution works correctly for all workflow stages",
+      "✅ 100% backward compatibility maintained for existing usage",
+      "✅ All existing tests continue to pass",
+      "✅ New stage-based tests cover edge cases and error scenarios",
+      "✅ Response format provides clear guidance for workflow continuation",
+      "✅ Performance impact is minimal (< 5% overhead)",
+      "✅ Error handling provides actionable feedback for invalid stage transitions"
+    ],
+    "estimated_completion": "3.5 hours total (2.5h planned + 1h buffer for testing and refinement)"
+  },
+  "metadata": {
+    "confidence_score": 0.95,
+    "complexity_score": 6,
+    "estimated_duration": "3.5 hours",
+    "performance_hints": [
+      "Cache stage validation logic to avoid repeated computations",
+      "Use early returns in orchestrator to minimize unnecessary processing",
+      "Implement stage-specific logging for better debugging"
+    ],
+    "learning_opportunities": [
+      "Stage-based workflow design patterns",
+      "Backward compatibility strategies in API evolution",
+      "Collaborative tool architecture best practices"
+    ]
+  },
+  "error_handling": {
+    "potential_errors": [
+      {
+        "scenario": "Invalid workflow_stage provided",
+        "recovery": "Return clear error message with valid stage options"
+      },
+      {
+        "scenario": "Missing required inputs for stage",
+        "recovery": "Validate inputs and provide specific missing requirements"
+      },
+      {
+        "scenario": "Stage execution failure",
+        "recovery": "Graceful fallback with error context and retry guidance"
+      }
+    ]
+  },
+  "debug_payload": null
+}

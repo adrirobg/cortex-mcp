@@ -1,0 +1,27 @@
+{
+  "project_name": "CortexMCP",
+  "version": "2.7",
+  "description": "Strategy Library MCP Server with Collaborative Intelligence",
+  "knowledge_management": {
+    "version": "1.0.0-mvp",
+    "created_date": "2025-06-21",
+    "workflow_type": "manual_assisted",
+    "tools": ["start-retrospective", "process-retrospective"]
+  },
+  "directory_structure": {
+    ".cortex/retrospectives/": "Meta-reflection analyses with timestamps",
+    ".cortex/planning/": "Strategy-architect generated planning documents", 
+    ".cortex/ideas/": "Improvement tracking and metrics",
+    ".cortex/phases/": "Phase documentation with lessons learned",
+    ".cortex/config/": "Project profile and configuration"
+  },
+  "ia_ia_collaboration": {
+    "enabled": true,
+    "participants": ["Claude", "Gemini"],
+    "methodology": "convergent_validation",
+    "last_session": "2025-06-21",
+    "outcome": "architectural_refundation_planned"
+  },
+  "current_phase": ".cortex/planning/Knowledge_Management_MVP_Phase1_Preparation.json",
+  "next_phase": ".cortex/planning/Phase1_Preparation_Document.json"
+}

@@ -1,0 +1,11 @@
+{"timestamp":"2025-06-21T09:12:13.070217+00:00","level":"INFO","component":"strategy-architect","event":"workflow_started","message":"Motor de Estrategias initiated","trace_id":"99ffb1ef-4930-458c-a175-10168faa931e","context":{"stage":"complete"}}
+{"timestamp":"2025-06-21T09:12:13.092115+00:00","level":"INFO","component":"strategy-architect","event":"workflow_completed","message":"Motor de Estrategias completed: complete","trace_id":"99ffb1ef-4930-458c-a175-10168faa931e","context":{"stages":4,"debug_mode":false}}
+Traceback (most recent call last):
+  File "/mnt/c/Users/Adri/Proyectos/strategy-library-mcpv2/extract_phase27_plan.py", line 126, in <module>
+    main()
+  File "/mnt/c/Users/Adri/Proyectos/strategy-library-mcpv2/extract_phase27_plan.py", line 54, in main
+    print(f"• Patrón arquitectónico: {analysis.architectural_pattern}")
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adri/.cache/pypoetry/virtualenvs/strategy-library-mcp-2XlGrk_T-py3.12/lib/python3.12/site-packages/pydantic/main.py", line 891, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'AnalysisResult' object has no attribute 'architectural_pattern'

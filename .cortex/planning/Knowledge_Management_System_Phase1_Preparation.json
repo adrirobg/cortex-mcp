@@ -1,0 +1,388 @@
+{
+  "strategy": {
+    "name": "cortex-knowledge-management-system",
+    "version": "1.0.0",
+    "type": "execution"
+  },
+  "user_facing": {
+    "summary": "🧠 CortexMCP Knowledge Management System: Implement automated organizational memory and systematic learning capabilities",
+    "visualization": "```mermaid\nsequenceDiagram\n    participant User\n    participant Claude\n    participant TaskProcessor as task-completion-processor\n    participant KnowledgeBase as .cortex/ Knowledge Base\n    \n    User->>Claude: Complete complex task\n    Claude->>TaskProcessor: Auto-trigger knowledge capture\n    TaskProcessor->>TaskProcessor: Execute retrospective analysis\n    TaskProcessor->>TaskProcessor: Process automated followup\n    TaskProcessor->>KnowledgeBase: Update retrospectives/\n    TaskProcessor->>KnowledgeBase: Update ideas/improvements.json\n    TaskProcessor->>KnowledgeBase: Update planning/next_phase.md\n    TaskProcessor-->>Claude: Knowledge institutionalized\n    \n    Note over User,KnowledgeBase: Organizational Memory Created\n```",
+    "key_points": [
+      "🎯 **Core Innovation**: Transform temporal experience into permanent organizational capital",
+      "🔄 **Automated Workflow**: retrospective → followup → knowledge integration without manual intervention",
+      "📁 **Systematic Organization**: .cortex/ directory structure for all CortexMCP knowledge artifacts",
+      "🧠 **Institutional Memory**: Persistent learning that accumulates across projects and time",
+      "⚡ **Zero Overhead**: Automatic knowledge capture with no user burden",
+      "🌟 **Universal Pattern**: Applicable to any knowledge work organization or AI system"
+    ],
+    "next_steps": [
+      "1. Create .cortex/ directory structure and migrate existing planning documents",
+      "2. Implement task-completion-processor MCP tool with retrospective automation",
+      "3. Integrate knowledge base with existing workflows and idea management",
+      "4. Validate systematic knowledge capture and institutional memory formation",
+      "5. Document universal pattern for replication in other systems"
+    ]
+  },
+  "claude_instructions": {
+    "execution_type": "multi_step",
+    "actions": [
+      {
+        "type": "create_directory_structure",
+        "description": "Establish .cortex/ knowledge management directory with proper organization",
+        "priority": 1,
+        "validation_criteria": "Directory structure created and existing files migrated successfully",
+        "parameters": {
+          "base_directory": ".cortex/",
+          "subdirectories": [
+            "retrospectives/",
+            "planning/", 
+            "ideas/",
+            "phases/",
+            "config/"
+          ],
+          "migration_tasks": [
+            "Move Phase1_Preparation_Document.json to .cortex/planning/",
+            "Move existing planning docs from root to .cortex/planning/",
+            "Copy ideas/future_improvements.json to .cortex/ideas/",
+            "Create .cortex/config/project_profile.json"
+          ]
+        }
+      },
+      {
+        "type": "implement_mcp_tool",
+        "description": "Develop task-completion-processor MCP tool for automated knowledge capture",
+        "priority": 2,
+        "validation_criteria": "Tool executes retrospective analysis and followup automation successfully",
+        "parameters": {
+          "tool_name": "task-completion-processor",
+          "input_schema": {
+            "task_description": "str - Description of completed task",
+            "completion_notes": "Optional[str] - Additional context or observations",
+            "phase_context": "Optional[str] - Current phase or project context", 
+            "auto_followup": "bool = True - Whether to execute automated followup"
+          },
+          "core_functions": [
+            "execute_retrospective_analysis()",
+            "process_automated_followup()",
+            "update_knowledge_base()",
+            "integrate_ideas_repository()",
+            "generate_next_phase_preparation()"
+          ]
+        }
+      },
+      {
+        "type": "design_knowledge_schemas",
+        "description": "Create standardized schemas for knowledge capture and organization",
+        "priority": 3,
+        "validation_criteria": "Schemas validate knowledge consistency and enable systematic integration",
+        "parameters": {
+          "retrospective_schema": {
+            "structure": "StandardizedRetrospectiveFormat",
+            "fields": ["process_efficiency", "architecture_analysis", "bottlenecks", "improvements", "synthesis"],
+            "metadata": ["confidence_score", "strategic_value", "phase_context"]
+          },
+          "ideas_integration_schema": {
+            "auto_update_fields": ["source", "related_phases", "tags", "date_added"],
+            "manual_review_fields": ["priority", "implementation_plan", "status"],
+            "metrics_tracking": ["total_count", "category_distribution", "average_scores"]
+          },
+          "phase_planning_schema": {
+            "preparation_format": "Enhanced preparation documents with lessons learned",
+            "integration_requirements": ["previous_phase_insights", "risk_mitigation", "success_metrics"],
+            "continuity_tracking": ["accumulated_learnings", "pattern_recognition", "optimization_opportunities"]
+          }
+        }
+      },
+      {
+        "type": "implement_automation_triggers",
+        "description": "Create intelligent triggers for automatic knowledge capture activation",
+        "priority": 4,
+        "validation_criteria": "System detects task completion and triggers knowledge capture automatically",
+        "parameters": {
+          "trigger_conditions": [
+            "Explicit task completion signal (manual trigger)",
+            "Phase completion detection (meta-analysis pattern)",
+            "Significant milestone achievement (confidence threshold)",
+            "Extended period of concentrated work (time-based trigger)"
+          ],
+          "integration_points": [
+            "End of strategy-architect workflows",
+            "Completion of multi-step implementation phases", 
+            "After significant debugging or problem-solving sessions",
+            "Following collaborative analysis sessions"
+          ]
+        }
+      },
+      {
+        "type": "validate_institutional_memory",
+        "description": "Test that knowledge capture creates persistent organizational learning",
+        "priority": 5,
+        "validation_criteria": "Accumulated knowledge improves future task planning and execution",
+        "parameters": {
+          "validation_methods": [
+            "Compare planning quality before/after knowledge accumulation",
+            "Measure reduction in repeated mistakes or inefficiencies", 
+            "Validate that lessons learned influence future phase preparation",
+            "Confirm knowledge base enables better collaboration patterns"
+          ],
+          "success_metrics": [
+            "Planning confidence scores increase over time",
+            "Phase preparation incorporates relevant historical insights",
+            "Idea generation and prioritization becomes more sophisticated",
+            "Pattern recognition improves architectural decision making"
+          ]
+        }
+      }
+    ],
+    "context_requirements": {
+      "required_tools": ["Write", "Edit", "Read", "LS", "Bash"],
+      "required_info": [
+        "Current project structure and existing planning documents",
+        "Ideas repository format and integration patterns",
+        "Retrospective analysis methodology and success criteria",
+        "MCP tool development patterns and server integration approaches"
+      ]
+    },
+    "decision_points": [
+      {
+        "id": "automation_level",
+        "question": "How automatic should knowledge capture be vs requiring explicit triggers?",
+        "options": [
+          {
+            "id": "fully_automatic",
+            "description": "Automatically trigger after any significant workflow completion",
+            "impact": "Zero user burden but potential for noise and over-capture"
+          },
+          {
+            "id": "smart_triggers",
+            "description": "Intelligent detection of meaningful completion points",
+            "impact": "Balanced automation with quality control"
+          },
+          {
+            "id": "explicit_only", 
+            "description": "Require manual invocation for all knowledge capture",
+            "impact": "Highest quality but dependent on user discipline"
+          }
+        ],
+        "recommendation": "smart_triggers",
+        "confidence": 0.85
+      },
+      {
+        "id": "knowledge_base_scope",
+        "question": "Should knowledge base be project-specific or cross-project?",
+        "options": [
+          {
+            "id": "project_local",
+            "description": "Each project maintains its own .cortex/ knowledge base",
+            "impact": "Project isolation but limited knowledge sharing"
+          },
+          {
+            "id": "global_knowledge",
+            "description": "Shared knowledge base across all CortexMCP projects", 
+            "impact": "Maximum learning but potential for complexity and conflicts"
+          },
+          {
+            "id": "hybrid_approach",
+            "description": "Project-local with optional global knowledge sharing",
+            "impact": "Best of both worlds with configurable sharing"
+          }
+        ],
+        "recommendation": "project_local",
+        "confidence": 0.9
+      }
+    ],
+    "fallback_strategy": "If full automation proves complex, implement manual task-completion-processor first, then add intelligent triggers in subsequent phase"
+  },
+  "payload": {
+    "workflow_stage": "preparation",
+    "innovation_framework": {
+      "core_concept": "Organizational Memory for AI Systems",
+      "technical_pattern": "task-completion → retrospective → followup → knowledge-integration",
+      "philosophical_foundation": "Transform temporal experience into permanent intellectual capital",
+      "universal_applicability": "Any knowledge work organization or evolving AI system"
+    },
+    "implementation_architecture": {
+      "knowledge_management_engine": {
+        "component": "task-completion-processor MCP tool",
+        "responsibilities": [
+          "Automated retrospective analysis execution",
+          "Systematic followup processing and integration",
+          "Knowledge base maintenance and organization",
+          "Ideas repository integration and metrics tracking",
+          "Next phase preparation with accumulated learnings"
+        ]
+      },
+      "directory_structure": {
+        ".cortex/": {
+          "purpose": "CortexMCP knowledge management space (equivalent to .git or .vscode)",
+          "retrospectives/": "Meta-reflection analyses with timestamps and context",
+          "planning/": "All strategy-architect generated planning documents", 
+          "ideas/": "Improvement tracking with automated integration",
+          "phases/": "Phase documentation with lessons learned integration",
+          "config/": "Project profile and knowledge management configuration"
+        }
+      },
+      "integration_points": {
+        "existing_workflows": [
+          "strategy-architect tool execution",
+          "Phase completion and preparation cycles",
+          "Collaborative analysis sessions",
+          "Improvement idea generation and prioritization"
+        ],
+        "knowledge_flows": [
+          "Retrospective insights → Ideas repository updates",
+          "Lessons learned → Next phase preparation enhancement", 
+          "Pattern recognition → Improved architectural decisions",
+          "Accumulated experience → Enhanced planning confidence"
+        ]
+      }
+    },
+    "technical_specifications": {
+      "mcp_tool_implementation": {
+        "tool_definition": {
+          "name": "task-completion-processor",
+          "description": "Automated organizational memory and systematic learning capture",
+          "parameters": {
+            "task_description": {
+              "type": "string",
+              "description": "Description of the completed task or milestone"
+            },
+            "completion_notes": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional context, observations, or insights"
+            },
+            "phase_context": {
+              "type": "string", 
+              "optional": true,
+              "description": "Current phase, project context, or scope identifier"
+            },
+            "auto_followup": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to execute automated followup integration"
+            }
+          }
+        },
+        "response_structure": {
+          "strategy": "knowledge-management-execution",
+          "user_facing": {
+            "summary": "Knowledge capture and integration summary",
+            "key_insights": "Primary learnings and patterns identified",
+            "integration_status": "What was updated in knowledge base"
+          },
+          "claude_instructions": {
+            "execution_type": "immediate",
+            "actions": "Knowledge integration completed automatically"
+          },
+          "payload": {
+            "knowledge_artifacts": "List of files created/updated",
+            "insights_captured": "Key learnings and patterns",
+            "next_recommendations": "Suggested next steps or focus areas"
+          }
+        }
+      },
+      "file_organization_standards": {
+        "naming_conventions": {
+          "retrospectives": "YYYY-MM-DD_[phase]_[task-summary].md",
+          "planning": "[phase]_preparation_document.json",
+          "ideas": "improvements.json (standardized format)",
+          "phases": "phase_[version]_[description].md"
+        },
+        "metadata_requirements": {
+          "all_files": ["creation_date", "phase_context", "tool_version"],
+          "retrospectives": ["confidence_score", "strategic_value", "analysis_framework"],
+          "planning": ["preparation_confidence", "risk_assessment", "success_criteria"],
+          "ideas": ["priority_score", "implementation_readiness", "related_phases"]
+        }
+      }
+    },
+    "success_criteria": [
+      "✅ .cortex/ directory structure established with proper organization",
+      "✅ task-completion-processor MCP tool functional and integrated",
+      "✅ Automated retrospective analysis executes without manual intervention",
+      "✅ Knowledge base accumulates and organizes institutional memory systematically",
+      "✅ Ideas repository updates automatically with new insights and learnings",
+      "✅ Phase preparation documents incorporate accumulated knowledge",
+      "✅ Planning confidence and quality measurably improve over time",
+      "✅ Pattern recognition enables better architectural and strategic decisions",
+      "✅ Universal applicability demonstrated for other projects/systems"
+    ],
+    "strategic_value_proposition": {
+      "immediate_benefits": [
+        "Elimination of manual retrospective/followup workflow overhead",
+        "Systematic preservation of all insights and learnings",
+        "Automated integration of experience into future planning",
+        "Organized knowledge base enabling quick reference and pattern recognition"
+      ],
+      "long_term_transformation": [
+        "Development of genuine institutional memory for AI-assisted projects",
+        "Continuous improvement in planning accuracy and strategic decision making",
+        "Foundation for advanced pattern recognition and architectural evolution",
+        "Universal framework applicable to any knowledge work organization"
+      ],
+      "innovation_significance": [
+        "First implementation of systematic organizational memory for AI systems",
+        "Demonstration of how AI systems can develop persistent learning capabilities",
+        "Universal pattern for converting temporal experience into permanent capital",
+        "Foundation for next-generation AI systems with institutional memory"
+      ]
+    },
+    "estimated_completion": "6-8 hours total implementation with 2-3 hours validation and optimization"
+  },
+  "metadata": {
+    "confidence_score": 0.95,
+    "complexity_score": 7,
+    "estimated_duration": "6-8 hours",
+    "strategic_importance": "transformational",
+    "innovation_level": "fundamental",
+    "universal_applicability": true,
+    "performance_hints": [
+      "Implement directory structure first to establish foundation",
+      "Start with manual trigger version before adding automation",
+      "Use existing retrospective framework as template for automation",
+      "Focus on knowledge integration quality over capture volume"
+    ],
+    "learning_opportunities": [
+      "Systematic organizational memory design patterns",
+      "Automated knowledge capture and integration techniques",
+      "AI system institutional learning capabilities",
+      "Universal patterns for experience-to-capital transformation"
+    ]
+  },
+  "error_handling": {
+    "potential_errors": [
+      {
+        "scenario": "Knowledge base becomes too large or unwieldy",
+        "recovery": "Implement archival system and summarization techniques"
+      },
+      {
+        "scenario": "Automated capture creates noise or irrelevant content",
+        "recovery": "Refine triggers and add quality filtering mechanisms"
+      },
+      {
+        "scenario": "Integration conflicts between different knowledge sources",
+        "recovery": "Implement conflict resolution and merge strategies"
+      }
+    ]
+  },
+  "innovation_documentation": {
+    "philosophical_foundation": {
+      "core_insight": "AI systems can develop institutional memory through systematic experience capture",
+      "universal_pattern": "Task Completion → Reflection → Integration → Evolution",
+      "strategic_implication": "Transform temporal experience into permanent organizational capital"
+    },
+    "technical_breakthrough": {
+      "automation_achievement": "First fully automated retrospective-followup workflow for AI systems",
+      "knowledge_architecture": "Systematic organization enabling persistent institutional learning",
+      "integration_innovation": "Seamless connection between experience, analysis, and future planning"
+    },
+    "application_domains": [
+      "AI-assisted software development projects",
+      "Research and development organizations", 
+      "Consulting and strategic planning firms",
+      "Any knowledge work requiring continuous improvement",
+      "Advanced AI systems requiring institutional memory capabilities"
+    ]
+  }
+}

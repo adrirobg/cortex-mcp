@@ -1,0 +1,273 @@
+{
+  "strategy": {
+    "name": "knowledge-management-mvp",
+    "version": "1.0.0",
+    "type": "execution"
+  },
+  "user_facing": {
+    "summary": "🧠 Knowledge Management MVP: Pragmatic Organizational Memory Implementation (Gemini-Claude Synthesis)",
+    "visualization": "```mermaid\nsequenceDiagram\n    participant User\n    participant Claude\n    participant StartRetrospective as start-retrospective\n    participant ProcessRetrospective as process-retrospective\n    participant KnowledgeBase as .cortex/ Knowledge Base\n    \n    User->>Claude: Task completed, want to capture knowledge\n    Claude->>StartRetrospective: start-retrospective(task_name)\n    StartRetrospective->>KnowledgeBase: Create draft retrospective.md\n    StartRetrospective-->>Claude: \"Please complete the analysis\"\n    Claude->>Claude: Complete retrospective with insights\n    Claude->>ProcessRetrospective: process-retrospective(file_path)\n    ProcessRetrospective->>KnowledgeBase: Extract improvements to ideas.json\n    ProcessRetrospective-->>Claude: Knowledge institutionalized\n    \n    Note over User,KnowledgeBase: Manual, Assisted, Reliable\n```",
+    "key_points": [
+      "🎯 **MVP-First Philosophy**: Build 'reliable commercial plane' before 'interplanetary rocket'",
+      "👥 **IA-IA Synthesis**: Combines Claude's architectural vision with Gemini's pragmatic execution",
+      "🔧 **Manual Triggers**: 100% explicit invocation, zero premature automation",
+      "📝 **Flexible Structure**: Markdown templates with natural language content",
+      "⚡ **2-Phase Implementation**: 4 hours total (2h structure + 2h processing)"
+    ],
+    "next_steps": [
+      "1. Create .cortex/ directory structure and migrate existing planning documents",
+      "2. Implement start-retrospective MCP tool for draft creation",
+      "3. Implement process-retrospective MCP tool for knowledge integration",
+      "4. Validate complete workflow with real retrospective"
+    ]
+  },
+  "claude_instructions": {
+    "execution_type": "multi_step",
+    "actions": [
+      {
+        "type": "create_cortex_structure",
+        "description": "Establish .cortex/ knowledge management directory and migrate existing files",
+        "priority": 1,
+        "validation_criteria": "Directory structure created and existing files migrated successfully",
+        "parameters": {
+          "directory_structure": {
+            ".cortex/": "CortexMCP knowledge management space",
+            ".cortex/retrospectives/": "Meta-reflection analyses with timestamps",
+            ".cortex/planning/": "All strategy-architect generated planning documents",
+            ".cortex/ideas/": "Improvement tracking and metrics",
+            ".cortex/phases/": "Phase documentation with lessons learned",
+            ".cortex/config/": "Project profile and configuration"
+          },
+          "migration_tasks": [
+            "Move Knowledge_Management_System_Phase1_Preparation.json to .cortex/planning/",
+            "Move Phase1_Preparation_Document.json to .cortex/planning/",
+            "Copy ideas/future_improvements.json to .cortex/ideas/improvements.json",
+            "Move docs/meta-reflection_ia-ia-collaboration.md to .cortex/retrospectives/",
+            "Create .cortex/config/project_profile.json with basic metadata"
+          ]
+        }
+      },
+      {
+        "type": "implement_start_retrospective_tool",
+        "description": "Create start-retrospective MCP tool for assisted retrospective draft creation",
+        "priority": 2,
+        "validation_criteria": "Tool creates structured retrospective drafts that guide Claude analysis",
+        "parameters": {
+          "tool_name": "start-retrospective",
+          "input_schema": {
+            "task_name": "str - Name/description of completed task",
+            "phase_context": "Optional[str] - Phase or project context",
+            "duration_estimate": "Optional[str] - How long the task took"
+          },
+          "functionality": [
+            "Generate timestamp-based filename in .cortex/retrospectives/",
+            "Create Markdown template with standard sections",
+            "Populate basic metadata (task_name, date, phase_context)",
+            "Return claude_instructions to complete the analysis"
+          ],
+          "template_sections": [
+            "## Executive Summary",
+            "## Process Efficiency Analysis",
+            "## Architecture Analysis", 
+            "## Bottlenecks and Friction",
+            "## Improvement Suggestions",
+            "## Key Learnings & Action Items"
+          ]
+        }
+      },
+      {
+        "type": "implement_process_retrospective_tool", 
+        "description": "Create process-retrospective MCP tool for knowledge integration",
+        "priority": 3,
+        "validation_criteria": "Tool successfully extracts insights and updates ideas repository",
+        "parameters": {
+          "tool_name": "process-retrospective",
+          "input_schema": {
+            "retrospective_file": "str - Path to completed retrospective Markdown file"
+          },
+          "functionality": [
+            "Parse Markdown retrospective for improvement suggestions",
+            "Extract action items and learnings",
+            "Generate new improvement entries for ideas.json",
+            "Update metrics and statistics",
+            "Create integration summary"
+          ],
+          "extraction_logic": [
+            "Scan for '## Improvement Suggestions' section",
+            "Parse action items with priorities and descriptions", 
+            "Generate unique IDs and timestamps",
+            "Append to existing improvements.json",
+            "Update aggregate metrics"
+          ]
+        }
+      },
+      {
+        "type": "validate_complete_workflow",
+        "description": "Test end-to-end knowledge capture workflow with real retrospective",
+        "priority": 4,
+        "validation_criteria": "Complete workflow executes successfully and produces quality knowledge artifacts",
+        "parameters": {
+          "test_scenario": "Use IA-IA collaboration retrospective as validation case",
+          "success_criteria": [
+            "start-retrospective creates usable draft template",
+            "Claude can complete retrospective with meaningful insights",
+            "process-retrospective extracts and integrates improvements correctly",
+            "Knowledge base grows systematically with quality content"
+          ]
+        }
+      }
+    ],
+    "context_requirements": {
+      "required_tools": ["Write", "Edit", "Read", "LS", "Bash"],
+      "required_info": [
+        "Current project structure and existing planning documents",
+        "MCP tool development patterns from server.py",
+        "Universal Response schema requirements",
+        "Existing retrospective content for template creation"
+      ]
+    },
+    "decision_points": [
+      {
+        "id": "retrospective_template_depth",
+        "question": "How detailed should the retrospective template be?",
+        "options": [
+          {
+            "id": "minimal_template",
+            "description": "Basic sections with minimal guidance",
+            "impact": "Maximum flexibility but requires more Claude thinking"
+          },
+          {
+            "id": "detailed_template", 
+            "description": "Detailed prompts and examples in each section",
+            "impact": "More guided but potentially restrictive"
+          }
+        ],
+        "recommendation": "minimal_template",
+        "confidence": 0.8
+      },
+      {
+        "id": "ideas_integration_approach",
+        "question": "How to integrate extracted improvements with existing ideas.json?",
+        "options": [
+          {
+            "id": "append_only",
+            "description": "Always add new entries, never modify existing ones",
+            "impact": "Simpler logic but potential for duplicates"
+          },
+          {
+            "id": "smart_merge",
+            "description": "Detect similar improvements and merge/update them",
+            "impact": "Cleaner repository but more complex logic"
+          }
+        ],
+        "recommendation": "append_only",
+        "confidence": 0.9
+      }
+    ],
+    "fallback_strategy": "If MCP tools prove complex, implement as simple Python scripts that can be called via Bash tool"
+  },
+  "payload": {
+    "workflow_stage": "mvp_preparation",
+    "ia_ia_synthesis": {
+      "claude_contribution": "Architectural vision and long-term framework design",
+      "gemini_contribution": "Pragmatic execution strategy and over-engineering prevention", 
+      "synthesis_outcome": "MVP-first knowledge management with clear evolution path"
+    },
+    "technical_architecture": {
+      "mvp_tools": {
+        "start-retrospective": {
+          "responsibility": "Create structured retrospective drafts",
+          "complexity": "minimal - template generation only",
+          "human_in_loop": "Claude completes the analysis thinking"
+        },
+        "process-retrospective": {
+          "responsibility": "Extract insights and update knowledge base",
+          "complexity": "simple - text parsing and JSON updates",
+          "automation_level": "fully automated extraction"
+        }
+      },
+      "knowledge_flow": {
+        "input": "Completed task + context",
+        "processing": "Manual retrospective completion by Claude",
+        "output": "Structured knowledge in .cortex/ + updated ideas",
+        "feedback_loop": "Accumulated insights improve future planning"
+      }
+    },
+    "implementation_priorities": [
+      {
+        "phase": "Foundation (2h)",
+        "tasks": ["Directory structure", "File migration", "start-retrospective tool"],
+        "success_metric": "Can create retrospective drafts"
+      },
+      {
+        "phase": "Integration (2h)", 
+        "tasks": ["process-retrospective tool", "End-to-end validation"],
+        "success_metric": "Complete knowledge capture workflow functional"
+      }
+    ],
+    "over_engineering_prevention": {
+      "avoided_complexity": [
+        "Automatic trigger detection",
+        "Complex retrospective automation", 
+        "Rigid schema enforcement",
+        "Advanced pattern recognition"
+      ],
+      "mvp_constraints": [
+        "Manual invocation only",
+        "Template-based guidance",
+        "Simple text parsing",
+        "Flexible Markdown format"
+      ]
+    },
+    "evolution_roadmap": {
+      "v1.0_mvp": "Manual tools + basic knowledge capture",
+      "v1.1_enhancement": "Improved templates + better parsing", 
+      "v2.0_automation": "Smart triggers + semantic analysis",
+      "v3.0_intelligence": "AI-powered pattern recognition + optimization"
+    }
+  },
+  "metadata": {
+    "confidence_score": 0.95,
+    "complexity_score": 3,
+    "estimated_duration": "4 hours",
+    "strategic_importance": "foundational",
+    "innovation_level": "pragmatic",
+    "ia_ia_collaboration": true,
+    "over_engineering_risk": "low",
+    "performance_hints": [
+      "Start with simplest possible implementation",
+      "Focus on manual workflow reliability first",
+      "Use existing Markdown parsing libraries",
+      "Validate with real retrospective content"
+    ],
+    "learning_opportunities": [
+      "MVP-first development methodology",
+      "IA-IA collaborative synthesis patterns",
+      "Knowledge management system design",
+      "Pragmatic vs visionary architecture balance"
+    ]
+  },
+  "success_criteria": [
+    "✅ .cortex/ directory structure established with migrated content",
+    "✅ start-retrospective tool creates usable draft templates",
+    "✅ Claude can complete retrospectives with meaningful insights",
+    "✅ process-retrospective tool extracts and integrates improvements",
+    "✅ Complete workflow validated with actual retrospective content",
+    "✅ Knowledge base grows systematically without manual overhead",
+    "✅ Implementation complexity remains minimal and maintainable"
+  ],
+  "gemini_insights_integration": {
+    "critical_validations": [
+      "Over-engineering identification was accurate and specific",
+      "MVP-first approach prevents complexity traps", 
+      "Manual triggers are appropriate for v1.0",
+      "Flexible structure better than rigid schemas initially"
+    ],
+    "architectural_synthesis": [
+      "Long-term vision (Claude) + Immediate execution (Gemini) = Superior solution",
+      "IA-IA convergence validates architectural correctness",
+      "Pragmatic progression enables sustainable innovation",
+      "Complexity can be added incrementally after MVP validation"
+    ]
+  }
+}

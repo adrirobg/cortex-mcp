@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Strategy Library MCP Server.
+"""CortexMCP Server.
 
 A Model Context Protocol server providing strategic cognition capabilities
-for Claude Code. Implements JSON-RPC 2.0 over stdio transport.
+for Claude Code. Uses official FastMCP framework.
 
 Following the 4 Principios Rectores:
 1. Dogmatismo con Universal Response Schema
@@ -12,249 +12,166 @@ Following the 4 Principios Rectores:
 """
 
 import json
-import sys
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional, Literal, Annotated
+
+from pydantic import Field
+from mcp.server.fastmcp import FastMCP
 from schemas.universal_response import StrategyResponse, BasePayload
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
+# Initialize FastMCP server
+app = FastMCP("cortex-mcp", "1.0.0")
 
-class MCPServer:
-    """Strategy Library MCP Server implementation.
+
+@app.tool(
+    name="strategy-architect",
+    description="Strategic planning and architecture tool that transforms project ideas into structured plans"
+)
+def strategy_architect(
+    task_description: Annotated[str, Field(
+        description="Description of the project or task to analyze and plan. Should be a clear, comprehensive description of what you want to build or accomplish.",
+        min_length=5,
+        max_length=2000,
+        examples=["Build an e-commerce platform with payment integration", "Create a task management web application with user authentication"]
+    )],
+    analysis_result: Annotated[Optional[Dict[str, Any]], Field(
+        description="Previous analysis result from a workflow continuation. Only provide this when continuing from a previous strategy-architect execution. Contains project analysis data."
+    )] = None,
+    decomposition_result: Annotated[Optional[Dict[str, Any]], Field(
+        description="Previous decomposition result from a workflow continuation. Only provide this when continuing from a previous strategy-architect execution. Contains project phase breakdown."
+    )] = None,
+    workflow_stage: Annotated[Optional[Literal["analysis", "decomposition", "task_graph", "mission_map", "complete"]], Field(
+        description="Current workflow stage for continuation. Use 'analysis' to start from analysis phase, 'decomposition' to start from decomposition phase, etc. Leave empty for complete workflow execution from the beginning."
+    )] = None,
+    debug_mode: Annotated[Optional[bool], Field(
+        description="Enable debug mode to include intermediate workflow results in debug_payload. Default: false. Only enable when debugging workflow execution."
+    )] = False
+) -> str:
+    """Execute strategy-architect workflow with Motor de Estrategias integration.
     
-    Stateless JSON-RPC 2.0 server over stdio transport.
+    Following Principio Rector #1: Must return valid StrategyResponse.
     Following Principio Rector #3: Servidor 100% stateless.
+    
+    Args:
+        task_description: Description of the project or task to analyze and plan
+        analysis_result: Previous analysis result (for workflow continuation)
+        decomposition_result: Previous decomposition result (for workflow continuation)  
+        workflow_stage: Current workflow stage (analysis, decomposition, task_graph, mission_map, complete)
+        debug_mode: Enable debug payload with intermediate workflow results
+        
+    Returns:
+        JSON string containing StrategyResponse with Motor de Estrategias results
     """
+    try:
+        # Validate input parameters following inputSchema constraints
+        if len(task_description) < 5:
+            raise ValueError("task_description must be at least 5 characters long")
+        if len(task_description) > 2000:
+            raise ValueError("task_description must be at most 2000 characters long")
+        
+        if workflow_stage and workflow_stage not in ["analysis", "decomposition", "task_graph", "mission_map", "complete"]:
+            raise ValueError(f"Invalid workflow_stage: {workflow_stage}. Must be one of: analysis, decomposition, task_graph, mission_map, complete")
+        
+        # Execute collaborative workflow (Phase 2.7)
+        from tools.strategy_architect_collaborative import execute_collaborative_architect_workflow
+        response = execute_collaborative_architect_workflow(
+            task_description=task_description,
+            analysis_result=analysis_result,
+            decomposition_result=decomposition_result,
+            workflow_stage=workflow_stage,
+            debug_mode=debug_mode,
+            collaboration_mode="disabled"
+        )
+        
+        # Return StrategyResponse as JSON string
+        return response.model_dump_json(indent=2)
+        
+    except Exception as e:
+        # Proper error handling following JSON-RPC 2.0
+        logger.error(f"Strategy-architect execution failed: {str(e)}")
+        raise ValueError(f"Strategy-architect execution failed: {str(e)}")
+
+
+@app.tool(
+    name="start-retrospective",
+    description="Create structured retrospective draft for knowledge capture and analysis"
+)
+def start_retrospective(
+    task_name: Annotated[str, Field(
+        description="Name/description of the completed task or milestone",
+        min_length=3,
+        max_length=200,
+        examples=["IA-IA Collaborative Architecture Analysis", "Phase 2.7 Implementation", "Strategy-Architect Refactoring"]
+    )],
+    phase_context: Annotated[Optional[str], Field(
+        description="Phase or project context for the retrospective"
+    )] = None,
+    duration_estimate: Annotated[Optional[str], Field(
+        description="How long the task took (for learning purposes)"
+    )] = None
+) -> str:
+    """Create structured retrospective draft for knowledge capture.
     
-    def __init__(self):
-        """Initialize MCP server."""
-        self.tools: Dict[str, Any] = {}
-        self._register_tools()
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
+    """
+    try:
+        from tools.knowledge_management import start_retrospective as km_start_retrospective
+        return km_start_retrospective(task_name, phase_context, duration_estimate)
+    except Exception as e:
+        logger.error(f"start-retrospective delegation failed: {str(e)}")
+        raise ValueError(f"start-retrospective delegation failed: {str(e)}")
+
+
+@app.tool(
+    name="process-retrospective", 
+    description="Extract insights from completed retrospective and integrate into knowledge base"
+)
+def process_retrospective(
+    retrospective_file: Annotated[str, Field(
+        description="Path to the completed retrospective Markdown file",
+        examples=[".cortex/retrospectives/2025-06-21_ia_ia_collaboration.md"]
+    )]
+) -> str:
+    """Process completed retrospective and integrate insights into knowledge base.
     
-    def _register_tools(self):
-        """Register available MCP tools.
-        
-        Following Principio Rector #2: Heurísticas deterministas.
-        """
-        self.tools = {
-            "strategy-architect": {
-                "name": "strategy-architect",
-                "description": "Strategic planning and architecture tool that transforms project ideas into structured plans",
-                "inputSchema": {
-                    "type": "object",
-                    "properties": {
-                        "task_description": {
-                            "type": "string",
-                            "description": "Description of the project or task to analyze and plan"
-                        },
-                        "analysis_result": {
-                            "type": "object",
-                            "description": "Previous analysis result (for workflow continuation)",
-                            "default": None
-                        },
-                        "decomposition_result": {
-                            "type": "object", 
-                            "description": "Previous decomposition result (for workflow continuation)",
-                            "default": None
-                        },
-                        "workflow_stage": {
-                            "type": "string",
-                            "enum": ["analysis", "decomposition", "task_graph", "mission_map", "complete"],
-                            "description": "Current workflow stage (for continuation)",
-                            "default": None
-                        }
-                    },
-                    "required": ["task_description"]
-                }
-            }
-        }
-    
-    def handle_initialize(self, params: Dict[str, Any]) -> Dict[str, Any]:
-        """Handle MCP initialize request."""
-        return {
-            "protocolVersion": "2024-11-05",
-            "capabilities": {
-                "tools": {}
-            },
-            "serverInfo": {
-                "name": "strategy-library-mcp",
-                "version": "0.1.0"
-            }
-        }
-    
-    def handle_tools_list(self, params: Dict[str, Any]) -> Dict[str, Any]:
-        """Handle tools/list request.
-        
-        This is the validation criteria for Fase 1.3.
-        """
-        tools_list = []
-        for tool_name, tool_info in self.tools.items():
-            tools_list.append({
-                "name": tool_info["name"],
-                "description": tool_info["description"],
-                "inputSchema": tool_info["inputSchema"]
-            })
-        
-        return {
-            "tools": tools_list
-        }
-    
-    def handle_tools_call(self, params: Dict[str, Any]) -> Dict[str, Any]:
-        """Handle tools/call request.
-        
-        Following Principio Rector #1: All tools must return StrategyResponse.
-        """
-        tool_name = params.get("name")
-        if not tool_name:
-            raise ValueError("Missing required field: name")
-        
-        arguments = params.get("arguments")
-        if arguments is None:
-            raise ValueError("Missing required field: arguments")
-        
-        if tool_name not in self.tools:
-            raise ValueError(f"Unknown tool: {tool_name}")
-        
-        # Execute actual strategy-architect tool with Motor de Estrategias integration
-        if tool_name == "strategy-architect":
-            return self._execute_strategy_architect(arguments)
-        
-        raise ValueError(f"Tool {tool_name} not yet implemented")
-    
-    def _execute_strategy_architect(self, arguments: Dict[str, Any]) -> Dict[str, Any]:
-        """Execute strategy-architect workflow with actual Motor de Estrategias integration.
-        
-        Replaces mock implementation with real 4-phase workflow orchestration.
-        Following Principio Rector #1: Must return valid StrategyResponse.
-        """
-        try:
-            # Extract arguments
-            task_description = arguments.get("task_description", "")
-            analysis_result = arguments.get("analysis_result")
-            decomposition_result = arguments.get("decomposition_result")
-            workflow_stage = arguments.get("workflow_stage")
-            
-            if not task_description:
-                raise ValueError("task_description is required")
-            
-            # Execute actual workflow
-            from tools.strategy_architect import execute_architect_workflow
-            response = execute_architect_workflow(
-                task_description=task_description,
-                analysis_result=analysis_result,
-                decomposition_result=decomposition_result,
-                workflow_stage=workflow_stage
-            )
-            
-            # Return MCP-compliant response
-            return {
-                "content": [
-                    {
-                        "type": "text",
-                        "text": json.dumps(response.model_dump(), indent=2)
-                    }
-                ]
-            }
-        except Exception as e:
-            # Proper error handling following JSON-RPC 2.0
-            raise ValueError(f"Strategy-architect execution failed: {str(e)}")
-    
-    def handle_request(self, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """Handle incoming JSON-RPC request.
-        
-        Following JSON-RPC 2.0 specification.
-        """
-        try:
-            method = request.get("method")
-            params = request.get("params", {})
-            request_id = request.get("id")
-            
-            if method == "initialize":
-                result = self.handle_initialize(params)
-            elif method == "tools/list":
-                result = self.handle_tools_list(params)
-            elif method == "tools/call":
-                result = self.handle_tools_call(params)
-            else:
-                raise ValueError(f"Unknown method: {method}")
-            
-            # Return JSON-RPC 2.0 response
-            if request_id is not None:
-                return {
-                    "jsonrpc": "2.0",
-                    "id": request_id,
-                    "result": result
-                }
-            
-            # Notification (no response required)
-            return None
-            
-        except Exception as e:
-            logger.error(f"Error handling request: {e}")
-            if request.get("id") is not None:
-                return {
-                    "jsonrpc": "2.0",
-                    "id": request.get("id"),
-                    "error": {
-                        "code": -32603,
-                        "message": "Internal error",
-                        "data": str(e)
-                    }
-                }
-            return None
-    
-    def run(self):
-        """Run the MCP server with stdio transport.
-        
-        Following MCP stdio transport specification.
-        """
-        logger.info("Starting Strategy Library MCP Server")
-        
-        try:
-            for line in sys.stdin:
-                line = line.strip()
-                if not line:
-                    continue
-                
-                try:
-                    request = json.loads(line)
-                    response = self.handle_request(request)
-                    
-                    if response:
-                        print(json.dumps(response), flush=True)
-                        
-                except json.JSONDecodeError as e:
-                    logger.error(f"Invalid JSON received: {e}")
-                    error_response = {
-                        "jsonrpc": "2.0",
-                        "id": None,
-                        "error": {
-                            "code": -32700,
-                            "message": "Parse error"
-                        }
-                    }
-                    print(json.dumps(error_response), flush=True)
-                    
-        except KeyboardInterrupt:
-            logger.info("Server stopped by user")
-        except Exception as e:
-            logger.error(f"Server error: {e}")
-            raise
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
+    """
+    try:
+        from tools.knowledge_management import process_retrospective as km_process_retrospective
+        return km_process_retrospective(retrospective_file)
+    except Exception as e:
+        logger.error(f"process-retrospective delegation failed: {str(e)}")
+        raise ValueError(f"process-retrospective delegation failed: {str(e)}")
 
 
 def main():
-    """Main entry point for the MCP server."""
-    # Configure logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[logging.StreamHandler(sys.stderr)]  # Log to stderr to avoid stdio interference
-    )
+    """Main entry point for the CortexMCP server."""
+    import sys
+    import os
     
-    server = MCPServer()
-    server.run()
+    # Configure strategy logger for MCP compatibility
+    log_level = os.getenv("STRATEGY_LOG_LEVEL", "WARNING").upper()
+    if log_level not in ["DEBUG", "INFO"]:
+        logging.basicConfig(
+            level=getattr(logging, log_level),
+            format='🤖 CortexMCP [%(asctime)s] %(levelname)s: %(message)s',
+            handlers=[logging.StreamHandler(sys.stderr)]
+        )
+    else:
+        # Disable logging in MCP mode to avoid stderr noise
+        logging.basicConfig(level=logging.CRITICAL)
+    
+    # Only log startup info in debug/info modes
+    if log_level in ["DEBUG", "INFO"]:
+        logger.info("🚀 Starting CortexMCP Server v2.7.0 - Collaborative Intelligence Edition")
+        logger.info(f"📊 Collaboration Mode: {os.getenv('CORTEX_COLLABORATION_MODE', 'auto')}")
+        logger.info(f"🔍 Log Level: {log_level}")
+    
+    # Run FastMCP server
+    app.run()
 
 
 if __name__ == "__main__":

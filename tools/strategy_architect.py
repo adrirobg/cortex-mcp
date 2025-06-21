@@ -26,13 +26,16 @@ from tools.architect.analyze_project import analyze_project
 from tools.architect.decompose_phases import decompose_phases
 from tools.architect.task_graph import generate_task_graph
 from tools.architect.mission_map import create_mission_map
+from utils.logger import strategy_logger, generate_trace_id
 
 
 def execute_architect_workflow(
     task_description: str,
     analysis_result: Optional[Dict[str, Any]] = None,
     decomposition_result: Optional[Dict[str, Any]] = None,
-    workflow_stage: Optional[str] = None
+    workflow_stage: Optional[str] = None,
+    trace_id: Optional[str] = None,
+    debug_mode: bool = False
 ) -> StrategyResponse[ArchitectPayload]:
     """Orchestrate complete 4-phase Motor de Estrategias workflow.
     
@@ -44,6 +47,8 @@ def execute_architect_workflow(
         analysis_result: Previous analysis results (for workflow continuation)
         decomposition_result: Previous decomposition results (for continuation)
         workflow_stage: Specific stage to execute ("analysis", "decomposition", "task_graph", "mission_map")
+        trace_id: Optional trace ID for request correlation (auto-generated if not provided)
+        debug_mode: Enable debug payload population with intermediate results
         
     Returns:
         StrategyResponse[ArchitectPayload] with complete workflow results and continuation state
@@ -51,66 +56,103 @@ def execute_architect_workflow(
     Raises:
         ValueError: If task_description is empty or workflow parameters invalid
     """
+    # Initialize trace ID for request correlation
+    if not trace_id:
+        trace_id = generate_trace_id()
+    
     if not task_description or not task_description.strip():
+        strategy_logger.error("workflow_validation_failed", "Empty task description", trace_id=trace_id)
         raise ValueError("task_description cannot be empty")
     
-    # Detect workflow stage and execute appropriate phases
-    stage, results = _detect_and_execute_workflow_stage(
-        task_description, analysis_result, decomposition_result, workflow_stage
-    )
+    # Log workflow start
+    strategy_logger.info("workflow_started", f"Motor de Estrategias initiated", trace_id=trace_id, 
+                        context={"stage": workflow_stage or "complete"})
     
-    # Extract individual results
-    analysis = results.get("analysis")
-    decomposition = results.get("decomposition") 
-    task_graph = results.get("task_graph")
-    mission_map = results.get("mission_map")
-    
-    # Determine next workflow state
-    suggested_next_state, continue_workflow, next_step = _calculate_workflow_state(
-        stage, analysis, decomposition, task_graph, mission_map
-    )
-    
-    # Generate user-facing summary and visualizations
-    user_facing = _generate_user_facing_content(stage, results, task_description)
-    
-    # Generate Claude execution instructions
-    claude_instructions = _generate_claude_instructions(stage, continue_workflow, next_step)
-    
-    # Create ArchitectPayload
-    payload = ArchitectPayload(
-        workflow_stage=stage,
-        analysis=analysis,
-        decomposition=decomposition,
-        task_graph=task_graph,
-        mission_map=mission_map,
-        suggested_next_state=suggested_next_state,
-        continue_workflow=continue_workflow,
-        next_step=next_step,
-        estimated_completion=_estimate_completion_time(mission_map, task_graph)
-    )
-    
-    # Create strategy metadata
-    strategy = Strategy(
-        name="motor-de-estrategias",
-        version="2.5.0",
-        type=StrategyType.ANALYSIS
-    )
-    
-    # Generate metadata
-    metadata = Metadata(
-        confidence_score=_calculate_confidence_score(stage, results),
-        complexity_score=_calculate_complexity_score(analysis),
-        estimated_duration=_estimate_completion_time(mission_map, task_graph),
-        learning_opportunities=_identify_learning_opportunities(stage, results)
-    )
-    
-    return StrategyResponse[ArchitectPayload](
-        strategy=strategy,
-        user_facing=user_facing,
-        claude_instructions=claude_instructions,
-        payload=payload,
-        metadata=metadata
-    )
+    try:
+        # Detect workflow stage and execute appropriate phases
+        stage, results = _detect_and_execute_workflow_stage(
+            task_description, analysis_result, decomposition_result, workflow_stage
+        )
+        
+        # Extract individual results
+        analysis = results.get("analysis")
+        decomposition = results.get("decomposition") 
+        task_graph = results.get("task_graph")
+        mission_map = results.get("mission_map")
+        
+        # Determine next workflow state
+        suggested_next_state, continue_workflow, next_step = _calculate_workflow_state(
+            stage, analysis, decomposition, task_graph, mission_map
+        )
+        
+        # Generate user-facing summary and visualizations
+        user_facing = _generate_user_facing_content(stage, results, task_description)
+        
+        # Generate Claude execution instructions
+        claude_instructions = _generate_claude_instructions(stage, continue_workflow, next_step)
+        
+        # Create ArchitectPayload
+        payload = ArchitectPayload(
+            workflow_stage=stage,
+            analysis=analysis,
+            decomposition=decomposition,
+            task_graph=task_graph,
+            mission_map=mission_map,
+            suggested_next_state=suggested_next_state,
+            continue_workflow=continue_workflow,
+            next_step=next_step,
+            estimated_completion=_estimate_completion_time(mission_map, task_graph)
+        )
+        
+        # Create strategy metadata
+        strategy = Strategy(
+            name="motor-de-estrategias",
+            version="2.5.0",
+            type=StrategyType.ANALYSIS
+        )
+        
+        # Generate metadata
+        metadata = Metadata(
+            confidence_score=_calculate_confidence_score(stage, results),
+            complexity_score=_calculate_complexity_score(analysis),
+            estimated_duration=_estimate_completion_time(mission_map, task_graph),
+            learning_opportunities=_identify_learning_opportunities(stage, results)
+        )
+        
+        # Generate debug payload if requested
+        debug_payload = None
+        if debug_mode:
+            debug_payload = {
+                "trace_id": trace_id,
+                "workflow_stage": stage.value,
+                "intermediate_results": {
+                    "analysis_summary": analysis.domain if analysis else None,
+                    "decomposition_phases": len(decomposition.phases) if decomposition else 0,
+                    "task_count": task_graph.task_count if task_graph else 0,
+                    "resource_assignments": len(mission_map.resource_assignments) if mission_map else 0
+                },
+                "execution_context": {
+                    "input_stage": workflow_stage,
+                    "continued_from": bool(analysis_result or decomposition_result)
+                }
+            }
+        
+        # Log workflow completion
+        strategy_logger.info("workflow_completed", f"Motor de Estrategias completed: {stage.value}", 
+                           trace_id=trace_id, context={"stages": len([k for k in results.keys()]), "debug_mode": debug_mode})
+        
+        return StrategyResponse[ArchitectPayload](
+            strategy=strategy,
+            user_facing=user_facing,
+            claude_instructions=claude_instructions,
+            payload=payload,
+            metadata=metadata,
+            debug_payload=debug_payload
+        )
+        
+    except Exception as e:
+        strategy_logger.error("workflow_error", f"Workflow failed: {str(e)}", trace_id=trace_id, exception=e)
+        raise
 
 
 def _detect_and_execute_workflow_stage(
@@ -147,7 +189,6 @@ def _detect_and_execute_workflow_stage(
             
         elif workflow_stage == "decomposition":
             if not analysis:
-                # Need analysis first
                 analysis = analyze_project(task_description)
                 results["analysis"] = analysis
             decomposition = decompose_phases(analysis)

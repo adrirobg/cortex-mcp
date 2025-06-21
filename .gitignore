@@ -95,3 +95,6 @@ Thumbs.db
 \#*\#
 .\#*
 __pycache__/server.cpython-312.pyc
+.coverage
+__pycache__/server.cpython-312.pyc
+tests/__pycache__/test_integration.cpython-312-pytest-7.4.4.pyc

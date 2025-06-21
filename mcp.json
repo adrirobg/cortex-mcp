@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "cortex-mcp": {
+      "type": "stdio",
+      "command": "poetry",
+      "args": [
+        "run",
+        "python",
+        "server.py"
+      ],
+      "env": {
+        "CORTEX_COLLABORATION_MODE": "enabled",
+        "STRATEGY_LOG_LEVEL": "warning"
+      }
+    }
+  }
+}

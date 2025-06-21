@@ -4,7 +4,6 @@
   "description": "Structured repository for continuous improvement ideas and their implementation tracking",
   "version": "1.0.0",
   "last_updated": "2025-06-20",
-  
   "improvement_categories": {
     "performance": "Runtime efficiency, algorithm optimization, resource utilization",
     "architecture": "System design, module organization, pattern implementation",
@@ -12,11 +11,10 @@
     "tools": "New capabilities, feature enhancements, integrations",
     "meta": "Self-improvement, reflection processes, learning systems"
   },
-
   "priority_scoring": {
     "effort_scale": {
       "1": "Minimal (< 1 hour)",
-      "2": "Low (1-4 hours)",  
+      "2": "Low (1-4 hours)",
       "3": "Medium (1-2 days)",
       "4": "High (3-5 days)",
       "5": "Very High (> 1 week)"
@@ -24,12 +22,11 @@
     "impact_scale": {
       "1": "Nice to have",
       "2": "Moderate improvement",
-      "3": "Significant enhancement", 
+      "3": "Significant enhancement",
       "4": "Major capability addition",
       "5": "Game-changing innovation"
     }
   },
-
   "improvements": [
     {
       "id": "imp_001",
@@ -45,15 +42,22 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.1"],
-      "tags": ["testing", "tdd", "automation", "debugging"]
+      "related_phases": [
+        "2.1"
+      ],
+      "tags": [
+        "testing",
+        "tdd",
+        "automation",
+        "debugging"
+      ]
     },
     {
-      "id": "imp_002", 
+      "id": "imp_002",
       "title": "Configuration Management System",
       "description": "Externalize hardcoded heuristics (DOMAIN_KEYWORDS, patterns) to JSON/YAML files with modular configuration loader for easier maintenance and rapid iteration.",
       "category": "architecture",
-      "source": "phase_2.1_meta_reflection", 
+      "source": "phase_2.1_meta_reflection",
       "date_added": "2025-06-20",
       "priority": {
         "effort": 2,
@@ -62,16 +66,22 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.1"],
-      "tags": ["configuration", "maintainability", "extensibility"]
+      "related_phases": [
+        "2.1"
+      ],
+      "tags": [
+        "configuration",
+        "maintainability",
+        "extensibility"
+      ]
     },
     {
       "id": "imp_003",
-      "title": "Development Environment Optimization", 
+      "title": "Development Environment Optimization",
       "description": "Automated pytest configuration, pre-commit hooks for type checking and formatting, eliminate manual PYTHONPATH setup to remove environment friction.",
       "category": "workflow",
       "source": "phase_2.1_meta_reflection",
-      "date_added": "2025-06-20", 
+      "date_added": "2025-06-20",
       "priority": {
         "effort": 2,
         "impact": 3,
@@ -79,8 +89,14 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.1"],
-      "tags": ["environment", "automation", "developer_experience"]
+      "related_phases": [
+        "2.1"
+      ],
+      "tags": [
+        "environment",
+        "automation",
+        "developer_experience"
+      ]
     },
     {
       "id": "imp_004",
@@ -96,14 +112,20 @@
       },
       "status": "in_progress",
       "implementation_plan": "Create .claude/commands/retrospective.md with structured template using $ARGUMENTS placeholder",
-      "related_phases": ["2.1"],
-      "tags": ["slash_command", "meta_reflection", "accessibility"]
+      "related_phases": [
+        "2.1"
+      ],
+      "tags": [
+        "slash_command",
+        "meta_reflection",
+        "accessibility"
+      ]
     },
     {
       "id": "imp_005",
       "title": "Circular Self-Improvement Workflow",
       "description": "Use strategy-architect to plan implementation of its own improvements. Revolutionary dogfooding at meta level: Phase Complete → Meta-Reflection → Ideas → Strategy-Architect → Implementation.",
-      "category": "meta", 
+      "category": "meta",
       "source": "process_optimization_brainstorm",
       "date_added": "2025-06-20",
       "priority": {
@@ -113,15 +135,22 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["future"],
-      "tags": ["dogfooding", "self_improvement", "workflow", "innovation"]
+      "related_phases": [
+        "future"
+      ],
+      "tags": [
+        "dogfooding",
+        "self_improvement",
+        "workflow",
+        "innovation"
+      ]
     },
     {
       "id": "imp_006",
       "title": "MCP Tool: strategy-retrospective",
       "description": "Develop strategy-retrospective as official MCP tool to extend cognition beyond planning to continuous improvement, returning structured analysis + actionable improvement backlog.",
       "category": "tools",
-      "source": "process_optimization_brainstorm", 
+      "source": "process_optimization_brainstorm",
       "date_added": "2025-06-20",
       "priority": {
         "effort": 4,
@@ -130,8 +159,15 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["future"],
-      "tags": ["mcp", "tool_development", "retrospective", "cognition"]
+      "related_phases": [
+        "future"
+      ],
+      "tags": [
+        "mcp",
+        "tool_development",
+        "retrospective",
+        "cognition"
+      ]
     },
     {
       "id": "imp_007",
@@ -145,10 +181,17 @@
         "impact": 2,
         "score": 2.0
       },
-      "status": "identified", 
+      "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.1"],
-      "tags": ["performance", "regex", "algorithms", "optimization"]
+      "related_phases": [
+        "2.1"
+      ],
+      "tags": [
+        "performance",
+        "regex",
+        "algorithms",
+        "optimization"
+      ]
     },
     {
       "id": "imp_008",
@@ -164,8 +207,14 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["future"],
-      "tags": ["automation", "scaffolding", "standardization"]
+      "related_phases": [
+        "future"
+      ],
+      "tags": [
+        "automation",
+        "scaffolding",
+        "standardization"
+      ]
     },
     {
       "id": "imp_009",
@@ -181,8 +230,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.2", "2.3"],
-      "tags": ["validation", "configuration", "robustness", "developer_experience"]
+      "related_phases": [
+        "2.2",
+        "2.3"
+      ],
+      "tags": [
+        "validation",
+        "configuration",
+        "robustness",
+        "developer_experience"
+      ]
     },
     {
       "id": "imp_010",
@@ -198,8 +255,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.2", "future"],
-      "tags": ["inheritance", "templates", "maintainability", "architecture"]
+      "related_phases": [
+        "2.2",
+        "future"
+      ],
+      "tags": [
+        "inheritance",
+        "templates",
+        "maintainability",
+        "architecture"
+      ]
     },
     {
       "id": "imp_011",
@@ -215,8 +280,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.2", "2.3"],
-      "tags": ["performance", "algorithms", "scalability", "optimization"]
+      "related_phases": [
+        "2.2",
+        "2.3"
+      ],
+      "tags": [
+        "performance",
+        "algorithms",
+        "scalability",
+        "optimization"
+      ]
     },
     {
       "id": "imp_012",
@@ -232,8 +305,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.2", "2.3"],
-      "tags": ["error_handling", "diagnostics", "developer_experience", "debugging"]
+      "related_phases": [
+        "2.2",
+        "2.3"
+      ],
+      "tags": [
+        "error_handling",
+        "diagnostics",
+        "developer_experience",
+        "debugging"
+      ]
     },
     {
       "id": "imp_013",
@@ -249,8 +330,18 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.2", "2.3", "2.4"],
-      "tags": ["inheritance", "templates", "maintainability", "configuration", "architecture"]
+      "related_phases": [
+        "2.2",
+        "2.3",
+        "2.4"
+      ],
+      "tags": [
+        "inheritance",
+        "templates",
+        "maintainability",
+        "configuration",
+        "architecture"
+      ]
     },
     {
       "id": "imp_014",
@@ -266,8 +357,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.1", "2.3"],
-      "tags": ["intelligence", "patterns", "dynamic_generation", "context_awareness"]
+      "related_phases": [
+        "2.1",
+        "2.3"
+      ],
+      "tags": [
+        "intelligence",
+        "patterns",
+        "dynamic_generation",
+        "context_awareness"
+      ]
     },
     {
       "id": "imp_015",
@@ -283,8 +382,17 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.3", "future"],
-      "tags": ["performance", "scalability", "enterprise", "algorithms", "optimization"]
+      "related_phases": [
+        "2.3",
+        "future"
+      ],
+      "tags": [
+        "performance",
+        "scalability",
+        "enterprise",
+        "algorithms",
+        "optimization"
+      ]
     },
     {
       "id": "imp_016",
@@ -300,8 +408,17 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.4", "future"],
-      "tags": ["performance", "optimization", "genetic_algorithms", "resource_allocation", "enterprise"]
+      "related_phases": [
+        "2.4",
+        "future"
+      ],
+      "tags": [
+        "performance",
+        "optimization",
+        "genetic_algorithms",
+        "resource_allocation",
+        "enterprise"
+      ]
     },
     {
       "id": "imp_017",
@@ -317,8 +434,17 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.4", "future"],
-      "tags": ["meta", "learning", "adaptation", "performance_tracking", "agent_profiles"]
+      "related_phases": [
+        "2.4",
+        "future"
+      ],
+      "tags": [
+        "meta",
+        "learning",
+        "adaptation",
+        "performance_tracking",
+        "agent_profiles"
+      ]
     },
     {
       "id": "imp_018",
@@ -334,8 +460,17 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.4", "future"],
-      "tags": ["tools", "visualization", "monitoring", "mermaid", "stakeholder_communication"]
+      "related_phases": [
+        "2.4",
+        "future"
+      ],
+      "tags": [
+        "tools",
+        "visualization",
+        "monitoring",
+        "mermaid",
+        "stakeholder_communication"
+      ]
     },
     {
       "id": "imp_019",
@@ -351,8 +486,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.6"],
-      "tags": ["observability", "debug", "timing", "memory", "developer_experience"]
+      "related_phases": [
+        "2.6"
+      ],
+      "tags": [
+        "observability",
+        "debug",
+        "timing",
+        "memory",
+        "developer_experience"
+      ]
     },
     {
       "id": "imp_020",
@@ -368,8 +511,15 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.6"],
-      "tags": ["observability", "logging", "runtime_configuration", "operational_flexibility"]
+      "related_phases": [
+        "2.6"
+      ],
+      "tags": [
+        "observability",
+        "logging",
+        "runtime_configuration",
+        "operational_flexibility"
+      ]
     },
     {
       "id": "imp_021",
@@ -385,8 +535,15 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.6"],
-      "tags": ["error_handling", "recovery", "structured_errors", "developer_experience"]
+      "related_phases": [
+        "2.6"
+      ],
+      "tags": [
+        "error_handling",
+        "recovery",
+        "structured_errors",
+        "developer_experience"
+      ]
     },
     {
       "id": "imp_022",
@@ -402,8 +559,17 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.6", "future"],
-      "tags": ["monitoring", "metrics", "prometheus", "production", "operations"]
+      "related_phases": [
+        "2.6",
+        "future"
+      ],
+      "tags": [
+        "monitoring",
+        "metrics",
+        "prometheus",
+        "production",
+        "operations"
+      ]
     },
     {
       "id": "imp_023",
@@ -419,8 +585,17 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.6", "future"],
-      "tags": ["tracing", "correlation", "session_tracking", "user_journey", "debugging"]
+      "related_phases": [
+        "2.6",
+        "future"
+      ],
+      "tags": [
+        "tracing",
+        "correlation",
+        "session_tracking",
+        "user_journey",
+        "debugging"
+      ]
     },
     {
       "id": "imp_024",
@@ -436,8 +611,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["future"],
-      "tags": ["visualization", "real_time", "dashboard", "websocket", "developer_experience"]
+      "related_phases": [
+        "future"
+      ],
+      "tags": [
+        "visualization",
+        "real_time",
+        "dashboard",
+        "websocket",
+        "developer_experience"
+      ]
     },
     {
       "id": "imp_025",
@@ -453,8 +636,16 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["future"],
-      "tags": ["ai", "machine_learning", "pattern_recognition", "autonomous_debugging", "innovation"]
+      "related_phases": [
+        "future"
+      ],
+      "tags": [
+        "ai",
+        "machine_learning",
+        "pattern_recognition",
+        "autonomous_debugging",
+        "innovation"
+      ]
     },
     {
       "id": "imp_026",
@@ -470,11 +661,20 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.7", "future"],
-      "tags": ["ai_collaboration", "architecture", "convergence_validation", "meta_methodology", "innovation"]
+      "related_phases": [
+        "2.7",
+        "future"
+      ],
+      "tags": [
+        "ai_collaboration",
+        "architecture",
+        "convergence_validation",
+        "meta_methodology",
+        "innovation"
+      ]
     },
     {
-      "id": "imp_027", 
+      "id": "imp_027",
       "title": "MVP-First Validation Checkpoints",
       "description": "Systematic checkpoints in planning workflows to prevent over-engineering and ensure pragmatic solutions. Implements validation gates that enforce 'minimal viable' approach before allowing complexity additions.",
       "category": "workflow",
@@ -487,14 +687,23 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.7", "2.8"],
-      "tags": ["mvp", "validation", "over_engineering_prevention", "pragmatic_development", "workflow"]
+      "related_phases": [
+        "2.7",
+        "2.8"
+      ],
+      "tags": [
+        "mvp",
+        "validation",
+        "over_engineering_prevention",
+        "pragmatic_development",
+        "workflow"
+      ]
     },
     {
       "id": "imp_028",
       "title": "Semantic Domain Classification Engine",
       "description": "Advanced domain detection using semantic analysis instead of primitive keyword matching. Enables intelligent task classification for CLI tools, web development, data science, infrastructure, etc.",
-      "category": "tools", 
+      "category": "tools",
       "source": "ia-ia-collaboration_meta_reflection",
       "date_added": "2025-06-21",
       "priority": {
@@ -504,15 +713,24 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.8", "3.0"],
-      "tags": ["semantic_analysis", "domain_detection", "nlp", "context_understanding", "intelligence"]
+      "related_phases": [
+        "2.8",
+        "3.0"
+      ],
+      "tags": [
+        "semantic_analysis",
+        "domain_detection",
+        "nlp",
+        "context_understanding",
+        "intelligence"
+      ]
     },
     {
       "id": "imp_029",
       "title": "Stage-Based Workflow Engine Architecture",
       "description": "Refactor monolithic strategy-architect into granular stage-based execution with workflow_stage parameter. Enables collaborative workflows while maintaining backward compatibility.",
       "category": "architecture",
-      "source": "ia-ia-collaboration_meta_reflection", 
+      "source": "ia-ia-collaboration_meta_reflection",
       "date_added": "2025-06-21",
       "priority": {
         "effort": 3,
@@ -521,8 +739,17 @@
       },
       "status": "planned",
       "implementation_plan": "Phase1_Preparation_Document.json",
-      "related_phases": ["2.7", "2.8"],
-      "tags": ["stage_based", "workflow", "collaboration", "architecture", "refactoring"]
+      "related_phases": [
+        "2.7",
+        "2.8"
+      ],
+      "tags": [
+        "stage_based",
+        "workflow",
+        "collaboration",
+        "architecture",
+        "refactoring"
+      ]
     },
     {
       "id": "imp_030",
@@ -530,7 +757,7 @@
       "description": "Intelligent triggers that determine when MCP should pause and request Claude collaboration based on domain confidence, context clarity, and task complexity metrics.",
       "category": "tools",
       "source": "ia-ia-collaboration_meta_reflection",
-      "date_added": "2025-06-21", 
+      "date_added": "2025-06-21",
       "priority": {
         "effort": 2,
         "impact": 4,
@@ -538,28 +765,293 @@
       },
       "status": "identified",
       "implementation_plan": null,
-      "related_phases": ["2.8"],
-      "tags": ["confidence_scoring", "collaboration_triggers", "intelligent_delegation", "automation"]
+      "related_phases": [
+        "2.8"
+      ],
+      "tags": [
+        "confidence_scoring",
+        "collaboration_triggers",
+        "intelligent_delegation",
+        "automation"
+      ]
+    },
+    {
+      "id": "imp_031",
+      "title": "Test knowledge management workflow with additional retrospectives",
+      "description": "Test knowledge management workflow with additional retrospectives",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_032",
+      "title": "Implement Phase 2.8 stage-based workflow architecture using accumulated knowledg...",
+      "description": "Implement Phase 2.8 stage-based workflow architecture using accumulated knowledge",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_033",
+      "title": "Consider strategy-architect planning for highest-priority improvements",
+      "description": "Consider strategy-architect planning for highest-priority improvements",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_034",
+      "title": "Document universal pattern for other AI systems to replicate",
+      "description": "Document universal pattern for other AI systems to replicate",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_035",
+      "title": "Retrospective generated by start-retrospective tool*",
+      "description": "Retrospective generated by start-retrospective tool*",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_036",
+      "title": "To be completed by Claude analysis*",
+      "description": "To be completed by Claude analysis*",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_037",
+      "title": "File: .cortex/retrospectives/2025-06-21_knowledge_management_mvp_implementation....",
+      "description": "File: .cortex/retrospectives/2025-06-21_knowledge_management_mvp_implementation.md*",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_038",
+      "title": "Validate process-retrospective with refactored version",
+      "description": "Validate process-retrospective with refactored version",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_039",
+      "title": "Create unit tests for knowledge management tools",
+      "description": "Create unit tests for knowledge management tools",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_040",
+      "title": "Document refactoring pattern for future tool additions",
+      "description": "Document refactoring pattern for future tool additions",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_041",
+      "title": "Retrospective generated by start-retrospective tool*",
+      "description": "Retrospective generated by start-retrospective tool*",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_042",
+      "title": "To be completed by Claude analysis*",
+      "description": "To be completed by Claude analysis*",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
+    },
+    {
+      "id": "imp_043",
+      "title": "File: .cortex/retrospectives/2025-06-21_server_refactoring_validation.md*",
+      "description": "File: .cortex/retrospectives/2025-06-21_server_refactoring_validation.md*",
+      "category": "workflow",
+      "source": "retrospective_action_items",
+      "date_added": "2025-06-21",
+      "priority": {
+        "effort": 3,
+        "impact": 3,
+        "score": 3.0
+      },
+      "status": "identified",
+      "implementation_plan": null,
+      "related_phases": [],
+      "tags": [
+        "retrospective_analysis",
+        "knowledge_management"
+      ]
     }
   ],
-
   "implementation_tracking": {
     "status_definitions": {
       "identified": "Improvement opportunity recognized and documented",
-      "planned": "Implementation plan created via strategy-architect", 
+      "planned": "Implementation plan created via strategy-architect",
       "in_progress": "Currently being implemented",
       "completed": "Successfully implemented and validated",
       "deferred": "Postponed to future iteration",
       "cancelled": "No longer relevant or superseded"
     }
   },
-
   "workflow_integration": {
     "ideas_to_planning": {
       "description": "Process for feeding selected improvement ideas to strategy-architect workflow",
       "steps": [
         "Select high-priority improvement from this file",
-        "Create strategy-architect input: 'Plan implementation of: [improvement.title]'", 
+        "Create strategy-architect input: 'Plan implementation of: [improvement.title]'",
         "Execute strategy-architect workflow to generate implementation plan",
         "Update improvement.implementation_plan with generated plan",
         "Update improvement.status to 'planned'"
@@ -567,13 +1059,20 @@
     },
     "meta_reflection_integration": {
       "description": "How meta-reflection updates feed back into this improvements repository",
-      "auto_update_fields": ["source", "related_phases", "tags"],
-      "manual_review_required": ["priority", "implementation_plan", "status"]
+      "auto_update_fields": [
+        "source",
+        "related_phases",
+        "tags"
+      ],
+      "manual_review_required": [
+        "priority",
+        "implementation_plan",
+        "status"
+      ]
     }
   },
-
   "metrics": {
-    "total_improvements": 30,
+    "total_improvements": 43,
     "by_category": {
       "workflow": 6,
       "tools": 14,
