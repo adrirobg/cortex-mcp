@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Resource Assignment Rules with TDD Workflow Optimization",
+  "description": "Intelligent resource assignment rules supporting TDD-enforced workflows and optimal agent utilization",
+  "version": "1.0.0",
+  "last_updated": "2025-06-21",
+  
+  "assignment_priorities": {
+    "tdd_workflow_compliance": {
+      "weight": 15,
+      "description": "Highest priority for maintaining TDD workflow integrity (test before implementation)",
+      "rules": [
+        "Same agent for test/implementation pairs when possible",
+        "Test tasks get priority in resource allocation",
+        "TDD expertise required for test task assignments"
+      ]
+    },
+    
+    "exact_specialization": {
+      "weight": 10,
+      "description": "Perfect match between task requirements and agent specializations",
+      "bonus_conditions": [
+        "Agent specialization directly matches task domain",
+        "Agent has proven expertise in required technology",
+        "Complexity level within agent's optimal range"
+      ]
+    },
+    
+    "complexity_match": {
+      "weight": 8,
+      "description": "Task complexity aligns with agent capability range",
+      "scoring": {
+        "perfect_match": 8,
+        "within_range": 5,
+        "slightly_overqualified": 3,
+        "slightly_underqualified": -2,
+        "severely_mismatched": -10
+      }
+    },
+    
+    "domain_expertise": {
+      "weight": 7,
+      "description": "Agent domain expertise matches project domain",
+      "domain_bonuses": {
+        "web_application": {
+          "frontend_developer": 7,
+          "fullstack_developer": 6,
+          "backend_developer": 5
+        },
+        "microservices": {
+          "system_architect": 7,
+          "backend_developer": 6,
+          "integration_specialist": 6
+        },
+        "enterprise": {
+          "system_architect": 7,
+          "technical_lead": 6,
+          "security_engineer": 5
+        }
+      }
+    },
+    
+    "workload_balance": {
+      "weight": 6,
+      "description": "Distribute workload evenly across available agents",
+      "calculation": "max_concurrent_tasks - current_assignments",
+      "penalties": {
+        "overallocation": -15,
+        "near_capacity": -5,
+        "balanced": 0,
+        "underutilized": 3
+      }
+    },
+    
+    "parallel_efficiency": {
+      "weight": 4,
+      "description": "Optimize for parallel execution opportunities",
+      "considerations": [
+        "Agent availability for parallel task groups",
+        "Reduced context switching between related tasks",
+        "Coordination overhead minimization"
+      ]
+    },
+    
+    "cross_training": {
+      "weight": 2,
+      "description": "Opportunities for skill development and knowledge sharing",
+      "conditions": [
+        "Agent has secondary specialization in task area",
+        "Task complexity suitable for learning",
+        "Team knowledge distribution benefits"
+      ]
+    }
+  },
+  
+  "tdd_specific_rules": {
+    "test_task_assignment": {
+      "priority_boost": 2,
+      "required_capabilities": ["tdd_expertise"],
+      "preferred_agents": ["qa_engineer", "backend_developer", "frontend_developer"],
+      "assignment_strategy": "expertise_first",
+      "description": "Test tasks require agents with proven TDD expertise"
+    },
+    
+    "implementation_task_assignment": {
+      "dependency_awareness": true,
+      "prerequisite_test_consideration": true,
+      "same_agent_preference": {
+        "weight": 10,
+        "description": "Strong preference for same agent who wrote the tests"
+      },
+      "fallback_strategy": "compatible_expertise"
+    },
+    
+    "tdd_pair_optimization": {
+      "pair_detection": {
+        "patterns": ["test_* / impl_*", "test_* / *"],
+        "identification_rules": [
+          "Task name similarity analysis",
+          "Phase and functionality correlation",
+          "Dependency relationship analysis"
+        ]
+      },
+      "assignment_constraints": [
+        "Same agent when capacity allows",
+        "Compatible expertise when different agents",
+        "Knowledge transfer protocols when expertise gaps exist"
+      ]
+    }
+  },
+  
+  "parallel_execution_optimization": {
+    "group_formation_rules": {
+      "dependency_respect": {
+        "weight": "critical",
+        "description": "Never violate TDD dependencies in parallel groups",
+        "enforcement": [
+          "Test tasks can be parallel with other independent test tasks",
+          "Implementation tasks parallel only after their test dependencies complete",
+          "Validation tasks parallel with unrelated development tasks"
+        ]
+      },
+      
+      "agent_capacity_limits": {
+        "enforcement": "strict",
+        "overflow_handling": "reject_and_rebalance",
+        "capacity_monitoring": "real_time"
+      },
+      
+      "specialization_clustering": {
+        "weight": 3,
+        "description": "Group similar tasks for reduced context switching",
+        "clustering_strategies": [
+          "Same technology stack",
+          "Same domain area",
+          "Same complexity level"
+        ]
+      },
+      
+      "communication_overhead": {
+        "weight": 2,
+        "description": "Minimize coordination requirements between parallel tasks",
+        "considerations": [
+          "Shared resource dependencies",
+          "Integration point coordination",
+          "Knowledge sharing requirements"
+        ]
+      }
+    },
+    
+    "load_balancing": {
+      "algorithms": {
+        "round_robin": {
+          "weight": 1,
+          "description": "Simple alternating assignment"
+        },
+        "least_loaded": {
+          "weight": 3,
+          "description": "Assign to agent with lowest current load"
+        },
+        "specialization_weighted": {
+          "weight": 5,
+          "description": "Balance load while respecting specializations"
+        },
+        "complexity_aware": {
+          "weight": 4,
+          "description": "Consider task complexity in load calculations"
+        }
+      },
+      
+      "load_metrics": {
+        "task_count": {
+          "weight": 0.3,
+          "description": "Number of assigned tasks"
+        },
+        "effort_hours": {
+          "weight": 0.4,
+          "description": "Total estimated effort hours"
+        },
+        "complexity_score": {
+          "weight": 0.2,
+          "description": "Weighted complexity of assigned tasks"
+        },
+        "coordination_overhead": {
+          "weight": 0.1,
+          "description": "Inter-task coordination requirements"
+        }
+      }
+    }
+  },
+  
+  "conflict_resolution": {
+    "capacity_conflicts": {
+      "detection": "pre_assignment_validation",
+      "resolution_strategies": [
+        {
+          "name": "redistribute_workload",
+          "priority": 1,
+          "description": "Move lower priority tasks to other qualified agents"
+        },
+        {
+          "name": "split_parallel_groups",
+          "priority": 2,
+          "description": "Break large parallel groups into smaller ones"
+        },
+        {
+          "name": "extend_timeline",
+          "priority": 3,
+          "description": "Serialize some parallel tasks to reduce capacity pressure"
+        }
+      ]
+    },
+    
+    "specialization_conflicts": {
+      "detection": "expertise_gap_analysis",
+      "resolution_strategies": [
+        {
+          "name": "secondary_expertise",
+          "priority": 1,
+          "description": "Use agent with secondary specialization"
+        },
+        {
+          "name": "mentored_assignment",
+          "priority": 2,
+          "description": "Assign with mentoring from expert agent"
+        },
+        {
+          "name": "cross_training",
+          "priority": 3,
+          "description": "Treat as learning opportunity with extended timeline"
+        }
+      ]
+    },
+    
+    "tdd_workflow_conflicts": {
+      "detection": "dependency_violation_check",
+      "resolution_strategies": [
+        {
+          "name": "enforce_dependencies",
+          "priority": 1,
+          "description": "Strictly enforce test-before-implementation ordering"
+        },
+        {
+          "name": "agent_reallocation",
+          "priority": 2,
+          "description": "Reallocate agents to maintain TDD workflow integrity"
+        },
+        {
+          "name": "timeline_adjustment",
+          "priority": 3,
+          "description": "Adjust execution timeline to accommodate TDD requirements"
+        }
+      ]
+    }
+  },
+  
+  "optimization_strategies": {
+    "efficiency_maximization": {
+      "context_switching_reduction": {
+        "weight": 4,
+        "strategies": [
+          "Batch similar tasks for same agent",
+          "Minimize technology stack switches",
+          "Cluster related functionality"
+        ]
+      },
+      
+      "knowledge_leverage": {
+        "weight": 3,
+        "strategies": [
+          "Assign follow-up tasks to agents with prior context",
+          "Leverage existing domain knowledge",
+          "Build on established working relationships"
+        ]
+      },
+      
+      "resource_utilization": {
+        "weight": 5,
+        "strategies": [
+          "Maximize agent capacity utilization (70-85% target)",
+          "Minimize idle time between tasks",
+          "Optimize parallel execution opportunities"
+        ]
+      }
+    },
+    
+    "quality_assurance": {
+      "tdd_compliance_monitoring": {
+        "metrics": [
+          "Test coverage percentage",
+          "Test-first implementation ratio",
+          "TDD workflow adherence"
+        ],
+        "targets": {
+          "test_coverage": ">90%",
+          "tdd_ratio": ">95%",
+          "workflow_compliance": "100%"
+        }
+      },
+      
+      "expertise_matching": {
+        "metrics": [
+          "Specialization alignment score",
+          "Complexity appropriateness",
+          "Domain expertise utilization"
+        ],
+        "targets": {
+          "specialization_match": ">80%",
+          "complexity_fit": ">85%",
+          "domain_utilization": ">75%"
+        }
+      }
+    }
+  },
+  
+  "adaptive_learning": {
+    "performance_feedback": {
+      "metrics_tracking": [
+        "Task completion time vs estimates",
+        "Quality metrics (defect rates, rework)",
+        "TDD workflow effectiveness"
+      ],
+      "adjustment_triggers": [
+        "Consistent over/under estimation",
+        "Quality issues in specific assignments",
+        "TDD workflow violations"
+      ]
+    },
+    
+    "rule_refinement": {
+      "weight_adjustments": {
+        "frequency": "per_project_retrospective",
+        "criteria": "demonstrated effectiveness",
+        "validation": "A/B testing when possible"
+      },
+      "new_rule_introduction": {
+        "trigger": "recurring optimization opportunities",
+        "validation": "pilot project testing",
+        "adoption": "gradual rollout"
+      }
+    }
+  },
+  
+  "reporting_and_analytics": {
+    "assignment_quality_metrics": {
+      "specialization_utilization": "percentage of tasks assigned to specialized agents",
+      "capacity_utilization": "average and peak agent capacity usage",
+      "tdd_compliance": "percentage of implementation tasks with preceding tests",
+      "workload_balance": "standard deviation of workload distribution"
+    },
+    
+    "efficiency_indicators": {
+      "parallel_execution_rate": "percentage of tasks in parallel execution",
+      "context_switching_frequency": "average technology/domain switches per agent",
+      "coordination_overhead": "estimated time spent on inter-task coordination",
+      "resource_waste": "percentage of agent capacity left unused"
+    },
+    
+    "quality_outcomes": {
+      "defect_rates": "bugs per task by agent specialization match",
+      "rework_frequency": "percentage of tasks requiring significant rework",
+      "timeline_accuracy": "actual vs estimated completion times",
+      "stakeholder_satisfaction": "feedback on assignment quality and outcomes"
+    }
+  }
+}

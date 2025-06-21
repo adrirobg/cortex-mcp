@@ -20,7 +20,7 @@ from unittest.mock import patch
 from server import MCPServer
 from tools.base_tool import MockTool
 from schemas.universal_response import StrategyResponse, BasePayload
-from schemas.architect_payloads import ArchitectPayload
+from schemas.architect_payloads import ArchitectPayload, WorkflowStage, AnalysisResult
 
 
 class TestCompleteSystemIntegration:
@@ -54,21 +54,29 @@ class TestCompleteSystemIntegration:
         response_text = call_response["content"][0]["text"]
         response_data = json.loads(response_text)
         
-        # Validate it's a proper StrategyResponse following Universal Schema
-        strategy_response = StrategyResponse[BasePayload](**response_data)
+        # Validate it's a proper StrategyResponse following Universal Schema with real ArchitectPayload
+        strategy_response = StrategyResponse[ArchitectPayload](**response_data)
         
         # Validate Principio Rector #1: Dogmatismo con Universal Response Schema
-        assert strategy_response.strategy.name == "mock-strategy-architect"
+        assert strategy_response.strategy.name == "motor-de-estrategias"
+        assert strategy_response.strategy.version == "2.5.0"
         assert strategy_response.strategy.type == "analysis"
         assert strategy_response.user_facing.summary is not None
         assert len(strategy_response.user_facing.key_points) > 0
         assert len(strategy_response.claude_instructions.actions) > 0
-        assert strategy_response.metadata.confidence_score == 0.95
-        assert strategy_response.payload.workflow_stage == "analysis"
+        assert 0.0 <= strategy_response.metadata.confidence_score <= 1.0
+        assert strategy_response.payload.workflow_stage == WorkflowStage.COMPLETE
         
-        # Validate Principio Rector #3: Estado en Claude, NO en Servidor
-        assert strategy_response.payload.suggested_next_state is not None
-        assert "server_validation" in strategy_response.payload.suggested_next_state["context_to_maintain"]
+        # Validate complete 4-phase workflow was executed
+        assert strategy_response.payload.analysis is not None
+        assert strategy_response.payload.decomposition is not None 
+        assert strategy_response.payload.task_graph is not None
+        assert strategy_response.payload.mission_map is not None
+        
+        # Validate Principio Rector #3: Estado en Claude, NO en Servidor (stateless design)
+        # For complete workflow, suggested_next_state should be None (workflow finished)
+        assert strategy_response.payload.suggested_next_state is None
+        assert strategy_response.payload.continue_workflow is False
     
     def test_universal_response_schema_enforcement(self):
         """Test that Universal Response Schema is enforced across all tools.
@@ -213,6 +221,297 @@ class TestCompleteSystemIntegration:
         assert "error" in error_response
         assert error_response["error"]["code"] == -32603
         assert error_response["error"]["message"] == "Internal error"
+
+
+class TestMotorDeEstrategiasIntegration:
+    """Test Motor de Estrategias 4-phase workflow integration as specified in Phase 2.5."""
+    
+    def test_single_phase_execution_analysis_only(self):
+        """Test single-phase execution: analysis only.
+        
+        Tests workflow stage detection and single-phase execution capability.
+        """
+        server = MCPServer()
+        
+        # Call with specific workflow_stage parameter
+        response = server.handle_tools_call({
+            "name": "strategy-architect",
+            "arguments": {
+                "task_description": "Create a mobile app for task management",
+                "workflow_stage": "analysis"
+            }
+        })
+        
+        # Parse response
+        response_text = response["content"][0]["text"]
+        response_data = json.loads(response_text)
+        strategy_response = StrategyResponse[ArchitectPayload](**response_data)
+        
+        # Validate only analysis phase was executed
+        assert strategy_response.payload.workflow_stage == WorkflowStage.ANALYSIS
+        assert strategy_response.payload.analysis is not None
+        assert strategy_response.payload.decomposition is None
+        assert strategy_response.payload.task_graph is None
+        assert strategy_response.payload.mission_map is None
+        
+        # Validate workflow continuation state
+        assert strategy_response.payload.continue_workflow is True
+        assert strategy_response.payload.next_step == "decompose_phases"
+        assert strategy_response.payload.suggested_next_state is not None
+        assert strategy_response.payload.suggested_next_state["workflow_stage"] == "decomposition"
+        
+        # Validate analysis results structure
+        analysis = strategy_response.payload.analysis
+        assert isinstance(analysis.keywords, list)
+        assert len(analysis.keywords) > 0
+        assert analysis.complexity in ["Baja", "Media", "Alta"]
+        assert analysis.domain is not None
+    
+    def test_multi_phase_workflow_continuation(self):
+        """Test multi-phase workflow continuation using suggested_next_state.
+        
+        Tests stateless workflow continuation from analysis to decomposition.
+        """
+        server = MCPServer()
+        
+        # Step 1: Execute analysis phase
+        analysis_response = server.handle_tools_call({
+            "name": "strategy-architect", 
+            "arguments": {
+                "task_description": "Build a data analytics dashboard",
+                "workflow_stage": "analysis"
+            }
+        })
+        
+        analysis_data = json.loads(analysis_response["content"][0]["text"])
+        analysis_strategy = StrategyResponse[ArchitectPayload](**analysis_data)
+        
+        # Extract state for continuation
+        suggested_state = analysis_strategy.payload.suggested_next_state
+        analysis_result = suggested_state["analysis_result"]
+        
+        # Step 2: Continue to decomposition using previous state
+        decomposition_response = server.handle_tools_call({
+            "name": "strategy-architect",
+            "arguments": {
+                "task_description": "Build a data analytics dashboard",
+                "analysis_result": analysis_result,
+                "workflow_stage": "decomposition"
+            }
+        })
+        
+        decomposition_data = json.loads(decomposition_response["content"][0]["text"])
+        decomposition_strategy = StrategyResponse[ArchitectPayload](**decomposition_data)
+        
+        # Validate workflow progression
+        assert decomposition_strategy.payload.workflow_stage == WorkflowStage.DECOMPOSITION
+        assert decomposition_strategy.payload.analysis is not None
+        assert decomposition_strategy.payload.decomposition is not None
+        assert decomposition_strategy.payload.task_graph is None
+        assert decomposition_strategy.payload.mission_map is None
+        
+        # Validate state preservation and continuation
+        assert decomposition_strategy.payload.continue_workflow is True
+        assert decomposition_strategy.payload.next_step == "generate_task_graph"
+        
+        # Validate analysis was preserved from previous step
+        assert decomposition_strategy.payload.analysis.keywords == analysis_strategy.payload.analysis.keywords
+    
+    def test_complete_4_phase_workflow_execution(self):
+        """Test complete 4-phase workflow execution: analysis → decomposition → task_graph → mission_map.
+        
+        Tests end-to-end Motor de Estrategias functionality.
+        """
+        server = MCPServer()
+        
+        # Execute complete workflow (no workflow_stage specified = full execution)
+        response = server.handle_tools_call({
+            "name": "strategy-architect",
+            "arguments": {
+                "task_description": "Develop a microservices-based e-commerce platform with payment integration, user management, and real-time inventory tracking"
+            }
+        })
+        
+        # Parse response
+        response_text = response["content"][0]["text"]
+        response_data = json.loads(response_text)
+        strategy_response = StrategyResponse[ArchitectPayload](**response_data)
+        
+        # Validate complete workflow execution
+        assert strategy_response.payload.workflow_stage == WorkflowStage.COMPLETE
+        
+        # Validate all 4 phases were executed
+        assert strategy_response.payload.analysis is not None
+        assert strategy_response.payload.decomposition is not None
+        assert strategy_response.payload.task_graph is not None
+        assert strategy_response.payload.mission_map is not None
+        
+        # Validate workflow completion state
+        assert strategy_response.payload.continue_workflow is False
+        assert strategy_response.payload.next_step is None
+        assert strategy_response.payload.suggested_next_state is None
+        
+        # Validate phase interconnections
+        analysis = strategy_response.payload.analysis
+        decomposition = strategy_response.payload.decomposition
+        task_graph = strategy_response.payload.task_graph
+        mission_map = strategy_response.payload.mission_map
+        
+        # Analysis should inform decomposition
+        assert analysis.complexity in ["Baja", "Media", "Alta"]
+        assert len(decomposition.phases) > 0
+        
+        # Decomposition should inform task graph
+        assert task_graph.task_count > 0
+        assert len(task_graph.tasks) == task_graph.task_count
+        
+        # Task graph should inform mission map
+        assert len(mission_map.resource_assignments) > 0
+        assert len(mission_map.execution_order) > 0
+        
+        # Validate data flow consistency
+        phase_ids = {phase.id for phase in decomposition.phases}
+        task_phase_ids = {task.phase_id for task in task_graph.tasks}
+        assignment_task_ids = {assignment.task_id for assignment in mission_map.resource_assignments}
+        task_ids = {task.id for task in task_graph.tasks}
+        
+        # All task phase_ids should reference valid phases
+        assert task_phase_ids.issubset(phase_ids)
+        
+        # Mission map includes TDD task pairs, so it will have more assignments than original tasks
+        # Validate that the original tasks are included in the assignments
+        original_task_ids_in_assignments = assignment_task_ids.intersection(task_ids)
+        assert len(original_task_ids_in_assignments) > 0  # At least some original tasks should be assigned
+        
+        # Validate TDD enhancement is working (more assignments than original tasks due to test task pairs)
+        assert len(mission_map.resource_assignments) >= len(task_graph.tasks)
+    
+    def test_mcp_server_json_rpc_compliance_with_real_workflow(self):
+        """Test MCP server JSON-RPC 2.0 compliance with real Motor de Estrategias workflow.
+        
+        Tests complete JSON-RPC compliance with actual workflow execution.
+        """
+        server = MCPServer()
+        
+        # Test full JSON-RPC request/response cycle
+        request = {
+            "jsonrpc": "2.0",
+            "id": "test-motor-de-estrategias",
+            "method": "tools/call",
+            "params": {
+                "name": "strategy-architect",
+                "arguments": {
+                    "task_description": "Build a real-time chat application with WebSocket support",
+                    "workflow_stage": "analysis"
+                }
+            }
+        }
+        
+        response = server.handle_request(request)
+        
+        # Validate JSON-RPC 2.0 compliance
+        assert response["jsonrpc"] == "2.0"
+        assert response["id"] == "test-motor-de-estrategias"
+        assert "result" in response
+        assert "error" not in response
+        
+        # Validate MCP tool response structure
+        result = response["result"]
+        assert "content" in result
+        assert len(result["content"]) == 1
+        assert result["content"][0]["type"] == "text"
+        
+        # Validate StrategyResponse schema compliance
+        response_text = result["content"][0]["text"]
+        response_data = json.loads(response_text)
+        strategy_response = StrategyResponse[ArchitectPayload](**response_data)
+        
+        # Validate real workflow execution
+        assert strategy_response.strategy.name == "motor-de-estrategias"
+        assert strategy_response.payload.workflow_stage == WorkflowStage.ANALYSIS
+        assert strategy_response.payload.analysis is not None
+        
+        # Test error handling with JSON-RPC compliance
+        error_request = {
+            "jsonrpc": "2.0", 
+            "id": "test-error",
+            "method": "tools/call",
+            "params": {
+                "name": "strategy-architect",
+                "arguments": {
+                    "task_description": ""  # Empty description should cause error
+                }
+            }
+        }
+        
+        error_response = server.handle_request(error_request)
+        
+        # Validate JSON-RPC error response
+        assert error_response["jsonrpc"] == "2.0"
+        assert error_response["id"] == "test-error"
+        assert "error" in error_response
+        assert error_response["error"]["code"] == -32603
+        assert error_response["error"]["message"] == "Internal error"  # JSON-RPC standard error message
+    
+    def test_workflow_state_management_compliance(self):
+        """Test workflow state management follows Principio Rector #3: Estado en Claude, NO en Servidor.
+        
+        Tests stateless server design with complete workflow state management via suggested_next_state.
+        """
+        server = MCPServer()
+        
+        # Test 1: Server maintains no state between independent calls
+        call1 = server.handle_tools_call({
+            "name": "strategy-architect",
+            "arguments": {
+                "task_description": "Build a React web application with user authentication and real-time dashboard",
+                "workflow_stage": "analysis"
+            }
+        })
+        
+        call2 = server.handle_tools_call({
+            "name": "strategy-architect", 
+            "arguments": {
+                "task_description": "Create a Python data analytics pipeline with machine learning models",
+                "workflow_stage": "analysis"
+            }
+        })
+        
+        # Parse responses
+        data1 = json.loads(call1["content"][0]["text"])
+        data2 = json.loads(call2["content"][0]["text"])
+        response1 = StrategyResponse[ArchitectPayload](**data1)
+        response2 = StrategyResponse[ArchitectPayload](**data2)
+        
+        # Responses should be independent (no state pollution)
+        assert "React web application" in response1.user_facing.summary
+        assert "Python data analytics" in response2.user_facing.summary
+        assert response1.payload.analysis.keywords != response2.payload.analysis.keywords
+        
+        # Test 2: Workflow continuation works via suggested_next_state
+        analysis_result = response1.payload.suggested_next_state["analysis_result"]
+        
+        # Continue React web application workflow
+        continue_call = server.handle_tools_call({
+            "name": "strategy-architect",
+            "arguments": {
+                "task_description": "Build a React web application with user authentication and real-time dashboard",
+                "analysis_result": analysis_result,
+                "workflow_stage": "decomposition"
+            }
+        })
+        
+        continue_data = json.loads(continue_call["content"][0]["text"])
+        continue_response = StrategyResponse[ArchitectPayload](**continue_data)
+        
+        # Validate state was preserved via parameters, not server state
+        assert continue_response.payload.workflow_stage == WorkflowStage.DECOMPOSITION
+        assert continue_response.payload.analysis.keywords == response1.payload.analysis.keywords
+        
+        # Server still maintains no internal state
+        assert not hasattr(server, 'workflow_state')
+        assert not hasattr(server, 'previous_analysis')
+        assert not hasattr(server, 'session_context')
 
 
 class TestSystemPerformanceAndReliability:

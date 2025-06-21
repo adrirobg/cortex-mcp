@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Phase Templates Configuration",
+  "description": "Structured templates for project phase decomposition with explicit dependencies",
+  "version": "1.0.0",
+  "last_updated": "2025-06-20",
+
+  "templates": {
+    "web_app": {
+      "description": "Standard workflow for full-stack web application development",
+      "estimated_base_duration": "4-6 weeks",
+      "complexity_multiplier": 1.0,
+      "phases": [
+        {
+          "id": "design",
+          "name": "System Design & Architecture",
+          "description": "Define system architecture, data models, and API specifications",
+          "dependencies": [],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["architecture_diagram", "api_spec", "data_model"]
+        },
+        {
+          "id": "backend",
+          "name": "Backend API Development",
+          "description": "Implement server-side logic, APIs, and database integration",
+          "dependencies": ["design"],
+          "estimated_duration": "1-2 weeks",
+          "parallel_safe": false,
+          "artifacts": ["api_endpoints", "database_schema", "business_logic"]
+        },
+        {
+          "id": "frontend",
+          "name": "Frontend UI Implementation", 
+          "description": "Build user interface components and client-side functionality",
+          "dependencies": ["design"],
+          "estimated_duration": "1-2 weeks",
+          "parallel_safe": true,
+          "artifacts": ["ui_components", "user_flows", "styling"]
+        },
+        {
+          "id": "integration",
+          "name": "Frontend-Backend Integration",
+          "description": "Connect frontend and backend, implement data flow and API calls",
+          "dependencies": ["backend", "frontend"],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["api_integration", "data_binding", "error_handling"]
+        },
+        {
+          "id": "testing",
+          "name": "End-to-End and Integration Testing",
+          "description": "Comprehensive testing of complete application workflows",
+          "dependencies": ["integration"],
+          "estimated_duration": "1 week",
+          "parallel_safe": false,
+          "artifacts": ["test_suite", "test_reports", "performance_metrics"]
+        },
+        {
+          "id": "deployment",
+          "name": "Production Deployment & DevOps",
+          "description": "Deploy application to production environment with monitoring",
+          "dependencies": ["testing"],
+          "estimated_duration": "2-3 days",
+          "parallel_safe": false,
+          "artifacts": ["deployment_config", "monitoring_setup", "documentation"]
+        }
+      ]
+    },
+
+    "api_service": {
+      "description": "RESTful API service or microservice development workflow",
+      "estimated_base_duration": "2-3 weeks",
+      "complexity_multiplier": 0.7,
+      "phases": [
+        {
+          "id": "api_design",
+          "name": "API Design & Specification",
+          "description": "Define API endpoints, data schemas, and interface contracts",
+          "dependencies": [],
+          "estimated_duration": "2-3 days",
+          "parallel_safe": false,
+          "artifacts": ["openapi_spec", "data_schemas", "endpoint_definitions"]
+        },
+        {
+          "id": "core_implementation",
+          "name": "Core Logic Implementation",
+          "description": "Implement business logic, data processing, and core functionality",
+          "dependencies": ["api_design"],
+          "estimated_duration": "1 week",
+          "parallel_safe": false,
+          "artifacts": ["business_logic", "data_models", "core_services"]
+        },
+        {
+          "id": "api_endpoints",
+          "name": "API Endpoints Development",
+          "description": "Build REST endpoints, request/response handling, and validation",
+          "dependencies": ["core_implementation"],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["rest_endpoints", "validation_middleware", "response_formatting"]
+        },
+        {
+          "id": "documentation",
+          "name": "API Documentation",
+          "description": "Create comprehensive API documentation and usage examples",
+          "dependencies": ["api_endpoints"],
+          "estimated_duration": "2-3 days",
+          "parallel_safe": true,
+          "artifacts": ["api_docs", "usage_examples", "integration_guide"]
+        },
+        {
+          "id": "testing",
+          "name": "API Testing & Validation",
+          "description": "Unit tests, integration tests, and API contract validation",
+          "dependencies": ["api_endpoints"],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": true,
+          "artifacts": ["unit_tests", "integration_tests", "contract_tests"]
+        },
+        {
+          "id": "deployment",
+          "name": "Service Deployment",
+          "description": "Deploy API service with monitoring and health checks",
+          "dependencies": ["documentation", "testing"],
+          "estimated_duration": "1-2 days",
+          "parallel_safe": false,
+          "artifacts": ["deployment_config", "health_checks", "monitoring"]
+        }
+      ]
+    },
+
+    "data_pipeline": {
+      "description": "Data processing, ETL, or analytics pipeline development",
+      "estimated_base_duration": "3-4 weeks",
+      "complexity_multiplier": 1.2,
+      "phases": [
+        {
+          "id": "data_analysis",
+          "name": "Data Sourcing & Analysis",
+          "description": "Analyze data sources, understand schemas, and define requirements",
+          "dependencies": [],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["data_schema_analysis", "source_mapping", "requirements_doc"]
+        },
+        {
+          "id": "pipeline_design",
+          "name": "Pipeline Architecture Design",
+          "description": "Design data flow, transformation logic, and processing architecture",
+          "dependencies": ["data_analysis"],
+          "estimated_duration": "2-3 days",
+          "parallel_safe": false,
+          "artifacts": ["pipeline_architecture", "data_flow_diagram", "transformation_specs"]
+        },
+        {
+          "id": "extraction",
+          "name": "Data Extraction Implementation",
+          "description": "Build data extraction from various sources (APIs, databases, files)",
+          "dependencies": ["pipeline_design"],
+          "estimated_duration": "1 week",
+          "parallel_safe": true,
+          "artifacts": ["extraction_modules", "source_connectors", "data_ingestion"]
+        },
+        {
+          "id": "transformation",
+          "name": "Data Transformation & Processing",
+          "description": "Implement data cleaning, transformation, and enrichment logic",
+          "dependencies": ["pipeline_design"],
+          "estimated_duration": "1-2 weeks",
+          "parallel_safe": true,
+          "artifacts": ["transformation_logic", "data_validation", "enrichment_rules"]
+        },
+        {
+          "id": "storage",
+          "name": "Data Storage & Warehousing",
+          "description": "Implement data storage, indexing, and warehouse integration",
+          "dependencies": ["extraction", "transformation"],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["storage_schema", "indexing_strategy", "warehouse_integration"]
+        },
+        {
+          "id": "validation",
+          "name": "Data Quality Validation",
+          "description": "Implement data quality checks, monitoring, and alerting",
+          "dependencies": ["storage"],
+          "estimated_duration": "2-3 days",
+          "parallel_safe": false,
+          "artifacts": ["quality_checks", "monitoring_dashboard", "alerting_system"]
+        }
+      ]
+    },
+
+    "mobile_app": {
+      "description": "Mobile application development workflow (iOS/Android/Cross-platform)",
+      "estimated_base_duration": "6-8 weeks",
+      "complexity_multiplier": 1.3,
+      "phases": [
+        {
+          "id": "ui_design",
+          "name": "UI/UX Design & Prototyping",
+          "description": "Design user interface, user experience flows, and interactive prototypes",
+          "dependencies": [],
+          "estimated_duration": "1 week",
+          "parallel_safe": false,
+          "artifacts": ["ui_mockups", "user_flows", "interactive_prototype"]
+        },
+        {
+          "id": "core_app",
+          "name": "Core App Structure",
+          "description": "Set up app architecture, navigation, and core framework",
+          "dependencies": ["ui_design"],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["app_structure", "navigation_system", "core_framework"]
+        },
+        {
+          "id": "features",
+          "name": "Feature Implementation",
+          "description": "Implement app features, business logic, and user interactions",
+          "dependencies": ["core_app"],
+          "estimated_duration": "2-3 weeks",
+          "parallel_safe": true,
+          "artifacts": ["feature_modules", "business_logic", "user_interactions"]
+        },
+        {
+          "id": "backend_integration",
+          "name": "Backend & API Integration",
+          "description": "Connect to backend services, implement data synchronization",
+          "dependencies": ["features"],
+          "estimated_duration": "1 week",
+          "parallel_safe": false,
+          "artifacts": ["api_integration", "data_sync", "offline_support"]
+        },
+        {
+          "id": "testing",
+          "name": "Mobile Testing & QA",
+          "description": "Device testing, performance optimization, and quality assurance",
+          "dependencies": ["backend_integration"],
+          "estimated_duration": "1 week",
+          "parallel_safe": false,
+          "artifacts": ["device_tests", "performance_tests", "qa_reports"]
+        },
+        {
+          "id": "deployment",
+          "name": "App Store Deployment",
+          "description": "Prepare for app store submission, compliance, and release",
+          "dependencies": ["testing"],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["store_assets", "compliance_docs", "release_build"]
+        }
+      ]
+    },
+
+    "default": {
+      "description": "Generic project workflow for undefined or mixed domains",
+      "estimated_base_duration": "2-4 weeks",
+      "complexity_multiplier": 1.0,
+      "phases": [
+        {
+          "id": "planning",
+          "name": "Project Planning & Requirements",
+          "description": "Define project scope, requirements, and implementation strategy",
+          "dependencies": [],
+          "estimated_duration": "2-3 days",
+          "parallel_safe": false,
+          "artifacts": ["requirements_doc", "project_plan", "strategy_doc"]
+        },
+        {
+          "id": "design",
+          "name": "System Design & Architecture",
+          "description": "Create system architecture and technical design specifications",
+          "dependencies": ["planning"],
+          "estimated_duration": "2-3 days",
+          "parallel_safe": false,
+          "artifacts": ["system_design", "architecture_diagram", "tech_specs"]
+        },
+        {
+          "id": "implementation",
+          "name": "Core Implementation",
+          "description": "Build core functionality and main system components",
+          "dependencies": ["design"],
+          "estimated_duration": "1-2 weeks",
+          "parallel_safe": false,
+          "artifacts": ["core_components", "main_functionality", "integration_points"]
+        },
+        {
+          "id": "testing",
+          "name": "Testing & Quality Assurance",
+          "description": "Comprehensive testing and quality validation",
+          "dependencies": ["implementation"],
+          "estimated_duration": "3-5 days",
+          "parallel_safe": false,
+          "artifacts": ["test_suite", "qa_reports", "validation_results"]
+        },
+        {
+          "id": "deployment",
+          "name": "Deployment & Release",
+          "description": "Deploy system and prepare for production release",
+          "dependencies": ["testing"],
+          "estimated_duration": "1-2 days",
+          "parallel_safe": false,
+          "artifacts": ["deployment_config", "release_notes", "production_setup"]
+        }
+      ]
+    }
+  },
+
+  "domain_mapping": {
+    "web": "web_app",
+    "frontend": "web_app", 
+    "backend": "web_app",
+    "fullstack": "web_app",
+    "api": "api_service",
+    "microservice": "api_service",
+    "rest": "api_service",
+    "graphql": "api_service",
+    "data": "data_pipeline",
+    "analytics": "data_pipeline",
+    "pipeline": "data_pipeline",
+    "etl": "data_pipeline",
+    "mobile": "mobile_app",
+    "android": "mobile_app",
+    "ios": "mobile_app",
+    "app": "mobile_app"
+  },
+
+  "complexity_adjustments": {
+    "baja": 0.7,
+    "media": 1.0,
+    "alta": 1.5,
+    "muy_alta": 2.0
+  }
+}

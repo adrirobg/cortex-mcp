@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Agent Profiles Configuration with TDD Specialization",
+  "description": "Agent profiles with TDD workflow expertise and specialized capabilities for mission map resource assignment",
+  "version": "1.0.0",
+  "last_updated": "2025-06-21",
+  
+  "agent_profiles": {
+    "system_architect": {
+      "specializations": ["architecture", "design", "system_integration", "planning"],
+      "complexity_range": [3, 5],
+      "max_concurrent_tasks": 2,
+      "tdd_expertise": true,
+      "preferred_task_types": ["design", "architecture", "integration_planning"],
+      "domain_expertise": ["enterprise", "microservices", "scalability"],
+      "description": "Senior system architect with deep TDD experience and enterprise-scale design expertise",
+      "workflow_preferences": {
+        "test_first_design": true,
+        "documentation_heavy": true,
+        "stakeholder_collaboration": true
+      }
+    },
+    
+    "backend_developer": {
+      "specializations": ["api", "database", "business_logic", "testing", "security"],
+      "complexity_range": [2, 4],
+      "max_concurrent_tasks": 3,
+      "tdd_expertise": true,
+      "preferred_task_types": ["api_development", "database_design", "business_logic", "unit_testing"],
+      "domain_expertise": ["rest_api", "microservices", "authentication", "data_modeling"],
+      "description": "Full-stack backend developer with strong TDD practices and API design expertise",
+      "workflow_preferences": {
+        "test_driven_development": true,
+        "api_first_design": true,
+        "security_focused": true
+      }
+    },
+    
+    "frontend_developer": {
+      "specializations": ["ui", "components", "user_experience", "testing", "accessibility"],
+      "complexity_range": [2, 4],
+      "max_concurrent_tasks": 3,
+      "tdd_expertise": true,
+      "preferred_task_types": ["ui_development", "component_design", "user_testing", "accessibility"],
+      "domain_expertise": ["spa", "responsive_design", "user_experience", "component_libraries"],
+      "description": "Frontend specialist with TDD expertise in component testing and user experience design",
+      "workflow_preferences": {
+        "component_driven_development": true,
+        "user_centered_design": true,
+        "accessibility_first": true
+      }
+    },
+    
+    "fullstack_developer": {
+      "specializations": ["api", "ui", "integration", "testing", "deployment"],
+      "complexity_range": [2, 5],
+      "max_concurrent_tasks": 4,
+      "tdd_expertise": true,
+      "preferred_task_types": ["fullstack_features", "integration", "end_to_end_testing"],
+      "domain_expertise": ["web_applications", "api_integration", "deployment"],
+      "description": "Versatile fullstack developer with comprehensive TDD experience across the entire stack",
+      "workflow_preferences": {
+        "end_to_end_thinking": true,
+        "integration_focused": true,
+        "deployment_aware": true
+      }
+    },
+    
+    "qa_engineer": {
+      "specializations": ["testing", "quality_assurance", "automation", "validation"],
+      "complexity_range": [2, 4],
+      "max_concurrent_tasks": 4,
+      "tdd_expertise": true,
+      "preferred_task_types": ["test_automation", "quality_assurance", "test_planning", "validation"],
+      "domain_expertise": ["test_automation", "quality_frameworks", "performance_testing", "security_testing"],
+      "description": "Quality assurance specialist with deep TDD and test automation expertise",
+      "workflow_preferences": {
+        "test_automation_first": true,
+        "quality_metrics_driven": true,
+        "continuous_testing": true
+      }
+    },
+    
+    "devops_engineer": {
+      "specializations": ["deployment", "infrastructure", "automation", "monitoring"],
+      "complexity_range": [3, 5],
+      "max_concurrent_tasks": 3,
+      "tdd_expertise": true,
+      "preferred_task_types": ["infrastructure", "deployment", "automation", "monitoring"],
+      "domain_expertise": ["ci_cd", "containerization", "cloud_platforms", "infrastructure_as_code"],
+      "description": "DevOps specialist with TDD practices for infrastructure and deployment automation",
+      "workflow_preferences": {
+        "infrastructure_as_code": true,
+        "automation_first": true,
+        "monitoring_focused": true
+      }
+    },
+    
+    "security_engineer": {
+      "specializations": ["security", "authentication", "authorization", "testing", "compliance"],
+      "complexity_range": [3, 5],
+      "max_concurrent_tasks": 2,
+      "tdd_expertise": true,
+      "preferred_task_types": ["security_implementation", "security_testing", "compliance", "security_architecture"],
+      "domain_expertise": ["authentication", "authorization", "encryption", "security_testing", "compliance"],
+      "description": "Security specialist with TDD-driven security testing and implementation expertise",
+      "workflow_preferences": {
+        "security_first_design": true,
+        "threat_modeling": true,
+        "compliance_driven": true
+      }
+    },
+    
+    "database_architect": {
+      "specializations": ["database", "data_modeling", "performance", "testing"],
+      "complexity_range": [3, 5],
+      "max_concurrent_tasks": 2,
+      "tdd_expertise": true,
+      "preferred_task_types": ["database_design", "data_modeling", "performance_optimization", "data_testing"],
+      "domain_expertise": ["relational_databases", "nosql", "data_modeling", "performance_tuning"],
+      "description": "Database specialist with TDD practices for data layer testing and optimization",
+      "workflow_preferences": {
+        "data_driven_design": true,
+        "performance_focused": true,
+        "testing_heavy": true
+      }
+    },
+    
+    "integration_specialist": {
+      "specializations": ["integration", "api", "messaging", "testing", "monitoring"],
+      "complexity_range": [3, 4],
+      "max_concurrent_tasks": 3,
+      "tdd_expertise": true,
+      "preferred_task_types": ["system_integration", "api_integration", "integration_testing"],
+      "domain_expertise": ["api_integration", "messaging_systems", "event_driven_architecture", "integration_patterns"],
+      "description": "Integration expert with TDD approach to integration testing and system connectivity",
+      "workflow_preferences": {
+        "integration_testing_first": true,
+        "api_contract_driven": true,
+        "event_driven_thinking": true
+      }
+    },
+    
+    "technical_lead": {
+      "specializations": ["leadership", "architecture", "code_review", "mentoring", "planning"],
+      "complexity_range": [4, 5],
+      "max_concurrent_tasks": 2,
+      "tdd_expertise": true,
+      "preferred_task_types": ["technical_leadership", "architecture_review", "code_review", "mentoring"],
+      "domain_expertise": ["team_leadership", "technical_strategy", "code_quality", "best_practices"],
+      "description": "Technical leader with deep TDD expertise and team mentoring capabilities",
+      "workflow_preferences": {
+        "quality_focused": true,
+        "mentoring_driven": true,
+        "best_practices_enforcement": true
+      }
+    }
+  },
+  
+  "assignment_rules": {
+    "tdd_pairing_priority": {
+      "description": "Prefer assigning same agent to TDD task pairs (test + implementation)",
+      "weight": 15,
+      "applies_to": ["test_*", "impl_*"]
+    },
+    
+    "specialization_matching": {
+      "description": "Match agent specializations to task requirements",
+      "weight": 10,
+      "keyword_mapping": {
+        "api": ["backend_developer", "fullstack_developer", "integration_specialist"],
+        "ui": ["frontend_developer", "fullstack_developer"],
+        "database": ["backend_developer", "database_architect"],
+        "testing": ["qa_engineer", "backend_developer", "frontend_developer"],
+        "security": ["security_engineer", "backend_developer"],
+        "deployment": ["devops_engineer", "fullstack_developer"],
+        "integration": ["integration_specialist", "fullstack_developer", "system_architect"],
+        "architecture": ["system_architect", "technical_lead"]
+      }
+    },
+    
+    "complexity_compatibility": {
+      "description": "Match task complexity to agent capability range",
+      "weight": 8,
+      "compatibility_bonus": 5,
+      "overqualified_penalty": -2,
+      "underqualified_penalty": -10
+    },
+    
+    "workload_balancing": {
+      "description": "Balance workload across available agents",
+      "weight": 6,
+      "underloaded_bonus": 4,
+      "overloaded_penalty": -8
+    },
+    
+    "domain_expertise": {
+      "description": "Match project domain to agent domain expertise",
+      "weight": 7,
+      "domain_mapping": {
+        "web_application": ["frontend_developer", "fullstack_developer", "backend_developer"],
+        "microservices": ["system_architect", "backend_developer", "integration_specialist"],
+        "enterprise": ["system_architect", "technical_lead", "security_engineer"],
+        "api_platform": ["backend_developer", "integration_specialist", "system_architect"]
+      }
+    }
+  },
+  
+  "tdd_workflow_constraints": {
+    "test_before_implementation": {
+      "description": "Test tasks must always precede their implementation counterparts",
+      "enforcement": "strict",
+      "dependency_pattern": "test_* -> impl_*"
+    },
+    
+    "same_agent_preference": {
+      "description": "Prefer same agent for test/implementation pairs to maintain context",
+      "enforcement": "preferred",
+      "fallback_allowed": true
+    },
+    
+    "test_task_prioritization": {
+      "description": "Test tasks get higher priority in execution order",
+      "priority_boost": 2,
+      "applies_to": ["test_*"]
+    }
+  },
+  
+  "parallel_execution_rules": {
+    "tdd_respect": {
+      "description": "Parallel groups must respect TDD dependencies",
+      "rules": [
+        "Test tasks can run in parallel with other test tasks",
+        "Implementation tasks cannot run in parallel with their prerequisite test tasks",
+        "Implementation tasks can run in parallel with unrelated test tasks"
+      ]
+    },
+    
+    "agent_capacity": {
+      "description": "Respect max_concurrent_tasks limits for each agent profile",
+      "enforcement": "strict",
+      "overallocation_handling": "conflict_detection"
+    },
+    
+    "specialization_grouping": {
+      "description": "Group parallel tasks by specialization when possible",
+      "weight": 3,
+      "benefits": ["reduced_context_switching", "knowledge_sharing"]
+    }
+  },
+  
+  "quality_metrics": {
+    "tdd_compliance": {
+      "description": "Percentage of implementation tasks with corresponding test tasks",
+      "target": "100%",
+      "calculation": "test_tasks / implementation_tasks"
+    },
+    
+    "specialization_match": {
+      "description": "Percentage of tasks assigned to specialized agents",
+      "target": ">80%",
+      "calculation": "specialized_assignments / total_assignments"
+    },
+    
+    "workload_balance": {
+      "description": "Standard deviation of workload across agents",
+      "target": "<25%",
+      "calculation": "stddev(agent_workloads) / mean(agent_workloads)"
+    },
+    
+    "capacity_utilization": {
+      "description": "Average utilization of agent capacity",
+      "target": "70-85%",
+      "calculation": "average(agent_utilization_percentage)"
+    }
+  },
+  
+  "fallback_strategies": {
+    "agent_unavailable": {
+      "strategy": "secondary_specialization",
+      "description": "Use agent with secondary specialization match"
+    },
+    
+    "capacity_exceeded": {
+      "strategy": "redistribute_workload",
+      "description": "Redistribute tasks to balance capacity"
+    },
+    
+    "no_specialization_match": {
+      "strategy": "general_assignment",
+      "description": "Assign to fullstack_developer or technical_lead"
+    },
+    
+    "configuration_error": {
+      "strategy": "safe_defaults",
+      "description": "Use safe default assignments with warnings"
+    }
+  }
+}

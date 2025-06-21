@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Task Generation Templates Configuration",
+  "description": "Structured templates for converting project phases into granular tasks with dependencies",
+  "version": "1.0.0",
+  "last_updated": "2025-06-20",
+
+  "task_templates": {
+    "design": {
+      "description": "System design and architecture tasks",
+      "base_complexity": 2,
+      "tasks": [
+        {
+          "id_suffix": "_architecture_design",
+          "name": "System Architecture Design",
+          "description": "Define overall system architecture, components, and their interactions",
+          "estimated_effort": "1-2 days",
+          "complexity_score": 3,
+          "artifacts_output": ["architecture_diagram", "component_specs", "technology_decisions"],
+          "validation_criteria": ["Architecture review approval", "Component interfaces defined"],
+          "internal_dependencies": [],
+          "agent_profile": "system_architect"
+        },
+        {
+          "id_suffix": "_api_design", 
+          "name": "API Interface Design",
+          "description": "Design REST API endpoints, request/response schemas, and authentication",
+          "estimated_effort": "1 day",
+          "complexity_score": 2,
+          "artifacts_output": ["api_specification", "endpoint_documentation"],
+          "validation_criteria": ["API spec validates", "Security review passed"],
+          "internal_dependencies": ["_architecture_design"],
+          "agent_profile": "api_designer"
+        },
+        {
+          "id_suffix": "_data_model",
+          "name": "Database Schema Design", 
+          "description": "Design database tables, relationships, and data validation rules",
+          "estimated_effort": "1-2 days",
+          "complexity_score": 3,
+          "artifacts_output": ["database_schema", "migration_scripts", "data_model"],
+          "validation_criteria": ["Schema normalized", "Indexes optimized"],
+          "internal_dependencies": ["_architecture_design"],
+          "agent_profile": "database_architect"
+        }
+      ]
+    },
+
+    "backend": {
+      "description": "Backend API development tasks",
+      "base_complexity": 3,
+      "tasks": [
+        {
+          "id_suffix": "_database_setup",
+          "name": "Database Setup and Models",
+          "description": "Set up database connection, ORM models, and initial migrations",
+          "estimated_effort": "1 day",
+          "complexity_score": 2,
+          "artifacts_output": ["database_models", "migration_files", "connection_config"],
+          "validation_criteria": ["Models validate", "Migrations run successfully"],
+          "internal_dependencies": [],
+          "agent_profile": "backend_developer"
+        },
+        {
+          "id_suffix": "_auth_system",
+          "name": "Authentication & Authorization System",
+          "description": "Implement user authentication, JWT tokens, and role-based access control",
+          "estimated_effort": "2-3 days",
+          "complexity_score": 4,
+          "artifacts_output": ["auth_middleware", "jwt_implementation", "user_management"],
+          "validation_criteria": ["Security audit passed", "Token validation works"],
+          "internal_dependencies": ["_database_setup"],
+          "agent_profile": "security_engineer"
+        },
+        {
+          "id_suffix": "_crud_endpoints",
+          "name": "Core CRUD API Endpoints",
+          "description": "Implement Create, Read, Update, Delete operations for main entities",
+          "estimated_effort": "2-4 days",
+          "complexity_score": 3,
+          "artifacts_output": ["api_endpoints", "request_handlers", "response_serializers"],
+          "validation_criteria": ["All endpoints tested", "Response format consistent"],
+          "internal_dependencies": ["_database_setup", "_auth_system"],
+          "agent_profile": "backend_developer"
+        },
+        {
+          "id_suffix": "_business_logic",
+          "name": "Business Logic Implementation",
+          "description": "Implement core business rules, validation, and processing logic",
+          "estimated_effort": "3-5 days",
+          "complexity_score": 4,
+          "artifacts_output": ["business_services", "validation_rules", "processing_logic"],
+          "validation_criteria": ["Business rules validated", "Edge cases handled"],
+          "internal_dependencies": ["_crud_endpoints"],
+          "agent_profile": "backend_developer"
+        }
+      ]
+    },
+
+    "frontend": {
+      "description": "Frontend UI development tasks",
+      "base_complexity": 3,
+      "tasks": [
+        {
+          "id_suffix": "_component_library",
+          "name": "UI Component Library Setup",
+          "description": "Create reusable UI components, styling system, and design tokens",
+          "estimated_effort": "2-3 days", 
+          "complexity_score": 3,
+          "artifacts_output": ["component_library", "style_guide", "design_tokens"],
+          "validation_criteria": ["Components reusable", "Consistent styling"],
+          "internal_dependencies": [],
+          "agent_profile": "frontend_developer"
+        },
+        {
+          "id_suffix": "_routing_navigation",
+          "name": "Routing and Navigation",
+          "description": "Set up client-side routing, navigation menus, and page structure",
+          "estimated_effort": "1 day",
+          "complexity_score": 2,
+          "artifacts_output": ["routing_config", "navigation_components", "page_layouts"],
+          "validation_criteria": ["Navigation intuitive", "Routes work correctly"],
+          "internal_dependencies": ["_component_library"],
+          "agent_profile": "frontend_developer"
+        },
+        {
+          "id_suffix": "_user_interfaces",
+          "name": "Core User Interface Implementation",
+          "description": "Build main user interfaces, forms, and interactive components",
+          "estimated_effort": "3-5 days",
+          "complexity_score": 4,
+          "artifacts_output": ["user_forms", "data_displays", "interactive_components"],
+          "validation_criteria": ["UI responsive", "Accessibility standards met"],
+          "internal_dependencies": ["_component_library", "_routing_navigation"],
+          "agent_profile": "frontend_developer"
+        },
+        {
+          "id_suffix": "_state_management",
+          "name": "Client State Management",
+          "description": "Implement state management, data caching, and client-side data flow",
+          "estimated_effort": "2-3 days",
+          "complexity_score": 3,
+          "artifacts_output": ["state_store", "data_cache", "state_actions"],
+          "validation_criteria": ["State updates predictable", "Performance optimized"],
+          "internal_dependencies": ["_user_interfaces"],
+          "agent_profile": "frontend_developer"
+        }
+      ]
+    },
+
+    "integration": {
+      "description": "Frontend-backend integration tasks",
+      "base_complexity": 3,
+      "tasks": [
+        {
+          "id_suffix": "_api_client",
+          "name": "API Client Implementation",
+          "description": "Create HTTP client, request interceptors, and error handling",
+          "estimated_effort": "1-2 days",
+          "complexity_score": 3,
+          "artifacts_output": ["api_client", "request_interceptors", "error_handlers"],
+          "validation_criteria": ["API calls successful", "Errors handled gracefully"],
+          "internal_dependencies": [],
+          "agent_profile": "fullstack_developer"
+        },
+        {
+          "id_suffix": "_data_binding",
+          "name": "Data Binding and Synchronization",
+          "description": "Connect frontend components to backend data with real-time updates",
+          "estimated_effort": "2-3 days",
+          "complexity_score": 4,
+          "artifacts_output": ["data_connectors", "sync_mechanisms", "update_handlers"],
+          "validation_criteria": ["Data stays synchronized", "Real-time updates work"],
+          "internal_dependencies": ["_api_client"],
+          "agent_profile": "fullstack_developer"
+        },
+        {
+          "id_suffix": "_auth_integration",
+          "name": "Authentication Flow Integration",
+          "description": "Integrate frontend login/logout with backend authentication system",
+          "estimated_effort": "1-2 days",
+          "complexity_score": 3,
+          "artifacts_output": ["login_flows", "auth_guards", "session_management"],
+          "validation_criteria": ["Login/logout works", "Protected routes secured"],
+          "internal_dependencies": ["_api_client"],
+          "agent_profile": "fullstack_developer"
+        }
+      ]
+    },
+
+    "testing": {
+      "description": "Testing and quality assurance tasks",
+      "base_complexity": 2,
+      "tasks": [
+        {
+          "id_suffix": "_unit_tests",
+          "name": "Unit Test Implementation",
+          "description": "Write comprehensive unit tests for business logic and components",
+          "estimated_effort": "2-4 days",
+          "complexity_score": 3,
+          "artifacts_output": ["unit_test_suite", "test_coverage_report", "mock_data"],
+          "validation_criteria": ["95%+ code coverage", "All tests passing"],
+          "internal_dependencies": [],
+          "agent_profile": "qa_engineer"
+        },
+        {
+          "id_suffix": "_integration_tests",
+          "name": "Integration Test Suite",
+          "description": "Create tests for API endpoints, database operations, and service integration",
+          "estimated_effort": "2-3 days",
+          "complexity_score": 4,
+          "artifacts_output": ["integration_tests", "api_test_suite", "database_tests"],
+          "validation_criteria": ["All integrations tested", "Performance benchmarked"],
+          "internal_dependencies": [],
+          "agent_profile": "qa_engineer"
+        },
+        {
+          "id_suffix": "_e2e_tests",
+          "name": "End-to-End Test Automation",
+          "description": "Implement automated user journey tests and UI testing",
+          "estimated_effort": "2-3 days",
+          "complexity_score": 4,
+          "artifacts_output": ["e2e_test_suite", "user_journey_tests", "ui_automation"],
+          "validation_criteria": ["Critical paths tested", "Cross-browser compatibility"],
+          "internal_dependencies": [],
+          "agent_profile": "qa_engineer"
+        }
+      ]
+    },
+
+    "deployment": {
+      "description": "Deployment and infrastructure tasks",
+      "base_complexity": 3,
+      "tasks": [
+        {
+          "id_suffix": "_infrastructure_setup",
+          "name": "Infrastructure Configuration",
+          "description": "Set up hosting environment, databases, and networking",
+          "estimated_effort": "1-2 days",
+          "complexity_score": 3,
+          "artifacts_output": ["infrastructure_config", "deployment_scripts", "networking_setup"],
+          "validation_criteria": ["Environment stable", "Security configured"],
+          "internal_dependencies": [],
+          "agent_profile": "devops_engineer"
+        },
+        {
+          "id_suffix": "_ci_cd_pipeline",
+          "name": "CI/CD Pipeline Setup",
+          "description": "Create automated build, test, and deployment pipeline",
+          "estimated_effort": "1-2 days",
+          "complexity_score": 4,
+          "artifacts_output": ["pipeline_config", "build_scripts", "deployment_automation"],
+          "validation_criteria": ["Automated deployment works", "Tests run in pipeline"],
+          "internal_dependencies": ["_infrastructure_setup"],
+          "agent_profile": "devops_engineer"
+        },
+        {
+          "id_suffix": "_monitoring_setup",
+          "name": "Monitoring and Logging",
+          "description": "Set up application monitoring, logging, and alerting systems",
+          "estimated_effort": "1 day",
+          "complexity_score": 3,
+          "artifacts_output": ["monitoring_config", "logging_setup", "alert_rules"],
+          "validation_criteria": ["Metrics collected", "Alerts functional"],
+          "internal_dependencies": ["_infrastructure_setup"],
+          "agent_profile": "devops_engineer"
+        }
+      ]
+    }
+  },
+
+  "complexity_adjustments": {
+    "description": "Task count and effort adjustments based on project complexity",
+    "Baja": {
+      "task_multiplier": 0.7,
+      "effort_reduction": 0.8,
+      "skip_optional": true
+    },
+    "Media": {
+      "task_multiplier": 1.0,
+      "effort_reduction": 1.0,
+      "skip_optional": false
+    },
+    "Alta": {
+      "task_multiplier": 1.3,
+      "effort_reduction": 1.2,
+      "skip_optional": false
+    }
+  },
+
+  "domain_adjustments": {
+    "description": "Domain-specific adjustments to task generation",
+    "web": {
+      "priority_phases": ["design", "backend", "frontend", "integration"],
+      "optional_phases": ["testing", "deployment"]
+    },
+    "api": {
+      "priority_phases": ["design", "backend", "testing"],
+      "optional_phases": ["frontend", "integration", "deployment"]
+    },
+    "data": {
+      "priority_phases": ["design", "backend", "testing"],
+      "optional_phases": ["frontend", "deployment"]
+    },
+    "mobile": {
+      "priority_phases": ["design", "frontend", "integration", "testing"],
+      "optional_phases": ["backend", "deployment"]
+    }
+  }
+}

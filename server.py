@@ -117,86 +117,49 @@ class MCPServer:
         if tool_name not in self.tools:
             raise ValueError(f"Unknown tool: {tool_name}")
         
-        # For now, return a mock response that validates StrategyResponse schema
-        # This will be replaced with actual tool implementation in next phase
+        # Execute actual strategy-architect tool with Motor de Estrategias integration
         if tool_name == "strategy-architect":
-            return self._mock_strategy_architect_response(arguments)
+            return self._execute_strategy_architect(arguments)
         
         raise ValueError(f"Tool {tool_name} not yet implemented")
     
-    def _mock_strategy_architect_response(self, arguments: Dict[str, Any]) -> Dict[str, Any]:
-        """Mock strategy-architect response for server validation.
+    def _execute_strategy_architect(self, arguments: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute strategy-architect workflow with actual Motor de Estrategias integration.
         
+        Replaces mock implementation with real 4-phase workflow orchestration.
         Following Principio Rector #1: Must return valid StrategyResponse.
-        This is a temporary implementation for server testing.
         """
-        task_description = arguments.get("task_description", "")
-        
-        # Create a valid StrategyResponse following Universal Response Schema
-        mock_response = StrategyResponse[BasePayload](
-            strategy={
-                "name": "mock-strategy-architect",
-                "version": "0.1.0",
-                "type": "analysis"
-            },
-            user_facing={
-                "summary": f"Mock analysis of: {task_description[:50]}...",
-                "key_points": [
-                    "Server is responding correctly",
-                    "StrategyResponse schema validation working",
-                    "Ready for actual tool implementation"
-                ],
-                "next_steps": [
-                    "Implement actual strategy-architect logic",
-                    "Add internal workflow functions"
-                ]
-            },
-            claude_instructions={
-                "execution_type": "immediate",
-                "actions": [
+        try:
+            # Extract arguments
+            task_description = arguments.get("task_description", "")
+            analysis_result = arguments.get("analysis_result")
+            decomposition_result = arguments.get("decomposition_result")
+            workflow_stage = arguments.get("workflow_stage")
+            
+            if not task_description:
+                raise ValueError("task_description is required")
+            
+            # Execute actual workflow
+            from tools.strategy_architect import execute_architect_workflow
+            response = execute_architect_workflow(
+                task_description=task_description,
+                analysis_result=analysis_result,
+                decomposition_result=decomposition_result,
+                workflow_stage=workflow_stage
+            )
+            
+            # Return MCP-compliant response
+            return {
+                "content": [
                     {
-                        "type": "mock_analysis",
-                        "description": "Mock analysis action for server validation",
-                        "priority": 1,
-                        "validation_criteria": "Server responds with valid StrategyResponse"
+                        "type": "text",
+                        "text": json.dumps(response.model_dump(), indent=2)
                     }
-                ]
-            },
-            payload=BasePayload(
-                workflow_stage="analysis",
-                suggested_next_state={
-                    "continue_workflow": False,
-                    "next_step": "implement_actual_tool",
-                    "context_to_maintain": {
-                        "server_validation": "successful",
-                        "schema_compliance": "verified"
-                    }
-                }
-            ),
-            metadata={
-                "confidence_score": 0.95,
-                "complexity_score": 1,
-                "estimated_duration": "immediate",
-                "performance_hints": [
-                    "Server is functioning correctly",
-                    "Schema validation working"
-                ],
-                "learning_opportunities": [
-                    "Server implementation validated",
-                    "Ready for tool development"
                 ]
             }
-        )
-        
-        # Return as dict for JSON-RPC response
-        return {
-            "content": [
-                {
-                    "type": "text",
-                    "text": json.dumps(mock_response.model_dump(), indent=2)
-                }
-            ]
-        }
+        except Exception as e:
+            # Proper error handling following JSON-RPC 2.0
+            raise ValueError(f"Strategy-architect execution failed: {str(e)}")
     
     def handle_request(self, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Handle incoming JSON-RPC request.
