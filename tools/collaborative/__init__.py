@@ -1,24 +1,15 @@
-"""Collaborative Intelligence Module for Phase 2.7.
+"""Collaborative Intelligence Module - Phase 2.8.4-Prep Consolidation.
 
-This module implements hybrid collaborative intelligence that combines
-the deterministic reliability of the Motor de Estrategias with the
-adaptive intelligence of Claude for enhanced strategic analysis.
+This module implements unified collaborative intelligence through the
+CollaborativeWorkflowController. Legacy delegation components have been
+eliminated in Phase 2.8.4-Prep consolidation.
 
 Key Components:
-- WorkflowController: Orchestrates collaborative multi-step workflows
-- DelegationEngine: Handles delegation to Claude intelligence
-- CollaborationDetector: Identifies optimal collaboration points
-- ResultIntegrator: Merges Claude refinements with deterministic analysis
+- WorkflowController: Unified collaborative workflow orchestrator
 """
 
 from .workflow_controller import CollaborativeWorkflowController
-from .delegation_engine import DelegationEngine
-from .collaboration_detector import CollaborationDetector
-from .result_integrator import ResultIntegrator
 
 __all__ = [
-    "CollaborativeWorkflowController",
-    "DelegationEngine", 
-    "CollaborationDetector",
-    "ResultIntegrator"
+    "CollaborativeWorkflowController"
 ]

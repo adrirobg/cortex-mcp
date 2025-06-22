@@ -4,7 +4,7 @@ These schemas define the structured data returned by the strategy-architect tool
 Following the Universal Response Schema pattern with strict Pydantic validation.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Literal
 from pydantic import BaseModel, Field
 from enum import Enum
 
@@ -17,16 +17,47 @@ class WorkflowStage(str, Enum):
     MISSION_MAP = "mission_map"
     COMPLETE = "complete"
     READY_FOR_EXECUTION = "ready_for_execution"
+    CLARIFICATION_NEEDED = "clarification_needed"
+
+
+class StageCompletionStatus(str, Enum):
+    """Completion status for workflow stages."""
+    COMPLETED = "completed"
+    PARTIAL = "partial" 
+    ERROR = "error"
+
+
+class DomainAnalysisContext(BaseModel):
+    """Context information from domain analysis."""
+    detected_keywords: Dict[str, List[str]] = Field(..., description="Keywords detected per domain")
+    technology_indicators: List[str] = Field(..., description="Technology stack indicators found")
+    complexity_assessment: str = Field(..., description="Complexity level assessment")
+    confidence_breakdown: Dict[str, float] = Field(..., description="Confidence scores per domain")
+
+
+class DomainOption(BaseModel):
+    """Domain classification option with confidence and evidence."""
+    domain_id: str = Field(..., description="Domain identifier")
+    domain_name: str = Field(..., description="Human-readable domain name")
+    confidence_score: float = Field(..., ge=0.0, le=1.0, description="Confidence score (0.0-1.0)")
+    supporting_evidence: List[str] = Field(..., description="Evidence supporting this classification")
+    potential_concerns: List[str] = Field(default=[], description="Potential concerns or limitations")
 
 
 class AnalysisResult(BaseModel):
-    """Result of project analysis phase."""
+    """Result of project analysis phase with enhanced domain intelligence."""
     keywords: List[str] = Field(..., description="Extracted keywords from project description")
     patterns: List[str] = Field(..., description="Identified project patterns")
     complexity: str = Field(..., description="Assessed complexity level")
     requirements_implicit: List[str] = Field(..., description="Implicit requirements discovered")
     domain: Optional[str] = Field(None, description="Project domain classification")
     technology_stack: Optional[List[str]] = Field(None, description="Suggested technology stack")
+    
+    # Phase 2.8.2: Domain Intelligence Enhancement
+    domain_analysis_context: Optional[DomainAnalysisContext] = Field(None, description="Multi-dimensional domain analysis context")
+    domain_confidence_scores: Optional[Dict[str, float]] = Field(None, description="Confidence scores for each domain")
+    recommended_domain: Optional[str] = Field(None, description="Recommended domain based on analysis")
+    domain_decision_rationale: Optional[str] = Field(None, description="Rationale for domain decision")
 
 
 class Phase(BaseModel):
@@ -123,6 +154,11 @@ class ArchitectPayload(BaseModel):
     continue_workflow: Optional[bool] = Field(None, description="Whether workflow should continue")
     next_step: Optional[str] = Field(None, description="Next step to execute")
     estimated_completion: Optional[str] = Field(None, description="Estimated completion time")
+    
+    # Phase 2.8.1: Stage-based execution enhancements
+    current_stage: Optional[str] = Field(None, description="String indicating which stage was executed")
+    stage_completion_status: Optional[StageCompletionStatus] = Field(None, description="Completion status of the current stage")
+    next_stage_requirements: Optional[List[str]] = Field(None, description="List of required inputs for next stage")
     
     model_config = {
         "extra": "forbid",

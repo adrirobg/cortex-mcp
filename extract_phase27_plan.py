@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Extractor de plan para Fase 2.7 usando CortexMCP Strategy-Architect."""
 
-from tools.strategy_architect import execute_architect_workflow
+from tools.architect_unified import execute_architect_workflow
 import json
 
 def main():

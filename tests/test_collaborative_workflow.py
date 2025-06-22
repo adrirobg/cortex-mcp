@@ -13,8 +13,8 @@ import os
 from unittest.mock import patch, MagicMock
 from typing import Dict, Any
 
-from tools.strategy_architect_collaborative import (
-    execute_collaborative_architect_workflow,
+from tools.architect_unified import (
+    execute_architect_workflow,
     execute_architect_workflow_enhanced
 )
 from schemas.universal_response import (
@@ -44,7 +44,7 @@ class TestCollaborativeWorkflow:
     
     def test_collaborative_workflow_initialization(self, sample_task_description):
         """Test that collaborative workflow initializes correctly."""
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=sample_task_description,
             collaboration_mode="enabled"
         )
@@ -59,7 +59,7 @@ class TestCollaborativeWorkflow:
     
     def test_deterministic_fallback(self, simple_task_description):
         """Test fallback to deterministic workflow for simple tasks."""
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=simple_task_description,
             collaboration_mode="disabled"
         )
@@ -74,7 +74,7 @@ class TestCollaborativeWorkflow:
     def test_workflow_continuation_with_refinement(self, sample_task_description):
         """Test workflow continuation after Claude refinement."""
         # First, get preliminary analysis
-        preliminary_result = execute_collaborative_architect_workflow(
+        preliminary_result = execute_architect_workflow(
             task_description=sample_task_description,
             collaboration_mode="enabled"
         )
@@ -89,7 +89,7 @@ class TestCollaborativeWorkflow:
         }
         
         # Continue workflow with refinement
-        final_result = execute_collaborative_architect_workflow(
+        final_result = execute_architect_workflow(
             task_description=sample_task_description,
             refined_analysis=refined_analysis,
             collaboration_mode="enabled"
@@ -108,7 +108,7 @@ class TestCollaborativeWorkflow:
         """Test collaboration detection for different task types."""
         # Complex task should trigger collaboration
         complex_task = "Enterprise microservices platform with advanced ML capabilities"
-        complex_result = execute_collaborative_architect_workflow(
+        complex_result = execute_architect_workflow(
             task_description=complex_task,
             collaboration_mode="auto"
         )
@@ -116,7 +116,7 @@ class TestCollaborativeWorkflow:
         
         # Simple task should use deterministic workflow
         simple_task = "Basic web app"
-        simple_result = execute_collaborative_architect_workflow(
+        simple_result = execute_architect_workflow(
             task_description=simple_task,
             collaboration_mode="auto"
         )
@@ -126,7 +126,7 @@ class TestCollaborativeWorkflow:
     
     def test_delegation_context_structure(self, sample_task_description):
         """Test delegation context structure and content."""
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=sample_task_description,
             collaboration_mode="enabled"
         )
@@ -143,7 +143,7 @@ class TestCollaborativeWorkflow:
     
     def test_claude_instructions_for_collaboration(self, sample_task_description):
         """Test Claude instructions structure for collaborative workflow."""
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=sample_task_description,
             collaboration_mode="enabled"
         )
@@ -182,14 +182,14 @@ class TestCollaborativeWorkflow:
         """Test environment variable override for collaboration mode."""
         # Test disabled mode
         with patch.dict(os.environ, {"CORTEX_COLLABORATION_MODE": "disabled"}):
-            result = execute_collaborative_architect_workflow(
+            result = execute_architect_workflow(
                 task_description=sample_task_description
             )
             assert result.collaboration_mode is False
         
         # Test enabled mode
         with patch.dict(os.environ, {"CORTEX_COLLABORATION_MODE": "enabled"}):
-            result = execute_collaborative_architect_workflow(
+            result = execute_architect_workflow(
                 task_description=sample_task_description
             )
             assert result.collaboration_mode is True
@@ -198,17 +198,17 @@ class TestCollaborativeWorkflow:
         """Test error handling in collaborative workflow."""
         # Test empty task description
         with pytest.raises(ValueError, match="task_description cannot be empty"):
-            execute_collaborative_architect_workflow(task_description="")
+            execute_architect_workflow(task_description="")
         
         # Test None task description
         with pytest.raises(ValueError):
-            execute_collaborative_architect_workflow(task_description=None)
+            execute_architect_workflow(task_description=None)
     
     def test_trace_id_propagation(self, sample_task_description):
         """Test trace ID propagation through collaborative workflow."""
         custom_trace_id = "test-trace-12345"
         
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=sample_task_description,
             trace_id=custom_trace_id,
             collaboration_mode="enabled"
@@ -221,7 +221,7 @@ class TestCollaborativeWorkflow:
     
     def test_debug_mode_functionality(self, sample_task_description):
         """Test debug mode provides additional information."""
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=sample_task_description,
             debug_mode=True,
             collaboration_mode="enabled"
@@ -235,7 +235,7 @@ class TestCollaborativeWorkflow:
     
     def test_collaboration_points_structure(self, sample_task_description):
         """Test collaboration points structure and content."""
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=sample_task_description,
             collaboration_mode="enabled"
         )
@@ -263,7 +263,7 @@ class TestPerformanceAndCompatibility:
         simple_task = "Create a basic web application"
         
         start_time = time.time()
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description=simple_task,
             collaboration_mode="disabled"  # Force deterministic path
         )
@@ -281,7 +281,7 @@ class TestPerformanceAndCompatibility:
         from schemas.universal_response import StrategyResponse
         
         # Test basic task
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description="Create a simple app",
             collaboration_mode="disabled"
         )
@@ -294,7 +294,7 @@ class TestPerformanceAndCompatibility:
     
     def test_payload_structure_preservation(self):
         """Test that ArchitectPayload structure is preserved."""
-        result = execute_collaborative_architect_workflow(
+        result = execute_architect_workflow(
             task_description="Create a web application",
             collaboration_mode="disabled"
         )

@@ -182,7 +182,7 @@ class TestServerErrorHandling:
     def test_strategy_architect_internal_error_handling(self):
         """Test internal error handling in strategy-architect."""
         # Mock the internal workflow to raise an exception
-        with patch('tools.strategy_architect.execute_architect_workflow') as mock_workflow:
+        with patch('tools.architect_unified.execute_architect_workflow') as mock_workflow:
             mock_workflow.side_effect = Exception("Internal workflow error")
             
             with pytest.raises(ValueError, match="Strategy-architect execution failed"):

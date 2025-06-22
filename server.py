@@ -76,14 +76,13 @@ def strategy_architect(
             raise ValueError(f"Invalid workflow_stage: {workflow_stage}. Must be one of: analysis, decomposition, task_graph, mission_map, complete")
         
         # Execute collaborative workflow (Phase 2.7)
-        from tools.strategy_architect_collaborative import execute_collaborative_architect_workflow
-        response = execute_collaborative_architect_workflow(
+        from tools.architect_unified import execute_architect_workflow
+        response = execute_architect_workflow(
             task_description=task_description,
             analysis_result=analysis_result,
             decomposition_result=decomposition_result,
             workflow_stage=workflow_stage,
-            debug_mode=debug_mode,
-            collaboration_mode="disabled"
+            debug_mode=debug_mode
         )
         
         # Return StrategyResponse as JSON string

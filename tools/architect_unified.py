@@ -20,21 +20,20 @@ from tools.collaborative.workflow_controller import CollaborativeWorkflowControl
 from utils.logger import strategy_logger, generate_trace_id
 
 
-def execute_collaborative_architect_workflow(
+def execute_architect_workflow(
     task_description: str,
     analysis_result: Optional[Dict[str, Any]] = None,
     decomposition_result: Optional[Dict[str, Any]] = None,
     workflow_stage: Optional[str] = None,
     refined_analysis: Optional[Dict[str, Any]] = None,
     trace_id: Optional[str] = None,
-    debug_mode: bool = False,
-    collaboration_mode: Optional[str] = None
+    debug_mode: bool = False
 ) -> CollaborativeStrategyResponse[ArchitectPayload]:
-    """Execute collaborative strategy-architect workflow with Claude intelligence.
+    """Execute unified strategy-architect workflow with collaborative intelligence.
     
-    This is the main entry point for the Phase 2.7 enhanced strategy-architect
-    that supports hybrid collaborative intelligence while maintaining full
-    backward compatibility.
+    This is the unified entry point for CortexMCP strategy-architect that always
+    uses collaborative intelligence. Traditional workflow system has been eliminated
+    in Phase 2.8.4-Prep consolidation.
     
     Args:
         task_description: Project description to analyze
@@ -44,7 +43,6 @@ def execute_collaborative_architect_workflow(
         refined_analysis: Claude-refined analysis (for collaboration continuation)
         trace_id: Optional trace ID for request correlation
         debug_mode: Enable debug information in response
-        collaboration_mode: Override collaboration behavior ("auto", "enabled", "disabled")
         
     Returns:
         CollaborativeStrategyResponse with workflow results and collaboration context
@@ -65,19 +63,18 @@ def execute_collaborative_architect_workflow(
         )
         raise ValueError("task_description cannot be empty")
     
-    # Determine collaboration mode
-    collaboration_enabled = _determine_collaboration_mode(collaboration_mode)
+    # Always use collaborative intelligence (Phase 2.8.4-Prep consolidation)
+    collaboration_enabled = True
     
     # Log workflow initiation
     strategy_logger.info(
-        "collaborative_architect_initiated",
-        f"Enhanced strategy-architect initiated",
+        "unified_architect_initiated",
+        f"Unified strategy-architect initiated with collaborative intelligence",
         trace_id=trace_id,
         context={
             "collaboration_enabled": collaboration_enabled,
             "stage": workflow_stage or "auto_detect",
-            "has_refined_analysis": bool(refined_analysis),
-            "collaboration_mode": collaboration_mode or "auto"
+            "has_refined_analysis": bool(refined_analysis)
         }
     )
     
@@ -101,8 +98,8 @@ def execute_collaborative_architect_workflow(
         
         # Log successful completion
         strategy_logger.info(
-            "collaborative_architect_completed",
-            f"Enhanced strategy-architect completed: {result.collaboration_stage or 'deterministic'}",
+            "unified_architect_completed",
+            f"Unified strategy-architect completed: {result.collaboration_stage or 'collaborative'}",
             trace_id=trace_id,
             context={
                 "collaboration_used": result.collaboration_mode,
@@ -123,30 +120,8 @@ def execute_collaborative_architect_workflow(
         raise
 
 
-def _determine_collaboration_mode(collaboration_mode: Optional[str]) -> bool:
-    """Determine if collaboration should be enabled based on configuration.
-    
-    Args:
-        collaboration_mode: Override mode ("auto", "enabled", "disabled", None)
-        
-    Returns:
-        True if collaboration should be enabled, False otherwise
-    """
-    # Environment variable override
-    env_mode = os.getenv("CORTEX_COLLABORATION_MODE", "auto").lower()
-    
-    # Parameter override takes precedence
-    mode = collaboration_mode.lower() if collaboration_mode else env_mode
-    
-    if mode == "disabled":
-        return False
-    elif mode == "enabled":
-        return True
-    elif mode == "auto":
-        return True  # Default to enabled in auto mode for Phase 2.7
-    else:
-        # Unknown mode, default to enabled
-        return True
+# Function eliminated in Phase 2.8.4-Prep consolidation
+# Collaboration is now always enabled
 
 
 # Backward compatibility wrapper
@@ -175,20 +150,19 @@ def execute_architect_workflow_enhanced(
     Returns:
         CollaborativeStrategyResponse (backward compatible with StrategyResponse)
     """
-    return execute_collaborative_architect_workflow(
+    return execute_architect_workflow(
         task_description=task_description,
         analysis_result=analysis_result,
         decomposition_result=decomposition_result,
         workflow_stage=workflow_stage,
         refined_analysis=None,
         trace_id=trace_id,
-        debug_mode=debug_mode,
-        collaboration_mode="auto"
+        debug_mode=debug_mode
     )
 
 
 # Export main functions
 __all__ = [
-    "execute_collaborative_architect_workflow",
+    "execute_architect_workflow",
     "execute_architect_workflow_enhanced"
 ]

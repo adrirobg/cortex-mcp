@@ -1,7 +1,7 @@
 {
   "project_name": "CortexMCP",
-  "version": "2.7",
-  "description": "Strategy Library MCP Server with Collaborative Intelligence",
+  "version": "2.8.4-prep",
+  "description": "Strategy Library MCP Server - Architecture Consolidation for Unified Collaborative Workflows",
   "knowledge_management": {
     "version": "1.0.0-mvp",
     "created_date": "2025-06-21",
@@ -13,7 +13,8 @@
     ".cortex/planning/": "Strategy-architect generated planning documents", 
     ".cortex/ideas/": "Improvement tracking and metrics",
     ".cortex/phases/": "Phase documentation with lessons learned",
-    ".cortex/config/": "Project profile and configuration"
+    ".cortex/config/": "Project profile and configuration",
+    ".cortex/sessions/": "Session state snapshots for context recovery"
   },
   "ia_ia_collaboration": {
     "enabled": true,
@@ -22,6 +23,19 @@
     "last_session": "2025-06-21",
     "outcome": "architectural_refundation_planned"
   },
-  "current_phase": ".cortex/planning/Knowledge_Management_MVP_Phase1_Preparation.json",
-  "next_phase": ".cortex/planning/Phase1_Preparation_Document.json"
+  "current_phase": "Phase 2.8.4-Prep - Architecture Consolidation PLANNED",
+  "next_phase": "Phase 2.8.4 - Enhanced Clarification Workflows",
+  "session_management": {
+    "current_session": ".cortex/sessions/current_session.md",
+    "last_updated": "2025-06-22 19:00:00",
+    "last_retrospective": ".cortex/retrospectives/2025-06-22_phase_282_domain_intelligence_mvp_implementation.md",
+    "last_implementation": ".cortex/planning/Phase2.8.4-Prep_WorkflowConsolidation_Preparation.json",
+    "phase_283_status": "COMPLETED - Collaboration Point MVP operational",
+    "phase_284_prep_status": "PLANNED - Architecture consolidation documented and ready for implementation",
+    "slash_commands": {
+      "save_session": "/project:save-session [status]",
+      "recover_session": "/project:recover-session",
+      "continue_phase": "/project:continue-phase [context]"
+    }
+  }
 }

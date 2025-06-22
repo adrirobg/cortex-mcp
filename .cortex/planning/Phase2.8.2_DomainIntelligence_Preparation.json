@@ -1,0 +1,410 @@
+{
+  "strategy": {
+    "name": "phase-2.8.2-domain-intelligence-mvp",
+    "version": "2.8.2",
+    "type": "execution"
+  },
+  "user_facing": {
+    "summary": "🧠 Phase 2.8.2: Collaborative Domain Intelligence MVP Implementation - Transform hardcoded domain classification into intelligent collaboration between MCP and Claude",
+    "visualization": "```mermaid\nsequenceDiagram\n    participant Claude\n    participant MCP\n    participant User\n    \n    Note over Claude,MCP: Current State (Problematic)\n    Claude->>MCP: strategy-architect(description)\n    MCP->>MCP: hardcoded_domain_detection()\n    Note right of MCP: Returns incorrect 'mobile' domain\n    MCP-->>Claude: Fixed domain_id (WRONG)\n    \n    Note over Claude,User: Target State (Collaborative)\n    Claude->>MCP: strategy-architect(stage=\"analysis\")\n    MCP->>MCP: multi_dimensional_heuristics()\n    MCP-->>Claude: decision_point + domain_options\n    \n    Claude->>Claude: evaluate_with_context()\n    alt High Confidence\n        Claude->>Claude: auto_select_domain()\n    else Low Confidence\n        Claude->>User: request_clarification()\n        User-->>Claude: domain_guidance\n    end\n    \n    Claude->>MCP: strategy-architect(domain_decision)\n    MCP-->>Claude: enhanced_analysis_with_context\n```",
+    "key_points": [
+      "🎯 **Core Problem**: Current system incorrectly classified Phase 2.8.2 as 'mobile' domain",
+      "⚙️ **Solution**: MCP presents domain options, Claude decides with full context",
+      "🔄 **Collaboration**: decision_points pattern enables intelligent domain selection",
+      "📊 **Multi-dimensional**: Keywords + patterns + complexity + technology indicators",
+      "🧪 **Validation**: Comprehensive testing ensures heuristic accuracy and collaborative flow"
+    ],
+    "next_steps": [
+      "1. Create domain_heuristics.py with multi-dimensional analysis",
+      "2. Enhance AnalysisResult schema with domain_analysis_context",
+      "3. Implement decision_points for domain selection in workflow_controller.py",
+      "4. Create comprehensive test suite for heuristic accuracy",
+      "5. Validate collaborative flow with edge cases and user consultation scenarios"
+    ]
+  },
+  "claude_instructions": {
+    "execution_type": "multi_step",
+    "actions": [
+      {
+        "type": "create_preparation_document",
+        "description": "Save this complete Domain Intelligence blueprint before execution begins",
+        "priority": 1,
+        "validation_criteria": "Phase preparation document exists and is referenceable for all subsequent actions",
+        "parameters": {
+          "file_path": ".cortex/planning/Phase2.8.2_DomainIntelligence_Preparation.json",
+          "content": "This complete StrategyResponse JSON",
+          "backup_location": "docs/phase2.8.2_preparation.md"
+        }
+      },
+      {
+        "type": "create_domain_heuristics_module",
+        "description": "Implement multi-dimensional domain analysis with confidence scoring",
+        "priority": 2,
+        "validation_criteria": "domain_heuristics.py correctly analyzes diverse project types with appropriate confidence scores",
+        "parameters": {
+          "file": "tools/architect/domain_heuristics.py",
+          "functions": [
+            "analyze_domain_indicators(task_description: str) -> DomainAnalysisResult",
+            "calculate_confidence_scores(indicators: dict) -> dict[str, float]",
+            "generate_domain_options(scores: dict, threshold: float = 0.3) -> list[DomainOption]"
+          ],
+          "analysis_dimensions": [
+            "keyword_analysis",
+            "technology_patterns",
+            "complexity_indicators",
+            "context_patterns",
+            "project_type_heuristics"
+          ]
+        }
+      },
+      {
+        "type": "enhance_analysis_result_schema",
+        "description": "Extend AnalysisResult to include domain analysis context and decision support",
+        "priority": 3,
+        "validation_criteria": "AnalysisResult schema supports domain analysis data and maintains backward compatibility",
+        "parameters": {
+          "file": "schemas/architect_payloads.py",
+          "new_fields": [
+            "domain_analysis_context: Optional[DomainAnalysisContext]",
+            "domain_confidence_scores: Optional[dict[str, float]]",
+            "detected_indicators: Optional[dict[str, list[str]]]"
+          ],
+          "backward_compatibility": "All existing fields remain optional and maintain default values"
+        }
+      },
+      {
+        "type": "implement_collaborative_domain_workflow",
+        "description": "Integrate domain analysis into workflow_controller with decision_points pattern",
+        "priority": 4,
+        "validation_criteria": "Analysis stage presents domain options via decision_points when domain confidence is unclear",
+        "parameters": {
+          "file": "tools/collaborative/workflow_controller.py",
+          "modifications": [
+            "Enhance _execute_analysis_stage() to include domain heuristics",
+            "Add domain_analysis_context to AnalysisResult payload",
+            "Generate decision_point when domain confidence < threshold",
+            "Support domain override in subsequent workflow calls"
+          ],
+          "collaboration_triggers": {
+            "low_confidence_threshold": 0.7,
+            "multi_domain_threshold": 0.4,
+            "unknown_patterns_threshold": 0.5
+          }
+        }
+      },
+      {
+        "type": "create_comprehensive_test_suite",
+        "description": "Develop tests for domain heuristics accuracy and collaborative workflow validation",
+        "priority": 5,
+        "validation_criteria": "All tests pass with >90% accuracy for domain classification and 100% collaborative flow coverage",
+        "parameters": {
+          "test_files": [
+            "tests/tools/architect/test_domain_heuristics.py",
+            "tests/test_collaborative_domain_workflow.py"
+          ],
+          "test_categories": [
+            "Domain classification accuracy for diverse project types",
+            "Confidence scoring validation",
+            "Collaborative workflow decision_points generation",
+            "Edge cases and unknown domain handling",
+            "User consultation scenarios",
+            "Backward compatibility validation"
+          ],
+          "test_data": [
+            {
+              "description": "Build an e-commerce platform with FastAPI backend and React frontend",
+              "expected_domain": "web_app",
+              "expected_confidence": "> 0.8"
+            },
+            {
+              "description": "Create slash commands for Claude Code integration with MCP protocol",
+              "expected_domain": "cli_tooling",
+              "expected_confidence": "> 0.7"
+            },
+            {
+              "description": "Implement Phase 2.8.2 Domain Intelligence MVP with collaborative domain detection",
+              "expected_domain": "system_architecture",
+              "expected_confidence": "> 0.6"
+            },
+            {
+              "description": "Build something cool",
+              "expected_domain": "general_software",
+              "expected_confidence": "< 0.3"
+            }
+          ]
+        }
+      },
+      {
+        "type": "validate_integration_and_performance",
+        "description": "Ensure domain intelligence integration maintains performance and backward compatibility",
+        "priority": 6,
+        "validation_criteria": "Performance impact < 5%, backward compatibility 100%, collaborative scenarios working correctly",
+        "parameters": {
+          "validation_criteria": [
+            "All existing tests continue to pass",
+            "Domain analysis adds < 100ms to analysis stage",
+            "decision_points are generated appropriately",
+            "Claude can override domain decisions effectively",
+            "User consultation flows work correctly"
+          ],
+          "performance_benchmarks": [
+            "Analysis stage with domain intelligence: < 2.5s",
+            "Domain heuristics calculation: < 100ms",
+            "decision_points generation: < 50ms"
+          ]
+        }
+      }
+    ],
+    "context_requirements": {
+      "required_tools": ["Edit", "Write", "Read", "Bash", "mcp__ide__executeCode"],
+      "required_info": [
+        "Current workflow_controller.py structure",
+        "Existing AnalysisResult schema definition",
+        "decision_points pattern implementation",
+        "Performance benchmarks from Phase 2.8.1"
+      ]
+    },
+    "decision_points": [
+      {
+        "id": "domain_confidence_thresholds",
+        "question": "What confidence thresholds should trigger collaborative domain selection?",
+        "options": [
+          {
+            "id": "conservative",
+            "description": "Low threshold (0.6) - More collaboration, higher accuracy",
+            "impact": "More user interaction, better domain classification"
+          },
+          {
+            "id": "balanced",
+            "description": "Medium threshold (0.7) - Balanced automation vs collaboration",
+            "impact": "Optimal balance of accuracy and user experience"
+          },
+          {
+            "id": "aggressive",
+            "description": "High threshold (0.8) - Less collaboration, faster execution",
+            "impact": "Fewer interruptions, potential for misclassification"
+          }
+        ],
+        "recommendation": "balanced",
+        "confidence": 0.85
+      },
+      {
+        "id": "heuristic_complexity",
+        "question": "How sophisticated should the multi-dimensional heuristics be?",
+        "options": [
+          {
+            "id": "simple",
+            "description": "Basic keyword + pattern matching (MVP approach)",
+            "impact": "Fast implementation, moderate accuracy"
+          },
+          {
+            "id": "advanced",
+            "description": "Multi-dimensional analysis with weighted scoring",
+            "impact": "Higher accuracy, more complex implementation"
+          }
+        ],
+        "recommendation": "advanced",
+        "confidence": 0.9
+      }
+    ],
+    "fallback_strategy": "If domain intelligence proves too complex, implement simplified version with manual domain override capability"
+  },
+  "payload": {
+    "workflow_stage": "preparation",
+    "preparation_details": {
+      "technical_specifications": {
+        "domain_heuristics_architecture": {
+          "core_module": "tools/architect/domain_heuristics.py",
+          "analysis_dimensions": {
+            "keyword_analysis": {
+              "description": "Multi-category keyword matching with weighted scoring",
+              "categories": [
+                "web_app: ['api', 'backend', 'frontend', 'database', 'fastapi', 'react']",
+                "cli_tooling: ['slash command', 'cli', 'command line', '.claude/commands', 'terminal']",
+                "system_architecture: ['mcp', 'server', 'protocol', 'architecture', 'refactor']",
+                "data_science: ['pipeline', 'analysis', 'model', 'data processing', 'ml']",
+                "infrastructure: ['deployment', 'kubernetes', 'docker', 'ci/cd', 'devops']"
+              ]
+            },
+            "technology_patterns": {
+              "description": "Technology stack detection and compatibility analysis",
+              "patterns": [
+                "python + fastapi + pydantic → web_app",
+                "python + mcp + server → system_architecture", 
+                "javascript + react + node → web_app",
+                "bash + cli + terminal → cli_tooling"
+              ]
+            },
+            "complexity_indicators": {
+              "description": "Project complexity assessment affecting domain confidence",
+              "factors": [
+                "description_length",
+                "technical_depth",
+                "integration_requirements",
+                "architectural_patterns"
+              ]
+            },
+            "context_patterns": {
+              "description": "Contextual clues beyond keywords",
+              "patterns": [
+                "mentions of existing codebase → system_architecture",
+                "user interface requirements → web_app", 
+                "automation and scripting → cli_tooling",
+                "data analysis and insights → data_science"
+              ]
+            }
+          },
+          "confidence_calculation": {
+            "weighted_scoring": "Each dimension contributes weighted score to final confidence",
+            "normalization": "Scores normalized to 0-1 range for consistent interpretation",
+            "threshold_based_decisions": "Multiple thresholds for different collaboration triggers"
+          }
+        },
+        "collaborative_workflow_integration": {
+          "analysis_stage_enhancement": {
+            "step_1": "Execute existing project analysis",
+            "step_2": "Run domain_heuristics.analyze_domain_indicators()",
+            "step_3": "Generate domain options with confidence scores",
+            "step_4": "Create decision_point if confidence below threshold",
+            "step_5": "Enhanced AnalysisResult with domain context"
+          },
+          "decision_point_structure": {
+            "id": "domain_selection",
+            "question": "Based on heuristic analysis, which domain best describes this project?",
+            "options": "Generated dynamically from domain analysis",
+            "recommendation": "Highest confidence domain above threshold",
+            "confidence": "Calculated from multi-dimensional analysis"
+          },
+          "claude_decision_integration": {
+            "auto_selection": "When confidence > threshold, Claude auto-selects recommended domain",
+            "collaborative_selection": "When confidence < threshold, Claude evaluates options with context",
+            "user_consultation": "When all domains have low confidence, Claude consults user",
+            "domain_override": "Claude can always override domain decision based on superior context"
+          }
+        },
+        "schema_enhancements": {
+          "DomainAnalysisContext": {
+            "detected_keywords": "dict[str, list[str]]",
+            "technology_indicators": "list[str]",
+            "complexity_assessment": "ComplexityMetrics",
+            "confidence_breakdown": "dict[str, float]"
+          },
+          "DomainOption": {
+            "domain_id": "str",
+            "domain_name": "str", 
+            "confidence_score": "float",
+            "supporting_evidence": "list[str]",
+            "potential_concerns": "list[str]"
+          },
+          "enhanced_AnalysisResult": {
+            "domain_analysis_context": "Optional[DomainAnalysisContext]",
+            "domain_confidence_scores": "Optional[dict[str, float]]",
+            "recommended_domain": "Optional[str]",
+            "domain_decision_rationale": "Optional[str]"
+          }
+        }
+      },
+      "implementation_order": [
+        {
+          "step": 1,
+          "task": "Create domain_heuristics.py with multi-dimensional analysis",
+          "duration": "45 minutes",
+          "files": ["tools/architect/domain_heuristics.py"],
+          "validation": "Correctly analyzes diverse project types with appropriate confidence scores"
+        },
+        {
+          "step": 2,
+          "task": "Enhance AnalysisResult schema with domain analysis fields",
+          "duration": "20 minutes",
+          "files": ["schemas/architect_payloads.py"],
+          "validation": "Schema supports domain analysis while maintaining backward compatibility"
+        },
+        {
+          "step": 3,
+          "task": "Integrate domain analysis into workflow_controller analysis stage",
+          "duration": "40 minutes",
+          "files": ["tools/collaborative/workflow_controller.py"],
+          "validation": "Analysis stage generates appropriate decision_points for domain selection"
+        },
+        {
+          "step": 4,
+          "task": "Create comprehensive test suite for domain heuristics and collaborative flow",
+          "duration": "45 minutes",
+          "files": ["tests/tools/architect/test_domain_heuristics.py", "tests/test_collaborative_domain_workflow.py"],
+          "validation": "Tests achieve >90% domain classification accuracy and 100% collaborative flow coverage"
+        },
+        {
+          "step": 5,
+          "task": "Validate integration, performance, and backward compatibility",
+          "duration": "20 minutes",
+          "files": ["All modified files"],
+          "validation": "Performance impact <5%, backward compatibility 100%, collaborative scenarios working"
+        }
+      ],
+      "risk_mitigation": {
+        "domain_classification_accuracy": "Comprehensive test suite with diverse project types and edge cases",
+        "performance_impact": "Efficient heuristics with caching and early returns for obvious classifications",
+        "backward_compatibility": "All new fields optional, existing workflows unchanged when domain not specified",
+        "user_experience": "Conservative confidence thresholds to avoid over-collaboration while ensuring accuracy"
+      }
+    },
+    "success_criteria": [
+      "✅ Domain heuristics achieve >90% classification accuracy on test dataset",
+      "✅ Collaborative workflow generates appropriate decision_points for unclear domain classifications",
+      "✅ Claude can effectively evaluate domain options and make informed decisions",
+      "✅ User consultation flow works correctly for low-confidence scenarios", 
+      "✅ Performance impact is minimal (<5% overhead for analysis stage)",
+      "✅ 100% backward compatibility maintained for existing workflows",
+      "✅ Comprehensive test coverage validates both heuristic accuracy and collaborative flow"
+    ],
+    "estimated_completion": "2.5 hours (2h implementation + 30min testing and validation)"
+  },
+  "metadata": {
+    "confidence_score": 0.95,
+    "complexity_score": 6,
+    "estimated_duration": "2.5 hours",
+    "performance_hints": [
+      "Use early returns in heuristics for obvious classifications",
+      "Cache domain analysis results for repeated task descriptions",
+      "Implement efficient keyword matching with compiled patterns"
+    ],
+    "learning_opportunities": [
+      "Multi-dimensional heuristic analysis techniques",
+      "Collaborative decision-making patterns in AI systems",
+      "Confidence-driven workflow automation strategies"
+    ]
+  },
+  "error_handling": {
+    "potential_errors": [
+      {
+        "scenario": "Domain heuristics fail to classify any known domain",
+        "recovery": "Default to 'general_software' domain with low confidence, trigger user consultation"
+      },
+      {
+        "scenario": "Multiple domains have similar high confidence scores",
+        "recovery": "Generate decision_point with all high-confidence options for Claude evaluation"
+      },
+      {
+        "scenario": "Domain analysis performance impact exceeds acceptable threshold",
+        "recovery": "Implement simplified heuristics with caching and early classification shortcuts"
+      }
+    ]
+  },
+  "debug_payload": {
+    "validation_examples": {
+      "incorrect_classification_demonstration": {
+        "input": "Implement Phase 2.8.2 Domain Intelligence MVP with collaborative domain detection architecture",
+        "current_system_output": {
+          "domain": "mobile",
+          "technology_stack": ["javascript", "java"],
+          "rationale": "Incorrectly classified based on primitive keyword matching"
+        },
+        "expected_improved_output": {
+          "domain": "system_architecture",
+          "technology_stack": ["python", "mcp", "pydantic"],
+          "rationale": "Correctly classified based on multi-dimensional analysis of architecture, refactoring, and MCP context"
+        }
+      }
+    }
+  }
+}

@@ -150,6 +150,7 @@ class DelegationType(str, Enum):
     OPTIMIZE_ASSIGNMENT = "optimize_assignment"
     CRITICAL_REVIEW = "critical_review"
     ARCHITECTURE_ALTERNATIVES = "architecture_alternatives"
+    EVALUATE_OPTIONS = "evaluate_options"  # Phase 2.8.2: Domain Intelligence
 
 
 class CollaborationPoint(BaseModel):

@@ -32,10 +32,13 @@ class TestCompleteSystemIntegration:
         
         This validates the complete workflow from the simulated strategy-architect plan.
         """
-        # Test tools/list returns strategy-architect
+        # Test tools/list returns all registered tools
         tools = asyncio.run(mcp_app.list_tools())
-        assert len(tools) == 1
-        assert tools[0].name == "strategy-architect"
+        assert len(tools) == 3  # strategy-architect, start-retrospective, process-retrospective
+        tool_names = [tool.name for tool in tools]
+        assert "strategy-architect" in tool_names
+        assert "start-retrospective" in tool_names  
+        assert "process-retrospective" in tool_names
         
         # Test strategy-architect tool execution
         response_json = strategy_architect(

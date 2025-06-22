@@ -1,0 +1,173 @@
+{
+  "phase_id": "2.8.3",
+  "phase_name": "Collaboration Point MVP Implementation",
+  "project_context": "CortexMCP Collaborative Intelligence Platform",
+  "generated_by": "dogfooding_strategy_architect",
+  "generated_on": "2025-06-22",
+  "confidence_level": 0.95,
+  "estimated_duration": "1.5 hours",
+  "description": "Implement clarification_needed workflow_stage that enables CortexMCP to intelligently request user clarification when domain confidence falls below threshold, improving collaboration quality through structured clarification workflows.",
+  
+  "objectives": {
+    "primary": "Enable intelligent collaboration triggers when CortexMCP encounters ambiguous project descriptions",
+    "secondary": [
+      "Implement clarification_needed workflow_stage handling",
+      "Add confidence-based trigger logic using Phase 2.8.2 domain heuristics",
+      "Create structured clarification request responses",
+      "Maintain 100% backward compatibility with existing workflows"
+    ]
+  },
+
+  "technical_scope": {
+    "core_files": [
+      "tools/collaborative/workflow_controller.py",
+      "schemas/universal_response.py", 
+      "schemas/architect_payloads.py",
+      "tools/architect/domain_heuristics.py"
+    ],
+    "test_files": [
+      "tests/test_collaborative_domain_workflow.py",
+      "tests/test_stage_based_workflow.py"
+    ],
+    "integration_points": [
+      "server.py inputSchema validation",
+      "existing domain_heuristics integration",
+      "StrategyResponse schema compliance"
+    ]
+  },
+
+  "implementation_plan": {
+    "phase_1": {
+      "name": "Schema Enhancement",
+      "duration": "10 minutes",
+      "description": "Add clarification_needed to existing WorkflowStage enum",
+      "tasks": [
+        {
+          "id": "schema_001",
+          "description": "Add CLARIFICATION_NEEDED to WorkflowStage enum in schemas/architect_payloads.py",
+          "file": "schemas/architect_payloads.py",
+          "validation": "Schema validates with new enum value",
+          "note": "AnalysisResult already has all domain intelligence fields from Phase 2.8.2"
+        }
+      ]
+    },
+    
+    "phase_2": {
+      "name": "Workflow Controller Enhancement",
+      "duration": "50 minutes", 
+      "description": "Implement clarification_needed stage handling in existing CollaborativeWorkflowController",
+      "tasks": [
+        {
+          "id": "workflow_001",
+          "description": "Add CLARIFICATION_NEEDED case to _execute_stage_based_workflow() method",
+          "file": "tools/collaborative/workflow_controller.py",
+          "validation": "Stage executes and returns structured clarification request"
+        },
+        {
+          "id": "workflow_002",
+          "description": "Create _execute_clarification_stage() method using existing analyze_domain_indicators()", 
+          "file": "tools/collaborative/workflow_controller.py",
+          "validation": "Uses DomainAnalysisResult.requires_collaboration from Phase 2.8.2"
+        },
+        {
+          "id": "workflow_003",
+          "description": "Implement clarification response generation using existing DomainOption structure",
+          "file": "tools/collaborative/workflow_controller.py", 
+          "validation": "User-facing guidance leverages existing domain analysis data"
+        }
+      ]
+    },
+
+    "phase_3": {
+      "name": "Testing & Validation",
+      "duration": "30 minutes",
+      "description": "Test clarification workflow integration with existing domain heuristics", 
+      "tasks": [
+        {
+          "id": "test_001",
+          "description": "Unit tests for _execute_clarification_stage() method",
+          "file": "tests/test_collaborative_domain_workflow.py",
+          "validation": "Uses existing domain_heuristics.analyze_domain_indicators() correctly"
+        },
+        {
+          "id": "test_002", 
+          "description": "Integration tests for CLARIFICATION_NEEDED workflow stage",
+          "file": "tests/test_stage_based_workflow.py",
+          "validation": "Stage triggers when requires_collaboration=True from Phase 2.8.2"
+        },
+        {
+          "id": "test_003",
+          "description": "End-to-end clarification scenario testing",
+          "file": "tests/test_collaborative_domain_workflow.py",
+          "validation": "Complete workflow from low confidence to clarification response"
+        }
+      ]
+    }
+  },
+
+  "confidence_trigger_logic": {
+    "threshold": 0.7,
+    "rationale": "Based on Phase 2.8.2 empirical data showing optimal balance between automation and collaboration",
+    "trigger_conditions": [
+      "domain_confidence < 0.7",
+      "multiple_domain_candidates with similar scores",
+      "insufficient_context_patterns detected"
+    ],
+    "clarification_types": [
+      "domain_selection",
+      "technology_stack_clarification", 
+      "project_scope_refinement",
+      "architecture_pattern_selection"
+    ]
+  },
+
+  "expected_response_structure": {
+    "workflow_stage": "clarification_needed",
+    "execution_type": "user_confirmation",
+    "user_facing": {
+      "summary": "Need clarification to provide optimal strategic planning",
+      "clarification_request": "Structured questions for user",
+      "domain_options": "Available domain classifications with explanations"
+    },
+    "payload": {
+      "clarification_context": "Analysis of ambiguity sources",
+      "suggested_domains": "Ranked domain options with confidence scores",
+      "next_steps": "How to proceed after clarification"
+    }
+  },
+
+  "backward_compatibility": {
+    "guaranteed": true,
+    "mechanism": "New workflow_stage is optional, defaults to existing behavior",
+    "validation": "All Phase 2.8.1 and 2.8.2 tests must continue passing"
+  },
+
+  "success_criteria": {
+    "functional": [
+      "Clarification workflow executes when domain_confidence < 0.7",
+      "User receives clear, actionable clarification requests", 
+      "System can continue workflow after receiving clarification",
+      "100% backward compatibility maintained"
+    ],
+    "technical": [
+      "Schema validation passes for all new types",
+      "Performance impact < 5ms for confidence evaluation",
+      "Test coverage > 95% for new functionality",
+      "Zero regressions in existing test suite"
+    ]
+  },
+
+  "integration_notes": {
+    "phase_282_dependency": "USES EXISTING: analyze_domain_indicators(), DomainAnalysisResult.requires_collaboration, DomainOption structure",
+    "phase_281_compatibility": "EXTENDS EXISTING: CollaborativeWorkflowController._execute_stage_based_workflow() method",
+    "existing_code_reuse": "AnalysisResult already has domain_analysis_context and domain_confidence_scores fields",
+    "future_extensibility": "Framework enables additional collaboration patterns in future phases"
+  },
+
+  "risk_mitigation": {
+    "scope_creep": "Strict 1.5-hour time limit, MVP-first approach",
+    "complexity_growth": "Use existing patterns from Phase 2.8.1 and 2.8.2",
+    "performance_impact": "Lightweight confidence evaluation, async execution",
+    "backward_compatibility": "Comprehensive regression testing required"
+  }
+}
