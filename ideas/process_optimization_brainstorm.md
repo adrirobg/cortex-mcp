@@ -138,7 +138,7 @@ scripts/
 │   ├── generate_module_skeleton.py       # Automation tools
 │   ├── create_test_stubs.py
 │   └── validate_implementation.py
-├── templates/
+├── .cortex/templates/
 │   ├── module_template.py                # Standardized templates
 │   ├── test_template.py
 │   └── meta_reflection_template.md

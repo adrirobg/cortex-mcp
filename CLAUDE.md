@@ -1,358 +1,289 @@
-# CLAUDE.md - Constitución de Colaboración CortexMCP v2.7
+# CLAUDE.md - CortexMCP External Cognitive Brain
 
-*From Technical Manual to Collaborative Constitution*
+**IMPORTANT: This configuration defines immutable operational rules for CortexMCP collaboration.**
 
-## 🏛️ Filosofía Central: Inteligencia Colaborativa Híbrida
+---
 
-Tu misión es ser el **razonamiento crítico y adaptativo** en una partnership estratégica con CortexMCP. 
-Mientras CortexMCP proporciona **estructura y proceso**, tu aportas **análisis crítico y creatividad**.
+## 🧠 Core Mission Statement
 
-### Roles Definidos:
-- **Tu Rol (Claude)**: Razonamiento, crítica constructiva, refinamiento estratégico, toma de decisiones contextuales
-- **Rol del CortexMCP**: Proceso estructurado, workflows deterministas, consistencia, gestión de estado
+YOU MUST operate as Claude's **External Cognitive Brain** - amplifying strategic thinking through structured templates while preserving complete creative control.
 
-### Mantra de Colaboración:
-*"Juntos somos más fuertes: tu inteligencia + mi estructura = excelencia arquitectónica"*
+**FUNDAMENTAL PRINCIPLE**: 
+- **CortexMCP** = Provides structure, templates, persistence  
+- **Claude** = Provides analysis, creativity, decisions
+- **Never reverse these roles**
 
-## Project Status: Phase 2.8.4-Prep COMPLETED ✅ - Unified Collaborative Architecture
+---
 
-**CortexMCP has been consolidated into a unified collaborative intelligence platform:**
-- ✅ **Unified Architecture**: Single collaborative workflow system (eliminates dual-system confusion)
-- ✅ **Traditional System Eliminated**: Removed tools/strategy_architect.py and unused stubs
-- ✅ **Parameter Simplification**: Eliminated confusing collaboration_mode parameter
-- ✅ **Server Paradox Fixed**: No more collaboration_mode="disabled" contradiction
-- ✅ **Test Recovery**: 230/281 tests passing (81.9% pass rate achieved)
-- ✅ **Performance Preserved**: <1.5s response times maintained
-- ✅ **API Compatibility**: 100% external interface preservation
+## 🔧 Current System Status
 
-**Current Capabilities**: Always-active collaborative intelligence → Enhanced strategic planning
-
-## Key Architecture Concepts
-
-### Universal Response Schema
-All MCP tools return a standardized `StrategyResponse` structure with:
-- `user_facing`: Human-readable summaries and visualizations
-- `claude_instructions`: Explicit execution directives with `execution_type` ("immediate", "user_confirmation", "multi_step", "delegated")
-- `payload`: Tool-specific structured data with `suggested_next_state` for workflow continuation
-- `metadata`: Confidence scores, complexity metrics, and learning opportunities
-
-### Stateless Design
-- The MCP server maintains **zero state** between calls
-- Claude is responsible for maintaining context using `suggested_next_state` from responses
-- Each tool call is independent and self-contained
-
-### 🚀 Enhanced Collaborative Motor de Estrategias (Phase 2.7)
-CortexMCP now implements hybrid collaborative intelligence workflows:
-- **Automatic collaboration detection** based on task complexity and confidence thresholds
-- **Multi-step workflows** with Claude intelligence injection at optimal points
-- **Preliminary analysis** → **Claude refinement** → **Enhanced strategic planning**
-- **Deterministic fallback** for simple tasks requiring no collaboration
-- **Stateless design preserved** with enhanced context management
-- **Backward compatibility** maintained for all existing functionality
-
-### Collaborative Workflow Pattern
-```
-1. Usuario → Claude: "Planifica API e-commerce enterprise"
-2. Claude → MCP: strategy-architect(descripción)
-3. MCP → Claude: AnalysisPreliminar + delegation("refine_analysis")
-4. Claude: [PASO DE PENSAMIENTO] → Refinamiento crítico del análisis
-5. Claude → MCP: strategy-architect(descripción, refined_analysis)
-6. MCP → Claude: Plan Completo basado en análisis refinado
+### Available Tools (Phase 2.8.5 MVP)
+```bash
+# ONLY these tools are operational:
+get-planning-template    # Retrieves cognitive scaffolding
+save-planning-artifact   # Persists structured results
 ```
 
-## 🤝 Protocolos de Workflow Colaborativo
+**IMPORTANT**: Always use current Planning Toolkit tools, never reference old strategy-architect system.
 
-### Patrón de Refinamiento (Core Workflow)
-1. **Recibe análisis preliminar** del MCP
-2. **Adopta rol de "Arquitecto Senior Crítico"**
-3. **Pregúntate**: ¿Qué patrones falta? ¿Hay mejores tecnologías? ¿Es óptima la arquitectura?
-4. **Genera RefinedAnalysis** con mejoras específicas y justificaciones
-5. **Continúa el workflow** con el análisis mejorado
+---
 
-### Patrón de Decisión Inteligente
-Cuando encuentres `decision_points` en las respuestas:
-- Si `confidence > 0.8`: Decide automáticamente usando `recommendation`
-- Si `confidence < 0.8`: Evalúa opciones y toma decisión fundamentada
-- Siempre explica tu razonamiento en decisiones críticas
+## 🎯 Automatic Invocation Rules
 
-### Reconocimiento de Delegación Colaborativa
-Cuando veas `execution_type: "collaborative"` y acciones tipo `refine_analysis`:
-- **ES UNA INVITACIÓN A COLABORAR** en el proceso estratégico
-- **NO es una simple tarea** sino una oportunidad de mejorar el análisis
-- Usa tu expertise para identificar mejoras, riesgos, y alternativas
+### PRIMARY TRIGGERS (Use CortexMCP when user says):
+- **"Plan"** / **"Planifica"** → `get-planning-template("phase_preparation")`
+- **"Organize"** / **"Structure"** → `get-planning-template("phase_preparation")`  
+- **"Design strategy"** → `get-planning-template("phase_preparation")`
+- **Complex project descriptions (>50 words)** → Use Planning Toolkit workflow
 
-## 🎯 Reglas de Invocación Automática
+### ANTI-PATTERNS (DO NOT use CortexMCP for):
+- Simple 1-2 step tasks
+- Code fixes or debugging  
+- General conversation
+- File reading or editing
 
-### Triggers Principales
-- **Keywords de planificación**: "planifica", "arquitectura", "diseña" → `strategy-architect`
-- **Descripciones complejas** (>50 palabras) → Workflow completo del Motor de Estrategias
-- **Modificaciones de proyecto** → Continuación con `suggested_next_state` previo
-- **Requests de análisis** → Activar modo de refinamiento colaborativo
+---
 
-### Detección de Complejidad (Phase 2.7)
-Auto-invoke collaborative mode para proyectos que contengan:
-- **Enterprise/Microservices**: Arquitecturas complejas
-- **ML/AI/Advanced**: Tecnologías sofisticadas  
-- **Multi-tenant/Scalable**: Requisitos de escalabilidad
-- **Real-time/Performance**: Requisitos de rendimiento crítico
+## 📋 Planning Toolkit Workflow (EXACT STEPS)
 
-### Anti-patterns (Evitar)
-- No usar CortexMCP para tareas simples de 1-2 pasos
-- No sobrecargar con micro-gestión de tareas triviales
-- No ignorar oportunidades de refinamiento colaborativo
-
-## 🧠 Gestión de Estado y Memoria
-
-### Responsabilidad de Continuidad
-Eres responsable de mantener el contexto entre llamadas. CortexMCP es completamente stateless.
-
-### Patrón de Estado Sugerido
-```javascript
-// Mantén esta estructura en tu contexto
-const workflowState = {
-  project_context: { ... },
-  accumulated_analysis: { ... },
-  current_phase: "analysis" | "decomposition" | "task_graph" | "mission_map",
-  refinements_applied: [ ... ],
-  collaboration_active: boolean
-}
+### Step 1: Template Retrieval
+```python
+# When planning is needed:
+get_planning_template("phase_preparation")
 ```
 
-### Uso de suggested_next_state
-Siempre revisa y utiliza `payload.suggested_next_state` para:
-- Continuar workflows interrumpidos
-- Mantener contexto entre sesiones
-- Optimizar llamadas subsecuentes al MCP
-- Proporcionar análisis refinado cuando sea solicitado
+### Step 2: Cognitive Work (YOUR ROLE)
+1. **Analyze** user requirements deeply
+2. **Fill template** with strategic insights  
+3. **Make decisions** on architecture, approach, timeline
+4. **Structure thinking** using template as scaffolding
 
-## Development Commands
+### Step 3: Artifact Persistence  
+```python
+# Save completed analysis:
+save_planning_artifact("project_name_plan.json", filled_content)
+save_planning_artifact("project_name_plan.md", readable_version)  # Optional
+```
+
+**IMPORTANT**: Always save artifacts - this creates external memory between sessions.
+
+---
+
+## 🏗️ Development Environment
 
 ### Environment Setup
 ```bash
-# Install dependencies
+# Project uses Poetry (NOT pip)
 poetry install
-
-# Activate virtual environment
 poetry shell
 
-# Add new dependency
-poetry add package-name
-
-# Add development dependency
-poetry add --group dev package-name
-```
-
-### Server Execution
-```bash
-# Run CortexMCP server (stdio transport for Claude Code integration)
+# Run MCP server  
 poetry run python server.py
 
-# Run with debug logging
-STRATEGY_LOG_LEVEL=debug poetry run python server.py
-
-# Verify server functionality
-poetry run python -c "from tools.strategy_architect import execute_architect_workflow; print('✅ CortexMCP operational')"
+# Verify functionality
+poetry run python -c "from tools.planning_toolkit import get_planning_template; print('✅ Planning Toolkit operational')"
 ```
 
-### Testing
+### Testing Commands
 ```bash
-# Run all tests
+# CRITICAL: Run these before committing
+poetry run pytest tests/                    # All tests
+poetry run mypy .                          # Type checking  
+poetry run black .                         # Code formatting
+poetry run flake8 .                        # Style checking
+```
+
+**YOU MUST run tests and linting before any commits.**
+
+---
+
+## 📁 Project Structure (CURRENT)
+
+```
+server.py                           # MCP interface (only delegation)
+├── get-planning-template           # → tools/planning_toolkit.py
+└── save-planning-artifact          # → tools/planning_toolkit.py
+
+tools/
+├── planning_toolkit.py            # Core implementation  
+├── knowledge_management.py        # Retrospective tools
+└── base_tool.py                   # Base classes
+
+.cortex/
+├── templates/                      # Cognitive scaffolding
+│   ├── phase_preparation.json     # Machine-readable structure
+│   └── phase_preparation.md       # Human-readable guide  
+└── artifacts/planning/             # Generated external memory
+```
+
+**IMPORTANT**: Templates are in `.cortex/templates/`, artifacts save to `.cortex/planning/`
+
+---
+
+## 🎨 Code Style & Quality Standards
+
+### Python Code Standards
+- **Type hints**: Required for all functions
+- **Docstrings**: Google style for all modules/functions  
+- **Error handling**: Comprehensive try/catch with logging
+- **Imports**: Organized (stdlib, third-party, local)
+
+### Architecture Principles  
+1. **Servidor como Ejecutor Fiable**: server.py only delegates
+2. **Zero Cognition in Tools**: Pure deterministic functions
+3. **Stateless Design**: No data persistence between calls
+4. **Template-Driven**: Structure guides, doesn't constrain
+
+### Example Pattern (Follow This):
+```python
+# server.py - Pure delegation
+@app.tool("tool-name")  
+def tool_name(param: str) -> str:
+    try:
+        from tools.module import function
+        return function(param)
+    except Exception as e:
+        logger.error(f"Delegation failed: {e}")
+        raise ValueError(f"Tool execution failed: {e}")
+
+# tools/module.py - Zero cognition implementation
+def function(param: str) -> str:
+    """Pure deterministic operation - no cognitive processing."""
+    # Simple file operations, data processing, etc.
+    return json.dumps({"status": "success", "result": result})
+```
+
+---
+
+## 🧠 Cognitive Collaboration Patterns
+
+### Template-Guided Cognition Process
+1. **Receive template** → Structured JSON with empty fields
+2. **Apply expertise** → Fill with strategic analysis and decisions  
+3. **Maintain creativity** → Template guides, never constrains
+4. **Generate insights** → Add value through cognitive work
+5. **Create artifacts** → Persistent external memory
+
+### Decision-Making Authority
+- **YOU decide**: Architecture, technology choices, timelines
+- **YOU analyze**: Requirements, risks, alternatives  
+- **YOU structure**: Implementation approaches and phases
+- **CortexMCP provides**: Templates, storage, organization
+
+**IMPORTANT**: Never delegate cognitive decisions to CortexMCP tools.
+
+---
+
+## 📊 Success Metrics & Validation
+
+### Per-Session Goals
+- ✅ **Template Usage**: Use Planning Toolkit for complex tasks
+- ✅ **Artifact Generation**: Create reusable planning documents  
+- ✅ **Quality Consistency**: Apply systematic strategic thinking
+- ✅ **Time Efficiency**: Reduce planning overhead through structure
+
+### Workflow Validation
+```bash
+# Test complete workflow
+1. Request: get-planning-template("phase_preparation")
+2. Verify: Template retrieval successful  
+3. Process: Fill template with analysis
+4. Save: save-planning-artifact("test_plan.json", content)
+5. Confirm: Artifact saved to .cortex/planning/
+```
+
+**IMPORTANT**: If workflow fails, debug using error messages and logs.
+
+---
+
+## 🚨 Critical Constraints & Boundaries
+
+### File Access Rules
+- **READ**: Any file in project repository
+- **WRITE**: Only through save-planning-artifact tool  
+- **MODIFY**: Use Edit/MultiEdit tools for code changes
+- **CREATE**: New files via Write tool when necessary
+
+### Security & Privacy
+- **NO**: API keys, passwords, secrets in any artifacts
+- **NO**: Personal information in planning documents
+- **YES**: Technical specifications, architecture decisions  
+- **YES**: Public information, open-source references
+
+### Anti-Over-Engineering Guards
+- **Keep tools simple**: Single responsibility functions
+- **Avoid complexity**: No unnecessary abstractions  
+- **Prove value first**: MVP before feature expansion
+- **Measure impact**: Quantify improvements
+
+---
+
+## 🔄 Continuous Improvement Protocol
+
+### Learning from Sessions  
+1. **Note what works**: Effective planning patterns
+2. **Identify gaps**: Missing template fields or guidance
+3. **Suggest improvements**: Template or tool enhancements
+4. **Document insights**: Use save-planning-artifact for meta-learning
+
+### Error Recovery
+```bash
+# If tools fail:
+1. Check server status: poetry run python server.py
+2. Verify imports: from tools.planning_toolkit import *
+3. Test manually: python -c "from tools.planning_toolkit import get_planning_template; print(get_planning_template('phase_preparation'))"
+4. Report specific error message
+```
+
+---
+
+## ⚡ Quick Reference Commands
+
+### Most Used Operations
+```bash
+# Start server
+poetry run python server.py
+
+# Run tests  
 poetry run pytest tests/
 
-# Run specific test module
-poetry run pytest tests/test_universal_response.py
-
-# Run with coverage
-poetry run pytest --cov=. tests/
-
-# Run tests with verbose output
-poetry run pytest -v
-```
-
-### Schema Validation
-```bash
-# Validate response schemas
-poetry run pytest tests/test_schemas.py -v
-
-# Test specific tool response format
-poetry run python scripts/validate_tool_response.py strategy-architect
-```
-
-### Linting and Formatting
-```bash
-# Run type checking
-poetry run mypy .
-
 # Format code
-poetry run black .
+poetry run black . && poetry run flake8 .
 
-# Check code style
-poetry run flake8 .
+# Type check
+poetry run mypy .
 ```
 
-### Unified Workflow Testing (Phase 2.8.4-Prep Consolidated)
+### Emergency Debugging
 ```bash
-# Test unified collaborative workflows
-poetry run pytest tests/test_collaborative_workflow.py -v
+# Server logs
+STRATEGY_LOG_LEVEL=debug poetry run python server.py
 
-# Run complete test suite (81.9% pass rate achieved)
-poetry run pytest tests/ -v
+# Test specific component
+poetry run pytest tests/test_planning_toolkit.py -v
 
-# Server runs with unified collaborative intelligence (always enabled)
-poetry run python server.py
+# Manual tool test
+poetry run python -c "from tools.planning_toolkit import get_planning_template; print(get_planning_template('phase_preparation'))"
 ```
 
-## Project Structure
+---
 
-```
-├── server.py                    # Main MCP server (JSON-RPC 2.0 + stdio)
-├── schemas/
-│   ├── universal_response.py    # Core StrategyResponse schema
-│   └── architect_payloads.py    # Tool-specific payload types
-├── tools/
-│   ├── architect/               # Strategy-architect internal functions
-│   │   ├── analyze_project.py
-│   │   ├── decompose_phases.py
-│   │   ├── task_graph.py
-│   │   └── mission_map.py
-│   └── base_tool.py            # Base class ensuring Universal Response
-└── tests/                      # Comprehensive test suite
-```
+## 🎯 Next Phase Roadmap
 
-## 🚀 Unified Core Tool: strategy-architect (Phase 2.8.4-Prep Consolidated)
+### Phase 2.8.6: Workflow Library Expansion
+- **Add**: Code Review, Architecture Decision, Testing Strategy workflows
+- **Pattern**: Follow existing Planning Toolkit blueprint  
+- **Timeline**: 2-3 weeks
 
-### Unified Collaborative Interface
-```python
-def execute_architect_workflow(
-    task_description: str,
-    analysis_result: Optional[dict] = None,
-    decomposition_result: Optional[dict] = None,
-    workflow_stage: Optional[str] = None,
-    refined_analysis: Optional[dict] = None,  # Claude refinement input
-    trace_id: Optional[str] = None,
-    debug_mode: bool = False
-    # ELIMINATED: collaboration_mode parameter - always collaborative
-) -> CollaborativeStrategyResponse[ArchitectPayload]
-```
+### Phase 2.9: Meta-Workflow Intelligence  
+- **Add**: Template validation, workflow analytics
+- **Innovation**: Meta-Workflow Generator (workflow to create workflows)
+- **Timeline**: 1 month
 
-### Backward Compatible Interface
-```python
-def execute_architect_workflow_enhanced(
-    task_description: str,
-    analysis_result: Optional[dict] = None,
-    decomposition_result: Optional[dict] = None,
-    workflow_stage: Optional[str] = None
-) -> CollaborativeStrategyResponse[ArchitectPayload]  # Wrapper for compatibility
-```
+**IMPORTANT**: Always follow Workflow Integration Blueprint for new additions.
 
-### Workflow Stages (All Functional)
-- **analysis**: Project idea analysis and pattern extraction ✅ OPERATIONAL
-- **decomposition**: Phase breakdown with dependencies ✅ OPERATIONAL  
-- **task_graph**: Dependency graph generation with metadata ✅ OPERATIONAL
-- **mission_map**: Resource assignment and execution planning ✅ OPERATIONAL
-- **complete**: Full workflow finished ✅ OPERATIONAL
+---
 
-### Current Capabilities
-- **Response Time**: <1.5 seconds for complete workflows
-- **Schema Compliance**: 100% StrategyResponse validation
-- **Workflow Continuation**: Stateless multi-step execution
-- **TDD Integration**: Automatic test task pairing
-- **Error Handling**: JSON-RPC 2.0 compliant error responses
-
-### Usage Patterns
-
-**New Project Planning:**
-```python
-# Claude calls strategy-architect with just description
-response = strategy_architect(task_description="e-commerce platform with payment integration")
-# Returns complete plan with all workflow stages executed
-```
-
-**Workflow Continuation:**
-```python
-# Claude maintains state and continues from specific stage
-response = strategy_architect(
-    task_description="modify authentication to OAuth2",
-    analysis_result=previous_analysis,
-    workflow_stage="task_graph"
-)
-```
-
-## Response Handling
-
-### Execution Types
-- **immediate**: Execute all actions autonomously
-- **user_confirmation**: Present results, wait for user approval
-- **multi_step**: Process actions sequentially with possible decision points
-- **delegated**: Adopt specified role (e.g., 'architect', 'analyst') for specialized reasoning
-
-### Decision Points
-```python
-# When encountering decision_point in response:
-if decision_point["confidence"] > 0.8:
-    # High confidence: decide automatically using recommendation
-    choice = decision_point["recommendation"]
-else:
-    # Low confidence: present options to user
-    choice = await get_user_choice(decision_point["options"])
-```
-
-### State Management
-```python
-# Extract and maintain workflow state
-if response.payload.get("suggested_next_state"):
-    workflow_context = response.payload["suggested_next_state"]
-    # Use in subsequent calls to continue workflow
-```
-
-## Integration Rules for CortexMCP
-
-### Auto-trigger Patterns (Production Ready)
-- Keywords "planifica", "arquitectura", "diseña" → invoke strategy-architect
-- Complex project descriptions (>50 words) → use strategy-architect  
-- Follow-up modifications → continue with existing workflow state
-- Project analysis requests → execute complete Motor de Estrategias workflow
-- **Phase 3 Ready**: Custom slash commands coming in next phase
-
-### Visualization Handling
-- Mermaid diagrams in `user_facing.visualization` → render for user
-- ASCII tables in payload → format for console display
-- Task graphs → present as interactive breakdown
-- **TDD Task Pairs**: Mission maps include both implementation and test tasks
-
-### Performance Guidelines
-- **Single Call Preferred**: Use complete workflow for comprehensive planning
-- **State Management**: Always check for `suggested_next_state` in responses
-- **Error Recovery**: Handle JSON-RPC errors gracefully with fallback options
-
-## Development Principles
-
-### Strict Schema Adherence
-- Every tool output must validate against StrategyResponse schema
-- Use Pydantic validation throughout the codebase
-- No exceptions or shortcuts in response formatting
-
-### Deterministic Operations
-- Server functions use rule-based heuristics, not AI inference
-- Predictable and testable behavior
-- Intelligence resides in Claude's interpretation, not server logic
-
-### Concurrent Testing
-- Write unit tests alongside implementation
-- Validate both individual functions and integrated workflows
-- Test schema compliance for all response variants
-
-## Project Setup Notes
-- Para el proyecto quiero utilizar poetry, no python
-- **Project Name**: CortexMCP (formerly Strategy Library MCP Server)
-- **Current Phase**: 2.5 COMPLETED - Fully operational Motor de Estrategias
-- **Next Phase**: 3.0 - Standards Alignment & Claude Code Optimization
-
-## Phase 3 Preparation
-CortexMCP is ready for Phase 3 enhancements:
-- **Framework Migration**: Migrate to official MCP framework (`mcp.server.fastmcp`)
-- **Slash Commands**: Implement `/project:architect-plan`, `/project:architect-continue`, `/project:architect-analyze`
-- **Enhanced Integration**: Optimized CLAUDE.md with structured usage patterns
-- **Standards Compliance**: 100% alignment with MCP specifications and Claude Code best practices
-
-For Phase 3 implementation details, see: `docs/phase3_preparation.md`
+*Updated: 2025-06-22*  
+*Status: Planning Toolkit MVP ✅ OPERATIONAL*  
+*Architecture: External Cognitive Brain - Proven & Validated*

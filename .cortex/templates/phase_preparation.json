@@ -1,0 +1,72 @@
+{
+  "phase_id": "",
+  "phase_name": "",
+  "project_context": "",
+  "generated_by": "claude_cognitive_analysis",
+  "generated_on": "",
+  "confidence_level": 0.0,
+  "estimated_duration": "",
+  "priority": "",
+  "description": "",
+  
+  "objectives": {
+    "primary": "",
+    "secondary": []
+  },
+  
+  "technical_scope": {
+    "files_to_modify": [],
+    "files_to_create": [],
+    "files_to_delete": [],
+    "integration_points": [],
+    "dependencies": []
+  },
+  
+  "implementation_plan": {
+    "step_1": {
+      "name": "",
+      "duration": "",
+      "description": "",
+      "tasks": [
+        {
+          "id": "",
+          "description": "",
+          "action": "",
+          "validation": "",
+          "impact": ""
+        }
+      ]
+    }
+  },
+  
+  "success_criteria": {
+    "functional_gates": [],
+    "quality_gates": [],
+    "strategic_gates": []
+  },
+  
+  "validation_strategy": {
+    "unit_testing": [],
+    "integration_testing": [],
+    "acceptance_testing": []
+  },
+  
+  "risk_mitigation": {
+    "technical_risks": [],
+    "design_risks": []
+  },
+  
+  "anti_over_engineering_guards": {
+    "eliminated_complexity": [],
+    "simplicity_requirements": [],
+    "complexity_reduction_metrics": {}
+  },
+  
+  "performance_expectations": {},
+  
+  "phase_completion_definition": {
+    "functional_achievement": "",
+    "quality_achievement": "",
+    "strategic_achievement": ""
+  }
+}

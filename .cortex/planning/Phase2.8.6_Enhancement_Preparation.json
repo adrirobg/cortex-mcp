@@ -1,0 +1,67 @@
+{
+  "phase_id": "2.8.6",
+  "phase_name": "Planning Toolkit Enhancement",
+  "project_context": "CortexMCP Planning System Evolution",
+  "generated_by": "claude_cognitive_analysis",
+  "generated_on": "2025-06-22",
+  "confidence_level": 0.95,
+  "estimated_duration": "2 hours",
+  "priority": "MEDIUM",
+  "description": "Enhance Planning Toolkit with additional template types and validation capabilities",
+  "objectives": {
+    "primary": "Add template validation and quality checking tools",
+    "secondary": [
+      "Create additional template types (testing plans, architecture reviews)",
+      "Implement template linking and dependency tracking",
+      "Add planning workflow analytics"
+    ]
+  },
+  "technical_scope": {
+    "files_to_modify": [],
+    "files_to_create": [],
+    "files_to_delete": [],
+    "integration_points": [],
+    "dependencies": []
+  },
+  "implementation_plan": {
+    "step_1": {
+      "name": "",
+      "duration": "",
+      "description": "",
+      "tasks": [
+        {
+          "id": "",
+          "description": "",
+          "action": "",
+          "validation": "",
+          "impact": ""
+        }
+      ]
+    }
+  },
+  "success_criteria": {
+    "functional_gates": [],
+    "quality_gates": [],
+    "strategic_gates": []
+  },
+  "validation_strategy": {
+    "unit_testing": [],
+    "integration_testing": [],
+    "acceptance_testing": []
+  },
+  "risk_mitigation": {
+    "technical_risks": [],
+    "design_risks": []
+  },
+  "anti_over_engineering_guards": {
+    "eliminated_complexity": [],
+    "simplicity_requirements": [],
+    "complexity_reduction_metrics": {}
+  },
+  "performance_expectations": {},
+  "phase_completion_definition": {
+    "functional_achievement": "",
+    "quality_achievement": "",
+    "strategic_achievement": ""
+  }
+}

@@ -1,0 +1,404 @@
+{
+  "phase_id": "2.8.5",
+  "phase_name": "Planning Toolkit MVP Implementation",
+  "project_context": "CortexMCP Artifact-Driven Planning System - Anti-Over-Engineering Solution",
+  "generated_by": "ia_ia_collaborative_analysis",
+  "generated_on": "2025-06-22",
+  "confidence_level": 0.99,
+  "estimated_duration": "1.5 hours",
+  "priority": "CRITICAL",
+  "blocks_phase": "2.8.6 Enhanced Planning Capabilities",
+  "description": "Replace broken monolithic strategy-architect with 2 simple MCP tools (get-planning-template + save-planning-artifact) enabling Claude to generate structured planning artifacts with complete cognitive control and zero over-engineering.",
+  
+  "collaborative_analysis_context": {
+    "ultrathink_analysis": "Applied 4-level root cause analysis identifying over-engineering in complex workflow systems",
+    "gemini_validation": "Independent analysis confirmed over-engineering and validated Planning Toolkit approach",
+    "convergence_achieved": "100% agreement on simplicity-first approach eliminating CognitiveWorkflowEngine complexity",
+    "anti_over_engineering_principle": "80% complexity reduction while maintaining 100% core value delivery"
+  },
+
+  "objectives": {
+    "primary": "Replace monolithic strategy-architect with 2 simple MCP tools enabling artifact-driven planning workflow",
+    "secondary": [
+      "Eliminate 1000+ line JSON monolithic plan generation completely",
+      "Implement get-planning-template tool for deterministic template retrieval",
+      "Implement save-planning-artifact tool for simple artifact storage",
+      "Create template library supporting phase_preparation and retrospective artifacts",
+      "Establish Claude-controlled cognitive workflow with MCP utility support",
+      "Apply anti-over-engineering principles validated through IA-IA collaboration"
+    ]
+  },
+
+  "technical_scope": {
+    "files_to_eliminate": [
+      "Current strategy-architect monolithic logic in server.py",
+      "Complex workflow orchestration systems",
+      "Over-engineered collaborative intelligence components"
+    ],
+    "new_tools_to_create": [
+      {
+        "tool_name": "get-planning-template",
+        "functionality": "Retrieve blank JSON template structures for planning artifacts",
+        "complexity": "minimal",
+        "role": "deterministic_utility"
+      },
+      {
+        "tool_name": "save-planning-artifact", 
+        "functionality": "Store completed planning artifacts to specified directories",
+        "complexity": "minimal",
+        "role": "deterministic_utility"
+      }
+    ],
+    "template_files_to_create": [
+      "templates/phase_preparation.json",
+      "templates/phase_preparation.md",
+      "templates/retrospective.json",
+      "templates/retrospective.md"
+    ],
+    "core_files_to_modify": [
+      "server.py"
+    ],
+    "integration_points": [
+      "MCP tool registration system",
+      "Template file management",
+      "Artifact storage directory structure",
+      "Claude cognitive workflow integration"
+    ]
+  },
+
+  "anti_over_engineering_guards": {
+    "eliminated_complexity": [
+      "CognitiveWorkflowEngine (unnecessary abstraction)",
+      "DelegationContext (over-engineered delegation system)",
+      "Multi-phase implementation approach (planning the planning)",
+      "Intelligent collaboration detection (complex trigger systems)",
+      "Process guidance frameworks (cognitive replacement attempts)"
+    ],
+    "simplicity_requirements": [
+      "Single responsibility per tool",
+      "Zero cognitive capabilities in MCP tools", 
+      "Direct value delivery without abstractions",
+      "Minimal dependencies (standard library only)",
+      "Clear separation: MCP = tools, Claude = cognition"
+    ],
+    "complexity_reduction_metrics": {
+      "implementation_phases": "3 phases → 1 phase (66% reduction)",
+      "estimated_duration": "3.5 hours → 1.5 hours (57% reduction)", 
+      "tool_count": "Multiple complex systems → 2 simple tools (80% reduction)",
+      "code_complexity": "High abstraction → Direct functionality (90% reduction)"
+    }
+  },
+
+  "implementation_plan": {
+    "step_1": {
+      "name": "Clean Slate Preparation",
+      "duration": "30 minutes",
+      "description": "Remove monolithic strategy-architect system completely, creating clean foundation",
+      "tasks": [
+        {
+          "id": "cleanup_001",
+          "description": "Remove current strategy-architect tool logic from server.py",
+          "action": "DELETE_MONOLITHIC_LOGIC",
+          "target": "server.py strategy_architect function",
+          "validation": "No monolithic plan generation code remains",
+          "impact": "Eliminates 1000+ line JSON generation system"
+        },
+        {
+          "id": "cleanup_002", 
+          "description": "Remove complex workflow orchestration code",
+          "action": "DELETE_COMPLEX_SYSTEMS",
+          "target": "Over-engineered collaborative components",
+          "validation": "Clean codebase with simple tool foundation only",
+          "impact": "Eliminates architectural over-engineering"
+        }
+      ]
+    },
+    
+    "step_2": {
+      "name": "Implement get-planning-template Tool",
+      "duration": "30 minutes",
+      "description": "Create simple template retrieval functionality with zero cognitive capabilities",
+      "tasks": [
+        {
+          "id": "template_tool_001",
+          "description": "Implement get-planning-template MCP tool",
+          "action": "CREATE_MCP_TOOL",
+          "implementation": {
+            "tool_name": "get-planning-template",
+            "parameters": [
+              {
+                "name": "template_name",
+                "type": "str",
+                "description": "Template to retrieve: 'phase_preparation', 'retrospective', etc.",
+                "examples": ["phase_preparation", "retrospective"]
+              }
+            ],
+            "functionality": "Read template file from templates/ directory and return content",
+            "error_handling": "Graceful handling of missing templates with clear error messages",
+            "cognitive_level": "zero"
+          },
+          "validation": "Tool retrieves templates correctly, handles errors gracefully",
+          "impact": "Enables Claude to request structured planning templates"
+        }
+      ]
+    },
+
+    "step_3": {
+      "name": "Implement save-planning-artifact Tool", 
+      "duration": "30 minutes",
+      "description": "Create simple artifact storage functionality with directory management",
+      "tasks": [
+        {
+          "id": "storage_tool_001",
+          "description": "Implement save-planning-artifact MCP tool",
+          "action": "CREATE_MCP_TOOL",
+          "implementation": {
+            "tool_name": "save-planning-artifact",
+            "parameters": [
+              {
+                "name": "file_name",
+                "type": "str", 
+                "description": "Name of the artifact file to save",
+                "examples": ["Phase2.8.5_Prep.json", "RetroAnalysis_2025-06-22.md"]
+              },
+              {
+                "name": "file_content",
+                "type": "str",
+                "description": "Complete content of the artifact file"
+              },
+              {
+                "name": "directory",
+                "type": "str",
+                "description": "Directory to save the artifact",
+                "default": ".cortex/planning/"
+              }
+            ],
+            "functionality": "Create directory if needed, write file content, return confirmation",
+            "error_handling": "File system error handling with clear status responses",
+            "cognitive_level": "zero"
+          },
+          "validation": "Tool saves artifacts correctly, creates directories, handles errors",
+          "impact": "Enables Claude to persist planning artifacts for future reference"
+        }
+      ]
+    },
+
+    "step_4": {
+      "name": "Create Template Library",
+      "duration": "30 minutes", 
+      "description": "Establish structured template files for common planning artifacts",
+      "tasks": [
+        {
+          "id": "templates_001",
+          "description": "Create phase_preparation.json template",
+          "action": "CREATE_TEMPLATE_FILE",
+          "file": "templates/phase_preparation.json",
+          "structure": {
+            "phase_id": "",
+            "phase_name": "",
+            "project_context": "",
+            "generated_by": "claude_cognitive_analysis",
+            "objectives": {"primary": "", "secondary": []},
+            "technical_scope": {},
+            "implementation_plan": {},
+            "success_criteria": [],
+            "validation_strategy": []
+          },
+          "validation": "Template provides comprehensive structure for phase planning",
+          "impact": "Enables structured phase preparation documentation"
+        },
+        {
+          "id": "templates_002",
+          "description": "Create phase_preparation.md template",
+          "action": "CREATE_TEMPLATE_FILE", 
+          "file": "templates/phase_preparation.md",
+          "structure": "Markdown template with sections for overview, implementation plan, success criteria",
+          "validation": "Template provides human-readable phase documentation structure",
+          "impact": "Enables readable phase preparation documentation"
+        }
+      ]
+    }
+  },
+
+  "cognitive_workflow_pattern": {
+    "description": "Ultra-simple workflow enabling Claude cognitive control with MCP utility support",
+    "steps": [
+      {
+        "step": 1,
+        "actor": "Claude", 
+        "action": "Request template from MCP",
+        "example": "get-planning-template('phase_preparation')"
+      },
+      {
+        "step": 2,
+        "actor": "MCP",
+        "action": "Return blank template structure", 
+        "cognitive_level": "zero"
+      },
+      {
+        "step": 3,
+        "actor": "Claude",
+        "action": "Perform ALL cognitive work: analyze, decide, plan, document",
+        "cognitive_level": "complete"
+      },
+      {
+        "step": 4,
+        "actor": "Claude",
+        "action": "Save completed artifacts via MCP",
+        "example": "save-planning-artifact('Phase2.8.5_Prep.json', content)"
+      },
+      {
+        "step": 5,
+        "actor": "MCP", 
+        "action": "Store artifacts and return confirmation",
+        "cognitive_level": "zero"
+      }
+    ],
+    "role_definitions": {
+      "mcp_role": "Deterministic utility provider: templates, storage, confirmation",
+      "claude_role": "Complete cognitive engine: analysis, decisions, planning, documentation"
+    }
+  },
+
+  "template_specifications": {
+    "phase_preparation_json": {
+      "purpose": "Machine-readable phase implementation blueprint",
+      "required_fields": [
+        "phase_id", "phase_name", "project_context", "generated_by", "generated_on",
+        "confidence_level", "estimated_duration", "priority", "description",
+        "objectives", "technical_scope", "implementation_plan", "success_criteria"
+      ],
+      "cognitive_responsibility": "Claude fills all fields based on analysis and strategic decisions"
+    },
+    "phase_preparation_md": {
+      "purpose": "Human-readable phase planning documentation",
+      "sections": [
+        "Phase Overview", "Implementation Plan", "Success Criteria", 
+        "Technical Deliverables", "Anti-Over-Engineering Guards"
+      ],
+      "cognitive_responsibility": "Claude provides all content based on planning analysis"
+    }
+  },
+
+  "success_criteria": {
+    "functional_gates": [
+      "get-planning-template tool retrieves valid template structures",
+      "save-planning-artifact tool creates files in correct locations with proper content",
+      "End-to-end workflow: Claude requests template → completes planning → saves artifacts",
+      "Zero monolithic planning logic remains in codebase"
+    ],
+    "quality_gates": [
+      "MCP tools provide utilities only, perform zero cognitive work",
+      "Claude maintains complete control over planning content and decisions",
+      "Template structures comprehensive enough for professional planning",
+      "Error handling graceful for all failure modes"
+    ],
+    "strategic_gates": [
+      "Planning as Artifact principle successfully implemented",
+      "Anti-over-engineering discipline maintained throughout",
+      "Foundation established for iterative planning methodology improvement",
+      "MVP delivers functional value with minimal complexity"
+    ]
+  },
+
+  "validation_strategy": {
+    "unit_testing": [
+      "Test get-planning-template with valid template names",
+      "Test get-planning-template error handling for missing templates", 
+      "Test save-planning-artifact file creation and directory management",
+      "Test save-planning-artifact error handling for file system issues"
+    ],
+    "integration_testing": [
+      "Test complete workflow: template request → content creation → artifact storage",
+      "Test multiple artifact types (JSON + MD) in single workflow",
+      "Test artifact storage in different directories",
+      "Validate template structure completeness for real planning scenarios"
+    ],
+    "acceptance_testing": [
+      "Claude can successfully generate phase preparation artifacts",
+      "Generated artifacts contain comprehensive planning information",
+      "Workflow is simple enough to use without documentation",
+      "Planning quality meets professional development standards"
+    ]
+  },
+
+  "risk_mitigation": {
+    "technical_risks": [
+      {
+        "risk": "Template files missing or corrupted", 
+        "probability": "LOW",
+        "impact": "MEDIUM",
+        "mitigation": "Comprehensive error handling with clear error messages, template validation"
+      },
+      {
+        "risk": "File system permissions preventing artifact storage",
+        "probability": "MEDIUM", 
+        "impact": "HIGH",
+        "mitigation": "Directory creation with proper permissions, clear error reporting"
+      }
+    ],
+    "design_risks": [
+      {
+        "risk": "Templates too complex or inadequate for real planning needs",
+        "probability": "MEDIUM",
+        "impact": "MEDIUM", 
+        "mitigation": "Start with proven structure from existing artifacts, iterate based on usage"
+      },
+      {
+        "risk": "Workflow too simple, lacks necessary planning features",
+        "probability": "LOW",
+        "impact": "LOW",
+        "mitigation": "MVP approach: deliver basic functionality, enhance based on real usage patterns"
+      }
+    ]
+  },
+
+  "backward_compatibility": {
+    "guaranteed": false,
+    "breaking_changes": [
+      "Complete removal of monolithic strategy-architect functionality",
+      "Elimination of 1000+ line JSON plan generation",
+      "Replacement with simple tool-based workflow"
+    ],
+    "migration_strategy": "Clean break - new simple workflow replaces broken monolithic system",
+    "justification": "Monolithic system was non-functional, no valuable functionality to preserve"
+  },
+
+  "performance_expectations": {
+    "template_retrieval_time": "<100ms (simple file read)",
+    "artifact_storage_time": "<200ms (file write + directory creation)",
+    "workflow_completion_time": "<5 minutes (primarily Claude cognitive work)",
+    "memory_usage": "Minimal (no complex state management)",
+    "disk_usage": "Templates ~10KB, artifacts variable based on planning depth"
+  },
+
+  "future_enhancement_roadmap": {
+    "phase_286_potential": [
+      "Additional template types (testing plans, architecture reviews)",
+      "Template validation and quality checking tools",
+      "Artifact linking and dependency tracking",
+      "Planning workflow analytics and improvement insights"
+    ],
+    "enhancement_principles": [
+      "Build upon proven simple tools foundation",
+      "Add functionality only when clear value demonstrated through usage",
+      "Maintain anti-over-engineering discipline in all additions",
+      "Let real usage patterns guide enhancement priorities"
+    ]
+  },
+
+  "integration_notes": {
+    "mcp_framework_integration": "Uses standard FastMCP tool registration patterns",
+    "file_system_integration": "Standard Python file operations with proper error handling",
+    "template_system_integration": "Simple file-based templates in templates/ directory",
+    "cognitive_workflow_integration": "Designed for Claude cognitive control with MCP utility support"
+  },
+
+  "phase_completion_definition": {
+    "functional_achievement": "2 simple MCP tools enabling artifact-driven planning workflow",
+    "quality_achievement": "Clean role separation: MCP utilities, Claude cognition",
+    "strategic_achievement": "Planning as Artifact principle successfully implemented",
+    "anti_over_engineering_achievement": "80% complexity reduction while maintaining 100% core value",
+    "foundation_achievement": "Simple, proven foundation for iterative planning methodology enhancement"
+  }
+}

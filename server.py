@@ -13,11 +13,10 @@ Following the 4 Principios Rectores:
 
 import json
 import logging
-from typing import Any, Dict, Optional, Literal, Annotated
+from typing import Optional, Annotated
 
 from pydantic import Field
 from mcp.server.fastmcp import FastMCP
-from schemas.universal_response import StrategyResponse, BasePayload
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -27,71 +26,54 @@ app = FastMCP("cortex-mcp", "1.0.0")
 
 
 @app.tool(
-    name="strategy-architect",
-    description="Strategic planning and architecture tool that transforms project ideas into structured plans"
+    name="get-planning-template",
+    description="Retrieve blank planning template structure for Claude's cognitive work"
 )
-def strategy_architect(
-    task_description: Annotated[str, Field(
-        description="Description of the project or task to analyze and plan. Should be a clear, comprehensive description of what you want to build or accomplish.",
-        min_length=5,
-        max_length=2000,
-        examples=["Build an e-commerce platform with payment integration", "Create a task management web application with user authentication"]
-    )],
-    analysis_result: Annotated[Optional[Dict[str, Any]], Field(
-        description="Previous analysis result from a workflow continuation. Only provide this when continuing from a previous strategy-architect execution. Contains project analysis data."
-    )] = None,
-    decomposition_result: Annotated[Optional[Dict[str, Any]], Field(
-        description="Previous decomposition result from a workflow continuation. Only provide this when continuing from a previous strategy-architect execution. Contains project phase breakdown."
-    )] = None,
-    workflow_stage: Annotated[Optional[Literal["analysis", "decomposition", "task_graph", "mission_map", "complete"]], Field(
-        description="Current workflow stage for continuation. Use 'analysis' to start from analysis phase, 'decomposition' to start from decomposition phase, etc. Leave empty for complete workflow execution from the beginning."
-    )] = None,
-    debug_mode: Annotated[Optional[bool], Field(
-        description="Enable debug mode to include intermediate workflow results in debug_payload. Default: false. Only enable when debugging workflow execution."
-    )] = False
+def get_planning_template(
+    template_name: Annotated[str, Field(
+        description="Template to retrieve: 'phase_preparation', 'retrospective', etc.",
+        examples=["phase_preparation", "retrospective"]
+    )]
 ) -> str:
-    """Execute strategy-architect workflow with Motor de Estrategias integration.
+    """Retrieve blank planning template structure for Claude's cognitive work.
     
-    Following Principio Rector #1: Must return valid StrategyResponse.
-    Following Principio Rector #3: Servidor 100% stateless.
-    
-    Args:
-        task_description: Description of the project or task to analyze and plan
-        analysis_result: Previous analysis result (for workflow continuation)
-        decomposition_result: Previous decomposition result (for workflow continuation)  
-        workflow_stage: Current workflow stage (analysis, decomposition, task_graph, mission_map, complete)
-        debug_mode: Enable debug payload with intermediate workflow results
-        
-    Returns:
-        JSON string containing StrategyResponse with Motor de Estrategias results
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
     """
     try:
-        # Validate input parameters following inputSchema constraints
-        if len(task_description) < 5:
-            raise ValueError("task_description must be at least 5 characters long")
-        if len(task_description) > 2000:
-            raise ValueError("task_description must be at most 2000 characters long")
-        
-        if workflow_stage and workflow_stage not in ["analysis", "decomposition", "task_graph", "mission_map", "complete"]:
-            raise ValueError(f"Invalid workflow_stage: {workflow_stage}. Must be one of: analysis, decomposition, task_graph, mission_map, complete")
-        
-        # Execute collaborative workflow (Phase 2.7)
-        from tools.architect_unified import execute_architect_workflow
-        response = execute_architect_workflow(
-            task_description=task_description,
-            analysis_result=analysis_result,
-            decomposition_result=decomposition_result,
-            workflow_stage=workflow_stage,
-            debug_mode=debug_mode
-        )
-        
-        # Return StrategyResponse as JSON string
-        return response.model_dump_json(indent=2)
-        
+        from tools.planning_toolkit import get_planning_template as pt_get_template
+        return pt_get_template(template_name)
     except Exception as e:
-        # Proper error handling following JSON-RPC 2.0
-        logger.error(f"Strategy-architect execution failed: {str(e)}")
-        raise ValueError(f"Strategy-architect execution failed: {str(e)}")
+        logger.error(f"get-planning-template delegation failed: {str(e)}")
+        raise ValueError(f"get-planning-template delegation failed: {str(e)}")
+
+
+@app.tool(
+    name="save-planning-artifact",
+    description="Save Claude's planning artifact to specified location"
+)
+def save_planning_artifact(
+    file_name: Annotated[str, Field(
+        description="Name of the artifact file to save",
+        examples=["Phase2.8.5_Prep.json", "RetroAnalysis_2025-06-22.md"]
+    )],
+    file_content: Annotated[str, Field(
+        description="Complete content of the artifact file"
+    )],
+    directory: Annotated[str, Field(
+        description="Directory to save the artifact",
+        default=".cortex/planning/"
+    )] = ".cortex/planning/"
+) -> str:
+    """Save Claude's planning artifact to specified location.
+    
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
+    """
+    try:
+        from tools.planning_toolkit import save_planning_artifact as pt_save_artifact
+        return pt_save_artifact(file_name, file_content, directory)
+    except Exception as e:
+        logger.error(f"save-planning-artifact delegation failed: {str(e)}")
+        raise ValueError(f"save-planning-artifact delegation failed: {str(e)}")
 
 
 @app.tool(
