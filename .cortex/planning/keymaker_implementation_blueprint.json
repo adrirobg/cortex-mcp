@@ -1,0 +1,460 @@
+{
+  "phase_info": {
+    "version": "2.8.6",
+    "name": "Keymaker Suite Implementation",
+    "description": "Complete automation of task planning workflow with 6 atomic tools",
+    "complexity_score": 3,
+    "estimated_duration": "2-3 days",
+    "type": "cognitive_workflow_expansion",
+    "priority": "high",
+    "status": "preparation"
+  },
+  "constitutional_framework": {
+    "principios_rectores": [
+      "Dogmatismo con Universal Response Schema - ALL tools MUST return StrategyResponse",
+      "Servidor como Ejecutor Fiable - server.py ONLY delegates, ZERO business logic",
+      "Estado en Claude, NO en Servidor - MCP is stateless, Claude maintains context",
+      "Testing Concurrente - Test continuously during development, not after"
+    ],
+    "anti_over_engineering": {
+      "principle": "Simple tools, complex capabilities",
+      "implementation": "Zero cognition in MCP tools, pure deterministic functions",
+      "validation": "Each tool single responsibility, atomic operations only"
+    }
+  },
+  "architecture_blueprint": {
+    "tools_to_implement": {
+      "keymaker_workflow_tool": {
+        "class_name": "KeymakerWorkflowTool",
+        "inherits_from": "BaseTool[KeymakerWorkflowPayload]",
+        "strategy_type": "StrategyType.PLANNING",
+        "responsibility": "Retrieve structured workflow template for task planning",
+        "file_location": "tools/task_planning.py",
+        "dependencies": ["aiofiles", "json", "os"],
+        "templates_required": [".cortex/templates/task_planning/keymaker_workflow.json"],
+        "validation_criteria": [
+          "Returns valid KeymakerWorkflowPayload",
+          "Template retrieval <100ms",
+          "Handles missing template gracefully"
+        ]
+      },
+      "complexity_score_tool": {
+        "class_name": "ComplexityScoreTool", 
+        "inherits_from": "BaseTool[ComplexityScorePayload]",
+        "strategy_type": "StrategyType.ANALYSIS",
+        "responsibility": "Calculate Task Complexity Score (TCS) deterministically",
+        "file_location": "tools/task_planning.py",
+        "dependencies": ["xml.etree.ElementTree", "re", "aiofiles"],
+        "templates_required": [".cortex/templates/task_planning/complexity_matrix.xml"],
+        "validation_criteria": [
+          "TCS calculation deterministic and reproducible",
+          "Recommends CoT or ToT based on threshold (4)",
+          "Confidence level always 0.85 for consistency"
+        ]
+      },
+      "reasoning_template_tool": {
+        "class_name": "ReasoningTemplateTool",
+        "inherits_from": "BaseTool[ReasoningTemplatePayload]", 
+        "strategy_type": "StrategyType.PLANNING",
+        "responsibility": "Retrieve reasoning templates based on strategy (CoT/ToT)",
+        "file_location": "tools/task_planning.py",
+        "dependencies": ["json", "aiofiles"],
+        "templates_required": [
+          ".cortex/templates/task_planning/cot_reasoning.json",
+          ".cortex/templates/task_planning/tot_reasoning.json"
+        ],
+        "validation_criteria": [
+          "Correct template based on strategy_type parameter",
+          "Template sections extracted properly",
+          "Usage guidelines provided"
+        ]
+      },
+      "mission_map_tool": {
+        "class_name": "MissionMapTool",
+        "inherits_from": "BaseTool[MissionMapPayload]",
+        "strategy_type": "StrategyType.PLANNING", 
+        "responsibility": "Save and validate mission map artifacts with JSON schema",
+        "file_location": "tools/task_planning.py",
+        "dependencies": ["json", "aiofiles", "aiofiles.os"],
+        "templates_required": [".cortex/templates/task_planning/mission_map_schema.json"],
+        "validation_criteria": [
+          "Creates .cortex/tasks/{task_id}/ directory structure",
+          "Validates against JSON schema",
+          "Saves even if invalid for debugging",
+          "Returns validation errors list"
+        ]
+      },
+      "task_directives_tool": {
+        "class_name": "TaskDirectivesTool",
+        "inherits_from": "BaseTool[TaskDirectivesPayload]",
+        "strategy_type": "StrategyType.PLANNING",
+        "responsibility": "Generate task-specific Do's and Don'ts from mission map analysis",
+        "file_location": "tools/task_planning.py", 
+        "dependencies": ["json", "aiofiles", "os"],
+        "templates_required": [],
+        "validation_criteria": [
+          "Extracts patterns from mission map descriptions",
+          "Generates relevant Do's and Don'ts",
+          "Identifies technologies for specific directives"
+        ]
+      },
+      "library_checklist_tool": {
+        "class_name": "LibraryChecklistTool",
+        "inherits_from": "BaseTool[LibraryChecklistPayload]",
+        "strategy_type": "StrategyType.PLANNING",
+        "responsibility": "Generate Context7 library documentation checklist",
+        "file_location": "tools/task_planning.py",
+        "dependencies": ["json", "aiofiles", "datetime"],
+        "templates_required": [],
+        "validation_criteria": [
+          "Extracts unique libraries from context7_libraries fields", 
+          "Generates markdown checklist format",
+          "Provides Context7 placeholder IDs"
+        ]
+      }
+    },
+    "payload_schemas": {
+      "file_location": "schemas/task_planning_payloads.py",
+      "payloads_to_implement": [
+        "KeymakerWorkflowPayload",
+        "ComplexityScorePayload", 
+        "ReasoningTemplatePayload",
+        "MissionMapPayload",
+        "TaskDirectivesPayload",
+        "LibraryChecklistPayload"
+      ],
+      "enums_required": [
+        "TaskStrategyType (COT, TOT)",
+        "ComplexityMetric (NOVELTY, COUPLING, SCALE, AMBIGUITY)"
+      ],
+      "validation_requirements": [
+        "All inherit from BasePayload",
+        "All use Pydantic Field descriptions",
+        "All follow workflow_stage pattern"
+      ]
+    }
+  },
+  "subagent_assignments": {
+    "phase_1_foundation": {
+      "subagent_a_schemas": {
+        "responsibility": "Create schemas/task_planning_payloads.py with all 6 payloads",
+        "deliverables": [
+          "Complete payload classes with Pydantic validation",
+          "Enums for TaskStrategyType and ComplexityMetric",
+          "All payloads inherit from BasePayload"
+        ],
+        "validation_supervisor": "Validate schema compliance with existing patterns"
+      },
+      "subagent_b_test_structure": {
+        "responsibility": "Setup tests/tools/test_task_planning.py structure",
+        "deliverables": [
+          "Test file with imports and basic structure",
+          "Mock setup for aiofiles operations",
+          "Test data fixtures for all 6 tools"
+        ],
+        "validation_supervisor": "Ensure test structure follows behavior-driven patterns"
+      },
+      "subagent_c_templates": {
+        "responsibility": "Create all JSON templates in .cortex/templates/task_planning/",
+        "deliverables": [
+          "keymaker_workflow.json - Complete workflow definition",
+          "cot_reasoning.json - 5 thought templates", 
+          "tot_reasoning.json - 3 perspectives + evaluation",
+          "mission_map_schema.json - JSON schema validation",
+          "complexity_matrix.xml - Converted from .roo/scoring/"
+        ],
+        "validation_supervisor": "Validate JSON syntax and completeness"
+      }
+    },
+    "phase_2_core_tools": {
+      "subagent_d_workflow_complexity": {
+        "responsibility": "Implement KeymakerWorkflowTool and ComplexityScoreTool",
+        "deliverables": [
+          "KeymakerWorkflowTool with template retrieval logic",
+          "ComplexityScoreTool with XML parsing and metric evaluation",
+          "Both tools follow BaseTool pattern exactly"
+        ],
+        "validation_supervisor": "Validate StrategyResponse compliance and async patterns"
+      },
+      "subagent_e_reasoning_mission": {
+        "responsibility": "Implement ReasoningTemplateTool and MissionMapTool", 
+        "deliverables": [
+          "ReasoningTemplateTool with CoT/ToT template logic",
+          "MissionMapTool with JSON schema validation",
+          "Both tools handle errors gracefully"
+        ],
+        "validation_supervisor": "Validate schema validation logic and file operations"
+      },
+      "subagent_f_directives_checklist": {
+        "responsibility": "Implement TaskDirectivesTool and LibraryChecklistTool",
+        "deliverables": [
+          "TaskDirectivesTool with pattern extraction logic",
+          "LibraryChecklistTool with Context7 checklist generation",
+          "Both tools generate proper markdown output"
+        ],
+        "validation_supervisor": "Validate pattern extraction accuracy and output formatting"
+      }
+    },
+    "phase_3_integration": {
+      "integration_supervisor": {
+        "responsibility": "Integrate all 6 tools into server.py with proper delegation",
+        "deliverables": [
+          "6 @app.tool decorators with proper type annotations",
+          "Pure delegation pattern maintained",
+          "All tools accessible via MCP interface"
+        ],
+        "validation_criteria": [
+          "Zero business logic in server.py",
+          "All tools return valid MCP responses", 
+          "Tool descriptions are clear and actionable"
+        ]
+      }
+    },
+    "phase_4_testing": {
+      "subagent_g_workflow_tests": {
+        "responsibility": "Write comprehensive tests for KeymakerWorkflowTool and ComplexityScoreTool",
+        "deliverables": [
+          "Behavior tests through validate_and_execute only",
+          "Mock file operations properly",
+          "Test both success and error scenarios"
+        ],
+        "validation_supervisor": "Ensure >90% coverage and behavior-driven approach"
+      },
+      "subagent_h_reasoning_tests": {
+        "responsibility": "Write comprehensive tests for ReasoningTemplateTool and MissionMapTool",
+        "deliverables": [
+          "Template retrieval validation tests",
+          "Mission map validation logic tests", 
+          "Error handling and edge cases"
+        ],
+        "validation_supervisor": "Validate schema validation testing and error scenarios"
+      },
+      "subagent_i_artifact_tests": {
+        "responsibility": "Write comprehensive tests for TaskDirectivesTool and LibraryChecklistTool",
+        "deliverables": [
+          "Pattern extraction validation tests",
+          "Output formatting validation tests",
+          "Integration with mission map data"
+        ],
+        "validation_supervisor": "Ensure artifact generation testing is comprehensive"
+      }
+    }
+  },
+  "implementation_phases": {
+    "phase_1_foundation": {
+      "mandatory_plan_review": {
+        "required": true,
+        "files_to_review": [".cortex/planning/plan.md sections: Fase 1, Fase 2"],
+        "focus_areas": [
+          "File structure requirements",
+          "Schema patterns and inheritance",
+          "Template JSON structures"
+        ]
+      },
+      "parallel_execution": true,
+      "estimated_duration": "4-6 hours",
+      "success_criteria": [
+        "All schemas compile with mypy --strict",
+        "All templates are valid JSON",
+        "Test structure ready for implementation"
+      ]
+    },
+    "phase_2_core_tools": {
+      "mandatory_plan_review": {
+        "required": true, 
+        "files_to_review": [".cortex/planning/plan.md section: Fase 3"],
+        "focus_areas": [
+          "BaseTool inheritance patterns",
+          "Async operation requirements",
+          "StrategyResponse creation patterns"
+        ]
+      },
+      "parallel_execution": true,
+      "estimated_duration": "8-10 hours",
+      "success_criteria": [
+        "All 6 tools implement BaseTool correctly",
+        "All tools use aiofiles for file operations",
+        "All tools return valid StrategyResponse objects"
+      ]
+    },
+    "phase_3_server_integration": {
+      "mandatory_plan_review": {
+        "required": true,
+        "files_to_review": [".cortex/planning/plan.md section: Fase 4"],
+        "focus_areas": [
+          "Pure delegation patterns",
+          "MCP tool decorator syntax",
+          "Type annotation requirements"
+        ]
+      },
+      "parallel_execution": false,
+      "estimated_duration": "2-3 hours", 
+      "success_criteria": [
+        "All 6 tools accessible via MCP",
+        "Server.py contains zero business logic",
+        "All tools respond to MCP list_tools"
+      ]
+    },
+    "phase_4_comprehensive_testing": {
+      "mandatory_plan_review": {
+        "required": true,
+        "files_to_review": [".cortex/planning/plan.md section: Fase 5"],
+        "focus_areas": [
+          "Behavior-driven testing approach",
+          "Coverage targets (>90%)",
+          "Mock patterns for file operations"
+        ]
+      },
+      "parallel_execution": true,
+      "estimated_duration": "6-8 hours",
+      "success_criteria": [
+        "All tests pass with >90% coverage",
+        "All tests use behavior-driven approach",
+        "Integration tests validate full workflow"
+      ]
+    },
+    "phase_5_quality_assurance": {
+      "mandatory_plan_review": {
+        "required": true,
+        "files_to_review": [".cortex/planning/plan.md section: Criterios de Validación"],
+        "focus_areas": [
+          "Quality gates requirements",
+          "Validation commands",
+          "Integration testing approach"
+        ]
+      },
+      "parallel_execution": false,
+      "estimated_duration": "2-3 hours",
+      "success_criteria": [
+        "mypy --strict passes without errors",
+        "black and flake8 pass without warnings", 
+        "End-to-end workflow validation complete"
+      ]
+    }
+  },
+  "validation_checkpoints": {
+    "after_phase_1": [
+      "poetry run mypy schemas/task_planning_payloads.py --strict",
+      "JSON validation for all template files",
+      "Import validation for test structure"
+    ],
+    "after_phase_2": [
+      "poetry run mypy tools/task_planning.py --strict",
+      "All tools instantiate without errors",
+      "Basic execute() calls return StrategyResponse"
+    ],
+    "after_phase_3": [
+      "poetry run python server.py (check startup)",
+      "MCP list_tools includes all 6 new tools",
+      "Basic MCP tool invocation test"
+    ],
+    "after_phase_4": [
+      "poetry run pytest tests/tools/test_task_planning.py -v",
+      "poetry run pytest --cov=tools.task_planning --cov-report=term-missing",
+      "Coverage target: >90%"
+    ],
+    "final_validation": [
+      "poetry run black .",
+      "poetry run flake8 .",
+      "poetry run mypy . --strict",
+      "Full workflow test: task description → construction kit"
+    ]
+  },
+  "recovery_instructions": {
+    "context_recovery_minimal": {
+      "description": "Minimum context needed to continue if implementation is interrupted",
+      "essential_info": [
+        "Implementing 6 tools for Keymaker workflow automation",
+        "All tools inherit from BaseTool[PayloadType]",
+        "Server.py only delegates, never implements logic",
+        "All file operations must use aiofiles (async)",
+        "Testing must be behavior-driven through validate_and_execute()"
+      ]
+    },
+    "current_phase_recovery": {
+      "description": "How to determine current phase and continue",
+      "steps": [
+        "Check which files exist in tools/ and schemas/",
+        "Check which tests are implemented in tests/tools/",
+        "Check which tools are integrated in server.py",
+        "Run validation checkpoints to determine completion level"
+      ]
+    },
+    "validation_recovery": {
+      "description": "How to validate work done so far",
+      "commands": [
+        "poetry run mypy . --strict",
+        "poetry run pytest tests/ -v",
+        "poetry run python server.py (check startup)"
+      ]
+    }
+  },
+  "integration_tests": {
+    "end_to_end_workflow": {
+      "description": "Complete workflow from task description to construction kit",
+      "steps": [
+        "1. get-keymaker-workflow → retrieve template",
+        "2. calculate-complexity-score → determine CoT/ToT",
+        "3. get-reasoning-template → retrieve strategy template",
+        "4. [Claude cognitive work] → generate mission map",
+        "5. save-mission-map → persist and validate",
+        "6. generate-task-directives → create Do's/Don'ts",
+        "7. generate-library-checklist → Context7 checklist"
+      ],
+      "validation_criteria": [
+        "All 7 steps complete without errors",
+        "All artifacts saved to .cortex/tasks/{task_id}/",
+        "Mission map validates against schema",
+        "Directives contain relevant patterns",
+        "Checklist includes all unique libraries"
+      ]
+    },
+    "error_handling_validation": {
+      "description": "Validate graceful error handling",
+      "test_scenarios": [
+        "Missing template files",
+        "Invalid mission map content", 
+        "Corrupted JSON in templates",
+        "File permission errors",
+        "Invalid task_id characters"
+      ]
+    }
+  },
+  "success_criteria": {
+    "technical": [
+      "All 6 tools operational through MCP interface",
+      "Complete compliance with 4 Principios Rectores",
+      ">90% test coverage with behavior-driven approach",
+      "All quality gates pass (mypy, black, flake8)"
+    ],
+    "functional": [
+      "Complete construction kit generation from task description",
+      "Validated cognitive load reduction through real usage",
+      "All artifacts properly structured and persistent",
+      "Integration with existing CortexMCP patterns"
+    ],
+    "architectural": [
+      "Zero business logic in server.py",
+      "All tools atomic and single-responsibility",
+      "Perfect separation: MCP=tools, Claude=cognition",
+      "Anti-over-engineering principles maintained"
+    ]
+  },
+  "notes": {
+    "critical_dependencies": [
+      "Existing BaseTool architecture must be stable",
+      "complexity_matrix.md must be available in .roo/scoring/",
+      "FastMCP server framework operational"
+    ],
+    "risk_mitigation": [
+      "Create mock complexity_matrix.xml if original missing",
+      "Implement simplified heuristics for MVP version",
+      "Incremental testing after each tool implementation"
+    ],
+    "future_enhancements": [
+      "Sophisticated complexity evaluation algorithms",
+      "Machine learning for pattern extraction improvement",
+      "Additional reasoning strategy templates (beyond CoT/ToT)"
+    ]
+  }
+}
