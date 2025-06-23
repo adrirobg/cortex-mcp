@@ -29,8 +29,7 @@ from schemas.planning_payloads import (
     PlanningArtifactPayload,
     TemplateType,
     TemplateStatus,
-    ArtifactStatus,
-    PlanningWorkflowStage
+    ArtifactStatus
 )
 
 # Configure logging
@@ -578,34 +577,13 @@ class PlanningArtifactTool(BaseTool[PlanningArtifactPayload]):
 
 
 # ========================================
-# BACKWARD COMPATIBILITY WRAPPER FUNCTIONS
-# Maintain legacy API while using modern BaseTool internally
+# CLEAN MODERN API - Direct tool access recommended
 # ========================================
 
-def get_planning_template_modern(template_name: str) -> StrategyResponse[PlanningTemplatePayload]:
-    """Modern wrapper for planning template retrieval.
-    
-    Returns full StrategyResponse for tools that support it.
-    """
-    tool = PlanningTemplateTool()
-    return tool.execute(template_name=template_name)
-
-
-def save_planning_artifact_modern(file_name: str, file_content: str, directory: str = ".cortex/planning/") -> StrategyResponse[PlanningArtifactPayload]:
-    """Modern wrapper for planning artifact saving.
-    
-    Returns full StrategyResponse for tools that support it.
-    """
-    tool = PlanningArtifactTool()
-    return tool.execute(file_name=file_name, file_content=file_content, directory=directory)
-
-
-# Export main functions - Legacy + Modern
+# Export clean API
 __all__ = [
     "get_planning_template",
-    "save_planning_artifact",
-    "get_planning_template_modern",
-    "save_planning_artifact_modern",
+    "save_planning_artifact", 
     "PlanningTemplateTool",
     "PlanningArtifactTool"
 ]

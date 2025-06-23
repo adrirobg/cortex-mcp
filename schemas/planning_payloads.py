@@ -4,8 +4,8 @@ These schemas define the structured data returned by the planning toolkit tools.
 Following the Universal Response Schema pattern with strict Pydantic validation.
 """
 
-from typing import Any, Dict, List, Optional, Literal
-from pydantic import BaseModel, Field
+from typing import List, Optional
+from pydantic import Field
 from enum import Enum
 
 from schemas.universal_response import BasePayload

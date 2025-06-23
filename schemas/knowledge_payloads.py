@@ -4,7 +4,7 @@ These schemas define the structured data returned by the knowledge management to
 Following the Universal Response Schema pattern with strict Pydantic validation.
 """
 
-from typing import Any, Dict, List, Optional, Literal
+from typing import List, Optional
 from pydantic import BaseModel, Field
 from enum import Enum
 

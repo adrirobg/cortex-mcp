@@ -24,7 +24,6 @@ from schemas.knowledge_payloads import (
     KnowledgeIntegrationPayload,
     RetrospectiveStatus,
     KnowledgeIntegrationStatus,
-    KnowledgeWorkflowStage,
     RetrospectiveSection,
     ImprovementSuggestion
 )
@@ -585,32 +584,6 @@ class KnowledgeIntegrationTool(BaseTool[KnowledgeIntegrationPayload]):
 # Maintain legacy API while using modern BaseTool internally
 # ========================================
 
-def start_retrospective_modern(
-    task_name: str,
-    phase_context: Optional[str] = None,
-    duration_estimate: Optional[str] = None
-) -> StrategyResponse[RetrospectivePayload]:
-    """Modern wrapper for retrospective creation.
-    
-    Returns full StrategyResponse for tools that support it.
-    """
-    tool = RetrospectiveTool()
-    return tool.execute(
-        task_name=task_name,
-        phase_context=phase_context,
-        duration_estimate=duration_estimate
-    )
-
-
-def process_retrospective_modern(retrospective_file: str) -> StrategyResponse[KnowledgeIntegrationPayload]:
-    """Modern wrapper for knowledge integration.
-    
-    Returns full StrategyResponse for tools that support it.
-    """
-    tool = KnowledgeIntegrationTool()
-    return tool.execute(retrospective_file=retrospective_file)
-
-
 # Backward compatibility functions for server.py delegation
 def start_retrospective(
     task_name: str,
@@ -657,12 +630,10 @@ def process_retrospective(retrospective_file: str) -> str:
     return json.dumps(legacy_response, indent=2, ensure_ascii=False)
 
 
-# Export main functions
+# Export clean API
 __all__ = [
     "start_retrospective",
-    "process_retrospective", 
-    "start_retrospective_modern",
-    "process_retrospective_modern",
-    "RetrospectiveTool",
+    "process_retrospective",
+    "RetrospectiveTool", 
     "KnowledgeIntegrationTool"
 ]
