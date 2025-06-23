@@ -1,0 +1,1 @@
+# Prompts module for CortexMCP native prompts

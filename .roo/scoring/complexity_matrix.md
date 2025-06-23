@@ -1,6 +1,6 @@
 <!-- 
     Rúbrica de Puntuación de Complejidad de Tarea (TCS) v2.0
-    Instrucciones para el agente que la ejecuta (PseudoCoder):
+    Instrucciones para el agente que la ejecuta (Keymaker):
     1. Parsear este documento XML.
     2. Iterar sobre cada <metric>.
     3. Ejecutar la <instruction> contenida en cada métrica sobre el contexto de la tarea actual.

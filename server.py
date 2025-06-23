@@ -22,10 +22,13 @@ from mcp.server.fastmcp import FastMCP
 from tools.planning_toolkit import PlanningTemplateTool, PlanningArtifactTool
 from tools.knowledge_management import RetrospectiveTool, KnowledgeIntegrationTool
 
+# Import prompt functions for native MCP prompts
+from prompts.planning_prompts import phase_preparation_simple_prompt
+
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Initialize FastMCP server
+# Initialize FastMCP server with prompts capability
 app = FastMCP("cortex-mcp", "1.0.0")
 
 
@@ -122,6 +125,47 @@ async def process_retrospective(
     """
     tool = KnowledgeIntegrationTool()
     return await tool.validate_and_execute(retrospective_file=retrospective_file)
+
+
+# ========================================
+# EXPERIMENTAL: MCP NATIVE PROMPTS
+# Research & MVP comparing prompts vs templates
+# Following Principio Rector #2: Servidor como Ejecutor Fiable
+# ========================================
+
+@app.prompt(
+    name="phase-preparation-simple",
+    description="Generate a simple phase preparation plan using native MCP prompts"
+)
+def phase_preparation_simple(
+    phase_name: Annotated[str, Field(
+        description="Name of the phase to prepare",
+        examples=["Phase 2.8.6", "Database Migration"]
+    )],
+    project_context: Annotated[str, Field(
+        description="Context of the project or current situation", 
+        examples=["CortexMCP Enhancement", "User Authentication System"]
+    )],
+    priority: Annotated[str, Field(
+        description="Priority level for the phase",
+        default="medium"
+    )] = "medium",
+    duration_hours: Annotated[int, Field(
+        description="Estimated duration in hours",
+        default=8
+    )] = 8
+) -> Dict:
+    """Experimental native MCP prompt for phase preparation.
+    
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to prompt function.
+    This is a research experiment to compare native MCP prompts vs PlanningTemplateTool.
+    """
+    return phase_preparation_simple_prompt(
+        phase_name=phase_name,
+        project_context=project_context,
+        priority=priority,
+        duration_hours=duration_hours
+    )
 
 
 def main():
