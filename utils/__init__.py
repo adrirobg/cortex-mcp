@@ -1,1 +1,0 @@
-"""Strategy Library MCP - Utility functions."""

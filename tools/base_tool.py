@@ -50,7 +50,7 @@ class BaseTool(ABC, Generic[PayloadType]):
         logger.info(f"Initialized tool: {tool_name} v{tool_version}")
     
     @abstractmethod
-    def execute(self, **kwargs) -> StrategyResponse[PayloadType]:
+    async def execute(self, **kwargs) -> StrategyResponse[PayloadType]:
         """Execute the tool with given parameters.
         
         This method MUST be implemented by all subclasses and MUST return
@@ -76,7 +76,7 @@ class BaseTool(ABC, Generic[PayloadType]):
         """
         pass
     
-    def validate_and_execute(self, **kwargs) -> Dict[str, Any]:
+    async def validate_and_execute(self, **kwargs) -> Dict[str, Any]:
         """Validate input and execute tool, ensuring valid StrategyResponse.
         
         This is the main entry point that guarantees schema compliance.
@@ -95,7 +95,7 @@ class BaseTool(ABC, Generic[PayloadType]):
         try:
             # Execute the tool
             logger.info(f"Executing tool: {self.tool_name}")
-            response = self.execute(**kwargs)
+            response = await self.execute(**kwargs)
             
             # Validate response is a StrategyResponse
             if not isinstance(response, StrategyResponse):
@@ -268,7 +268,7 @@ class MockTool(BaseTool[BasePayload]):
         """Get strategy type for mock tool."""
         return StrategyType.ANALYSIS
     
-    def execute(self, **kwargs) -> StrategyResponse[BasePayload]:
+    async def execute(self, **kwargs) -> StrategyResponse[BasePayload]:
         """Execute mock tool.
         
         Args:

@@ -16,6 +16,8 @@ import os
 import re
 from datetime import datetime
 from typing import Optional
+import aiofiles
+import aiofiles.os
 
 from tools.base_tool import BaseTool
 from schemas.universal_response import StrategyResponse, StrategyType, ExecutionType, Action
@@ -50,7 +52,7 @@ class RetrospectiveTool(BaseTool[RetrospectivePayload]):
         """Get strategy type for retrospective tool."""
         return StrategyType.LEARNING
     
-    def execute(
+    async def execute(
         self,
         task_name: str,
         phase_context: Optional[str] = None,
@@ -176,11 +178,11 @@ class RetrospectiveTool(BaseTool[RetrospectivePayload]):
 """
             
             # Ensure directory exists
-            os.makedirs(os.path.dirname(filepath), exist_ok=True)
+            await aiofiles.os.makedirs(os.path.dirname(filepath), exist_ok=True)
             
             # Write template to file
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(template_content)
+            async with aiofiles.open(filepath, 'w', encoding='utf-8') as f:
+                await f.write(template_content)
             
             file_size = len(template_content.encode('utf-8'))
             
@@ -326,7 +328,7 @@ class KnowledgeIntegrationTool(BaseTool[KnowledgeIntegrationPayload]):
         """Get strategy type for knowledge integration tool."""
         return StrategyType.LEARNING
     
-    def execute(self, retrospective_file: str, **kwargs) -> StrategyResponse[KnowledgeIntegrationPayload]:
+    async def execute(self, retrospective_file: str, **kwargs) -> StrategyResponse[KnowledgeIntegrationPayload]:
         """Execute knowledge integration from retrospective.
         
         Args:
@@ -338,12 +340,12 @@ class KnowledgeIntegrationTool(BaseTool[KnowledgeIntegrationPayload]):
         """
         try:
             # Validate file exists
-            if not os.path.exists(retrospective_file):
+            if not await aiofiles.os.path.exists(retrospective_file):
                 raise ValueError(f"Retrospective file not found: {retrospective_file}")
             
             # Read retrospective content
-            with open(retrospective_file, 'r', encoding='utf-8') as f:
-                content = f.read()
+            async with aiofiles.open(retrospective_file, 'r', encoding='utf-8') as f:
+                content = await f.read()
             
             # Extract improvement suggestions (enhanced parsing)
             improvements_section = re.search(r'##.*Improvement Suggestions(.*?)(?=##|$)', content, re.DOTALL)
@@ -388,8 +390,9 @@ class KnowledgeIntegrationTool(BaseTool[KnowledgeIntegrationPayload]):
             # Load existing improvements.json
             improvements_file = ".cortex/ideas/improvements.json"
             try:
-                with open(improvements_file, 'r', encoding='utf-8') as f:
-                    improvements_data = json.load(f)
+                async with aiofiles.open(improvements_file, 'r', encoding='utf-8') as f:
+                    content = await f.read()
+                    improvements_data = json.loads(content)
             except FileNotFoundError:
                 # Create basic structure if file doesn't exist
                 improvements_data = {
@@ -397,7 +400,7 @@ class KnowledgeIntegrationTool(BaseTool[KnowledgeIntegrationPayload]):
                     "metrics": {"total_improvements": 0}
                 }
                 # Ensure directory exists
-                os.makedirs(os.path.dirname(improvements_file), exist_ok=True)
+                await aiofiles.os.makedirs(os.path.dirname(improvements_file), exist_ok=True)
             
             # Add new improvements
             new_improvement_ids = []
@@ -439,8 +442,8 @@ class KnowledgeIntegrationTool(BaseTool[KnowledgeIntegrationPayload]):
             improvements_data["metrics"]["last_updated"] = datetime.now().isoformat()
             
             # Save updated improvements.json
-            with open(improvements_file, 'w', encoding='utf-8') as f:
-                json.dump(improvements_data, f, indent=2, ensure_ascii=False)
+            async with aiofiles.open(improvements_file, 'w', encoding='utf-8') as f:
+                await f.write(json.dumps(improvements_data, indent=2, ensure_ascii=False))
             
             # Prepare sections processed
             sections_processed = []
@@ -579,61 +582,10 @@ class KnowledgeIntegrationTool(BaseTool[KnowledgeIntegrationPayload]):
             )
 
 
-# ========================================
-# BACKWARD COMPATIBILITY WRAPPER FUNCTIONS
-# Maintain legacy API while using modern BaseTool internally
-# ========================================
-
-# Backward compatibility functions for server.py delegation
-def start_retrospective(
-    task_name: str,
-    phase_context: Optional[str] = None,
-    duration_estimate: Optional[str] = None
-) -> str:
-    """Legacy wrapper for start_retrospective - delegates to modern BaseTool."""
-    tool = RetrospectiveTool()
-    result = tool.execute(task_name=task_name, phase_context=phase_context, duration_estimate=duration_estimate)
-    
-    # Convert StrategyResponse back to legacy JSON format for server.py compatibility
-    legacy_response = {
-        "status": "success",
-        "message": result.user_facing.summary,
-        "retrospective_file": result.payload.retrospective_file,
-        "task_name": result.payload.task_name,
-        "phase_context": result.payload.phase_context,
-        "duration_estimate": result.payload.duration_estimate,
-        "template_sections": result.payload.template_sections,
-        "next_tool": result.payload.next_tool,
-        "workflow_status": result.payload.workflow_stage
-    }
-    
-    return json.dumps(legacy_response, indent=2, ensure_ascii=False)
-
-
-def process_retrospective(retrospective_file: str) -> str:
-    """Legacy wrapper for process_retrospective - delegates to modern BaseTool."""
-    tool = KnowledgeIntegrationTool()
-    result = tool.execute(retrospective_file=retrospective_file)
-    
-    # Convert StrategyResponse back to legacy JSON format for server.py compatibility
-    legacy_response = {
-        "status": "success",
-        "message": result.user_facing.summary,
-        "retrospective_file": result.payload.retrospective_file,
-        "improvements_extracted": result.payload.improvements_extracted,
-        "new_improvement_ids": result.payload.new_improvement_ids,
-        "knowledge_artifacts": result.payload.knowledge_artifacts,
-        "integration_status": result.payload.integration_status,
-        "workflow_status": result.payload.workflow_stage
-    }
-    
-    return json.dumps(legacy_response, indent=2, ensure_ascii=False)
 
 
 # Export clean API
 __all__ = [
-    "start_retrospective",
-    "process_retrospective",
     "RetrospectiveTool", 
     "KnowledgeIntegrationTool"
 ]

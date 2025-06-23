@@ -13,10 +13,14 @@ Following the 4 Principios Rectores:
 
 import json
 import logging
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Dict
 
 from pydantic import Field
 from mcp.server.fastmcp import FastMCP
+
+# Import BaseTool classes for direct instantiation
+from tools.planning_toolkit import PlanningTemplateTool, PlanningArtifactTool
+from tools.knowledge_management import RetrospectiveTool, KnowledgeIntegrationTool
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -29,29 +33,25 @@ app = FastMCP("cortex-mcp", "1.0.0")
     name="get-planning-template",
     description="Retrieve blank planning template structure for Claude's cognitive work"
 )
-def get_planning_template(
+async def get_planning_template(
     template_name: Annotated[str, Field(
         description="Template to retrieve: 'phase_preparation', 'retrospective', etc.",
         examples=["phase_preparation", "retrospective"]
     )]
-) -> str:
+) -> Dict:
     """Retrieve blank planning template structure for Claude's cognitive work.
     
-    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - uses BaseTool directly.
     """
-    try:
-        from tools.planning_toolkit import get_planning_template as pt_get_template
-        return pt_get_template(template_name)
-    except Exception as e:
-        logger.error(f"get-planning-template delegation failed: {str(e)}")
-        raise ValueError(f"get-planning-template delegation failed: {str(e)}")
+    tool = PlanningTemplateTool()
+    return await tool.validate_and_execute(template_name=template_name)
 
 
 @app.tool(
     name="save-planning-artifact",
     description="Save Claude's planning artifact to specified location"
 )
-def save_planning_artifact(
+async def save_planning_artifact(
     file_name: Annotated[str, Field(
         description="Name of the artifact file to save",
         examples=["Phase2.8.5_Prep.json", "RetroAnalysis_2025-06-22.md"]
@@ -63,24 +63,24 @@ def save_planning_artifact(
         description="Directory to save the artifact",
         default=".cortex/planning/"
     )] = ".cortex/planning/"
-) -> str:
+) -> Dict:
     """Save Claude's planning artifact to specified location.
     
-    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - uses BaseTool directly.
     """
-    try:
-        from tools.planning_toolkit import save_planning_artifact as pt_save_artifact
-        return pt_save_artifact(file_name, file_content, directory)
-    except Exception as e:
-        logger.error(f"save-planning-artifact delegation failed: {str(e)}")
-        raise ValueError(f"save-planning-artifact delegation failed: {str(e)}")
+    tool = PlanningArtifactTool()
+    return await tool.validate_and_execute(
+        file_name=file_name,
+        file_content=file_content,
+        directory=directory
+    )
 
 
 @app.tool(
     name="start-retrospective",
     description="Create structured retrospective draft for knowledge capture and analysis"
 )
-def start_retrospective(
+async def start_retrospective(
     task_name: Annotated[str, Field(
         description="Name/description of the completed task or milestone",
         min_length=3,
@@ -93,39 +93,35 @@ def start_retrospective(
     duration_estimate: Annotated[Optional[str], Field(
         description="How long the task took (for learning purposes)"
     )] = None
-) -> str:
+) -> Dict:
     """Create structured retrospective draft for knowledge capture.
     
-    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - uses BaseTool directly.
     """
-    try:
-        from tools.knowledge_management import start_retrospective as km_start_retrospective
-        return km_start_retrospective(task_name, phase_context, duration_estimate)
-    except Exception as e:
-        logger.error(f"start-retrospective delegation failed: {str(e)}")
-        raise ValueError(f"start-retrospective delegation failed: {str(e)}")
+    tool = RetrospectiveTool()
+    return await tool.validate_and_execute(
+        task_name=task_name,
+        phase_context=phase_context,
+        duration_estimate=duration_estimate
+    )
 
 
 @app.tool(
     name="process-retrospective", 
     description="Extract insights from completed retrospective and integrate into knowledge base"
 )
-def process_retrospective(
+async def process_retrospective(
     retrospective_file: Annotated[str, Field(
         description="Path to the completed retrospective Markdown file",
         examples=[".cortex/retrospectives/2025-06-21_ia_ia_collaboration.md"]
     )]
-) -> str:
+) -> Dict:
     """Process completed retrospective and integrate insights into knowledge base.
     
-    Following Principio Rector #2: Servidor como Ejecutor Fiable - delegates to tools module.
+    Following Principio Rector #2: Servidor como Ejecutor Fiable - uses BaseTool directly.
     """
-    try:
-        from tools.knowledge_management import process_retrospective as km_process_retrospective
-        return km_process_retrospective(retrospective_file)
-    except Exception as e:
-        logger.error(f"process-retrospective delegation failed: {str(e)}")
-        raise ValueError(f"process-retrospective delegation failed: {str(e)}")
+    tool = KnowledgeIntegrationTool()
+    return await tool.validate_and_execute(retrospective_file=retrospective_file)
 
 
 def main():

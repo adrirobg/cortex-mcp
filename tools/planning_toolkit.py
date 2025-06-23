@@ -21,6 +21,8 @@ import os
 import logging
 from typing import Optional
 from datetime import datetime
+import aiofiles
+import aiofiles.os
 
 from tools.base_tool import BaseTool
 from schemas.universal_response import StrategyResponse, StrategyType, ExecutionType, Action
@@ -36,103 +38,6 @@ from schemas.planning_payloads import (
 logger = logging.getLogger(__name__)
 
 
-def get_planning_template(template_name: str) -> str:
-    """Retrieve blank planning template structure for Claude's cognitive work.
-    
-    Following Principio Rector #2: Servidor como Ejecutor Fiable - simple deterministic utility.
-    Following Principio Rector #3: Zero cognition, zero state.
-    
-    Args:
-        template_name: Name of the template to retrieve
-        
-    Returns:
-        JSON string with template content or error message
-    """
-    try:
-        # Construct template path - try JSON first, then markdown
-        json_template_path = f".cortex/templates/{template_name}.json"
-        md_template_path = f".cortex/templates/{template_name}.md"
-        
-        # Check for JSON template first
-        if os.path.exists(json_template_path):
-            with open(json_template_path, 'r', encoding='utf-8') as f:
-                template_content = f.read()
-            return json.dumps({
-                "status": "success",
-                "template_type": "json",
-                "template_name": template_name,
-                "content": template_content
-            })
-        
-        # Check for markdown template
-        elif os.path.exists(md_template_path):
-            with open(md_template_path, 'r', encoding='utf-8') as f:
-                template_content = f.read()
-            return json.dumps({
-                "status": "success", 
-                "template_type": "markdown",
-                "template_name": template_name,
-                "content": template_content
-            })
-        
-        # Template not found
-        else:
-            return json.dumps({
-                "status": "error",
-                "message": f"Template '{template_name}' not found in .cortex/templates/ directory",
-                "available_extensions": ["json", "md"]
-            })
-            
-    except Exception as e:
-        logger.error(f"Template retrieval failed: {str(e)}")
-        return json.dumps({
-            "status": "error",
-            "message": f"Template retrieval failed: {str(e)}"
-        })
-
-
-def save_planning_artifact(file_name: str, file_content: str, directory: str = ".cortex/planning/") -> str:
-    """Save Claude's planning artifact to specified location.
-    
-    Following Principio Rector #2: Servidor como Ejecutor Fiable - simple file storage utility.
-    Following Principio Rector #3: Zero cognition, pure storage operation.
-    
-    Args:
-        file_name: Name of the file to save
-        file_content: Content to write to the file
-        directory: Directory path to save the file (default: .cortex/planning/)
-        
-    Returns:
-        JSON string with save status and file path
-    """
-    try:
-        # Ensure directory exists
-        os.makedirs(directory, exist_ok=True)
-        
-        # Full path construction
-        file_path = os.path.join(directory, file_name)
-        
-        # Write file with UTF-8 encoding
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(file_content)
-            
-        return json.dumps({
-            "status": "success",
-            "message": f"Planning artifact saved successfully",
-            "file_path": file_path,
-            "file_name": file_name,
-            "directory": directory,
-            "file_size_bytes": len(file_content.encode('utf-8'))
-        })
-        
-    except Exception as e:
-        logger.error(f"Artifact save failed: {str(e)}")
-        return json.dumps({
-            "status": "error", 
-            "message": f"Failed to save planning artifact: {str(e)}",
-            "file_name": file_name,
-            "directory": directory
-        })
 
 
 # ========================================
@@ -155,7 +60,7 @@ class PlanningTemplateTool(BaseTool[PlanningTemplatePayload]):
         """Get strategy type for planning template tool."""
         return StrategyType.PLANNING
     
-    def execute(self, template_name: str, **kwargs) -> StrategyResponse[PlanningTemplatePayload]:
+    async def execute(self, template_name: str, **kwargs) -> StrategyResponse[PlanningTemplatePayload]:
         """Execute planning template retrieval.
         
         Args:
@@ -171,9 +76,9 @@ class PlanningTemplateTool(BaseTool[PlanningTemplatePayload]):
             md_template_path = f".cortex/templates/{template_name}.md"
             
             # Check for JSON template first
-            if os.path.exists(json_template_path):
-                with open(json_template_path, 'r', encoding='utf-8') as f:
-                    template_content = f.read()
+            if await aiofiles.os.path.exists(json_template_path):
+                async with aiofiles.open(json_template_path, 'r', encoding='utf-8') as f:
+                    template_content = await f.read()
                 
                 payload = PlanningTemplatePayload(
                     workflow_stage="template_retrieval",
@@ -230,9 +135,9 @@ class PlanningTemplateTool(BaseTool[PlanningTemplatePayload]):
                 )
             
             # Check for markdown template
-            elif os.path.exists(md_template_path):
-                with open(md_template_path, 'r', encoding='utf-8') as f:
-                    template_content = f.read()
+            elif await aiofiles.os.path.exists(md_template_path):
+                async with aiofiles.open(md_template_path, 'r', encoding='utf-8') as f:
+                    template_content = await f.read()
                 
                 payload = PlanningTemplatePayload(
                     workflow_stage="template_retrieval",
@@ -293,7 +198,9 @@ class PlanningTemplateTool(BaseTool[PlanningTemplatePayload]):
                 # Check what templates are available
                 templates_dir = ".cortex/templates"
                 available_templates = []
-                if os.path.exists(templates_dir):
+                if await aiofiles.os.path.exists(templates_dir):
+                    # Use synchronous os.listdir since aiofiles doesn't have async listdir
+                    import os
                     for file in os.listdir(templates_dir):
                         if file.endswith(('.json', '.md')):
                             available_templates.append(file.replace('.json', '').replace('.md', ''))
@@ -423,7 +330,7 @@ class PlanningArtifactTool(BaseTool[PlanningArtifactPayload]):
         """Get strategy type for planning artifact tool."""
         return StrategyType.PLANNING
     
-    def execute(self, file_name: str, file_content: str, directory: str = ".cortex/planning/", **kwargs) -> StrategyResponse[PlanningArtifactPayload]:
+    async def execute(self, file_name: str, file_content: str, directory: str = ".cortex/planning/", **kwargs) -> StrategyResponse[PlanningArtifactPayload]:
         """Execute planning artifact saving.
         
         Args:
@@ -438,16 +345,16 @@ class PlanningArtifactTool(BaseTool[PlanningArtifactPayload]):
         try:
             # Ensure directory exists
             directory_created = False
-            if not os.path.exists(directory):
-                os.makedirs(directory, exist_ok=True)
+            if not await aiofiles.os.path.exists(directory):
+                await aiofiles.os.makedirs(directory, exist_ok=True)
                 directory_created = True
             
             # Full path construction
             file_path = os.path.join(directory, file_name)
             
             # Write file with UTF-8 encoding
-            with open(file_path, 'w', encoding='utf-8') as f:
-                f.write(file_content)
+            async with aiofiles.open(file_path, 'w', encoding='utf-8') as f:
+                await f.write(file_content)
             
             # Generate content preview
             content_preview = file_content[:200] + "..." if len(file_content) > 200 else file_content
@@ -523,7 +430,7 @@ class PlanningArtifactTool(BaseTool[PlanningArtifactPayload]):
                 artifact_status=ArtifactStatus.ERROR,
                 file_size_bytes=0,
                 directory_created=False,
-                directory_exists=os.path.exists(directory),
+                directory_exists=await aiofiles.os.path.exists(directory),
                 encoding_used="utf-8",
                 operation_timestamp=datetime.now().isoformat(),
                 error_message=f"Failed to save planning artifact: {str(e)}",
@@ -577,13 +484,11 @@ class PlanningArtifactTool(BaseTool[PlanningArtifactPayload]):
 
 
 # ========================================
-# CLEAN MODERN API - Direct tool access recommended
+# CLEAN MODERN API - BaseTool classes only
 # ========================================
 
 # Export clean API
 __all__ = [
-    "get_planning_template",
-    "save_planning_artifact", 
     "PlanningTemplateTool",
     "PlanningArtifactTool"
 ]
