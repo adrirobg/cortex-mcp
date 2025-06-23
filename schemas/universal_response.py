@@ -16,6 +16,7 @@ class StrategyType(str, Enum):
     EXECUTION = "execution"
     COORDINATION = "coordination"
     LEARNING = "learning"
+    PLANNING = "planning"
 
 
 class ExecutionType(str, Enum):

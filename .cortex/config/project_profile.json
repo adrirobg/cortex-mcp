@@ -6,7 +6,7 @@
     "version": "1.0.0-mvp",
     "created_date": "2025-06-21",
     "workflow_type": "manual_assisted",
-    "tools": ["start-retrospective", "process-retrospective"]
+    "tools": ["Necesitan ser revisadas (en server.py) y actualizadas por claude code."]
   },
   "directory_structure": {
     ".cortex/retrospectives/": "Meta-reflection analyses with timestamps",
@@ -28,10 +28,10 @@
   "session_management": {
     "current_session": ".cortex/sessions/current_session.md",
     "last_updated": "2025-06-22 19:00:00",
-    "last_retrospective": ".cortex/retrospectives/2025-06-22_phase_282_domain_intelligence_mvp_implementation.md",
-    "last_implementation": ".cortex/planning/Phase2.8.4-Prep_WorkflowConsolidation_Preparation.json",
+    "last_retrospective": "docs/meta-reflection_ia-ia_collaborative_planning_toolkit.md",
+    "last_implementation": ".cortex/planning/Phase2.8.5_PlanningToolkit_MVP_Preparation.json",
     "phase_283_status": "COMPLETED - Collaboration Point MVP operational",
-    "phase_284_prep_status": "PLANNED - Architecture consolidation documented and ready for implementation",
+    "phase_284_prep_status": "PLANNED - Sesión de refactorización de arquitectura con ayuda colaborativa de IA (Claude y Gemini)",
     "slash_commands": {
       "save_session": "/project:save-session [status]",
       "recover_session": "/project:recover-session",
