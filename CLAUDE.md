@@ -4,24 +4,25 @@
 
 **TEST-DRIVEN DEVELOPMENT IS NON-NEGOTIABLE.** Every single line of production code must be written in response to a failing test. No exceptions. This is not a suggestion or a preference - it is the fundamental practice that enables all other principles in this document.
 
-We follow Test-Driven Development (TDD) with a strong emphasis on behavior-driven testing and the **4 Principios Rectores** of CortexMCP. All work must be done in small, incremental changes that maintain a working, tested state throughout development.
+We follow Test-Driven Development (TDD) with a strong emphasis on behavior-driven testing and the **5 Principios Rectores** of CortexMCP. All work must be done in small, incremental changes that maintain a working, tested state throughout development.
 
 ## ⚡ Quick Reference
 
 ### Key Principles
 - **Write tests first (TDD)** - Red → Green → Refactor, always
 - **Test behavior, not implementation** - Test through `validate_and_execute()` only
-- **Follow the 4 Principios Rectores** without exception
+- **Follow the 5 Principios Rectores** without exception
 - **No `Any` types** - Use proper Pydantic models and type hints
 - **Immutable responses** - StrategyResponse objects are never modified
 - **Small, async functions** - Every tool method must be async
 - **Use real schemas in tests** - Import from `schemas/`, never redefine
 
-### The 4 Principios Rectores (MANDATORY)
+### The 5 Principios Rectores (MANDATORY)
 1. **Dogmatismo con Universal Response Schema** - ALL tools MUST return StrategyResponse
 2. **Servidor como Ejecutor Fiable** - server.py ONLY delegates, ZERO business logic
 3. **Estado en Claude, NO en Servidor** - MCP is stateless, Claude maintains context
 4. **Testing Concurrente** - Test continuously during development, not after
+5. **Simplicidad Radical** - No OVERENGINEERING. ELEGANT solutions, ZERO unnecessary complexity
 
 ### Preferred Stack
 - **Language**: Python 3.10+ (with type hints everywhere)

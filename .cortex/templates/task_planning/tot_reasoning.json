@@ -1,0 +1,157 @@
+{
+  "strategy": "tree_of_thoughts",
+  "description": "Multiple perspective evaluation for complex tasks (TCS >= 4)",
+  "usage_guidelines": {
+    "when_to_use": "Tasks with TCS scores 4+, complex problem-solving requiring multiple viewpoints",
+    "cognitive_load": "High",
+    "time_estimate": "15-25 minutes",
+    "best_for": ["Novel implementations", "Complex system changes", "Architectural decisions"]
+  },
+  "perspectives": [
+    {
+      "id": "robustness",
+      "name": "Robustness-First Design",
+      "description": "Prioritizing system reliability, fault tolerance, and error recovery",
+      "focus": "Error handling, fault tolerance, reliability, system resilience",
+      "cognitive_lens": "What could go wrong and how do we handle it?",
+      "key_questions": [
+        "What are all the possible failure modes?",
+        "How can we design for graceful degradation?",
+        "What recovery mechanisms should be built-in?",
+        "How do we ensure data consistency under failure conditions?"
+      ],
+      "evaluation_criteria": [
+        "Comprehensive error handling coverage",
+        "Graceful degradation under load/failure",
+        "Effective recovery and rollback mechanisms",
+        "Monitoring and alerting capabilities",
+        "Data integrity guarantees"
+      ],
+      "output_format": {
+        "strengths": "What this approach handles well",
+        "weaknesses": "Potential downsides or limitations",
+        "implementation_complexity": "1-5 scale",
+        "risk_mitigation": "Key risks this perspective addresses"
+      }
+    },
+    {
+      "id": "simplicity",
+      "name": "Simplicity-First Design",
+      "description": "Emphasizing minimal complexity, clarity, and maintainability",
+      "focus": "Minimal complexity, code clarity, maintainability, developer experience",
+      "cognitive_lens": "What is the simplest solution that could work?",
+      "key_questions": [
+        "How can we minimize the number of moving parts?",
+        "What is the most straightforward implementation approach?",
+        "How do we reduce cognitive load for future developers?",
+        "What abstractions truly add value vs. complexity?"
+      ],
+      "evaluation_criteria": [
+        "Code readability and self-documentation",
+        "Minimal external dependencies",
+        "Clear and intuitive abstractions",
+        "Low learning curve for new team members",
+        "Reduced debugging complexity"
+      ],
+      "output_format": {
+        "strengths": "What this approach excels at",
+        "weaknesses": "Where simplicity might not be sufficient",
+        "implementation_complexity": "1-5 scale",
+        "developer_experience": "Impact on team productivity"
+      }
+    },
+    {
+      "id": "scalability",
+      "name": "Scalability-First Design",
+      "description": "Optimizing for performance, growth, and future extensibility",
+      "focus": "Performance optimization, horizontal scaling, future extensibility",
+      "cognitive_lens": "How will this perform at 10x, 100x current scale?",
+      "key_questions": [
+        "How does this solution scale horizontally?",
+        "What are the performance bottlenecks and optimization opportunities?",
+        "How extensible is this design for future requirements?",
+        "What caching and optimization strategies should be employed?"
+      ],
+      "evaluation_criteria": [
+        "Horizontal scalability potential",
+        "Performance optimization opportunities",
+        "Future extensibility and plugin architecture",
+        "Resource utilization efficiency",
+        "Caching and optimization strategies"
+      ],
+      "output_format": {
+        "strengths": "Performance and scalability advantages",
+        "weaknesses": "Over-engineering risks or premature optimization",
+        "implementation_complexity": "1-5 scale",
+        "future_proofing": "How well this handles growth"
+      }
+    }
+  ],
+  "evaluation_framework": [
+    {
+      "step": "perspective_development",
+      "description": "Develop each perspective independently",
+      "time_allocation": "5-7 minutes per perspective",
+      "output": "Three distinct approaches with detailed analysis",
+      "success_criteria": "Each perspective offers genuinely different solutions"
+    },
+    {
+      "step": "comparative_analysis",
+      "description": "Compare all three approaches systematically",
+      "time_allocation": "3-5 minutes",
+      "analysis_dimensions": [
+        "Implementation complexity (1-5)",
+        "Risk level (1-5)",
+        "Time to deliver (1-5)",
+        "Long-term maintainability (1-5)",
+        "Team expertise fit (1-5)"
+      ],
+      "output": "Scoring matrix with detailed pros/cons for each approach"
+    },
+    {
+      "step": "synthesis",
+      "description": "Combine the best elements from all perspectives",
+      "time_allocation": "2-3 minutes",
+      "synthesis_strategies": [
+        "Hybrid approach combining strengths",
+        "Phased implementation starting with one approach",
+        "Context-dependent selection criteria"
+      ],
+      "output": "Unified approach that leverages the strengths of multiple perspectives"
+    },
+    {
+      "step": "validation",
+      "description": "Validate the synthesized solution",
+      "time_allocation": "1-2 minutes",
+      "validation_checks": [
+        "Does this address the original problem fully?",
+        "Are the trade-offs acceptable?",
+        "Is this implementable with current resources?",
+        "Does this align with system architecture?"
+      ],
+      "output": "Final implementation strategy with confidence level"
+    }
+  ],
+  "scoring_rubric": {
+    "implementation_complexity": {
+      "1": "Trivial implementation",
+      "2": "Straightforward with minor challenges",
+      "3": "Moderate complexity requiring careful planning",
+      "4": "Complex with multiple integration points",
+      "5": "Highly complex requiring specialized expertise"
+    },
+    "risk_level": {
+      "1": "Minimal risk, well-understood approach",
+      "2": "Low risk with proven patterns",
+      "3": "Moderate risk, some unknowns",
+      "4": "High risk, significant unknowns",
+      "5": "Very high risk, experimental approach"
+    }
+  },
+  "common_pitfalls": [
+    "Developing perspectives that are too similar",
+    "Favoring one perspective without genuine evaluation",
+    "Creating overly complex synthesis",
+    "Ignoring practical implementation constraints"
+  ]
+}

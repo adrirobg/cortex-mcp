@@ -1,0 +1,273 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mission Map Schema",
+  "description": "JSON Schema for validating Keymaker mission map artifacts",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["project", "phases", "metadata"],
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Project name or identifier",
+      "minLength": 3,
+      "maxLength": 100,
+      "pattern": "^[A-Za-z0-9_\\-\\s]+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "High-level project description",
+      "minLength": 10,
+      "maxLength": 500
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Mission map metadata",
+      "required": ["created_date", "strategy_used", "complexity_score"],
+      "properties": {
+        "created_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of creation"
+        },
+        "strategy_used": {
+          "type": "string",
+          "enum": ["CoT", "ToT"],
+          "description": "Reasoning strategy used for generation"
+        },
+        "complexity_score": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Calculated Task Complexity Score"
+        },
+        "estimated_duration": {
+          "type": "string",
+          "description": "Estimated project duration"
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+        }
+      }
+    },
+    "phases": {
+      "type": "array",
+      "description": "Ordered list of project phases",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase_id", "description", "tasks"],
+        "properties": {
+          "phase_id": {
+            "type": "string",
+            "description": "Unique phase identifier",
+            "pattern": "^[A-Za-z0-9_]+$",
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "description": {
+            "type": "string",
+            "description": "Phase description",
+            "minLength": 5,
+            "maxLength": 200
+          },
+          "estimated_duration": {
+            "type": "string",
+            "description": "Estimated phase duration"
+          },
+          "prerequisites": {
+            "type": "array",
+            "description": "Phase dependencies",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tasks": {
+            "type": "array",
+            "description": "Tasks within this phase",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["task_id", "description", "agent_profile", "dependencies"],
+              "properties": {
+                "task_id": {
+                  "type": "string",
+                  "description": "Unique task identifier",
+                  "pattern": "^[A-Za-z0-9_\\-]+$",
+                  "minLength": 3,
+                  "maxLength": 100
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Detailed task description",
+                  "minLength": 10,
+                  "maxLength": 1000
+                },
+                "agent_profile": {
+                  "type": "string",
+                  "description": "Required agent profile for task execution",
+                  "pattern": "^agent:",
+                  "minLength": 7
+                },
+                "dependencies": {
+                  "type": "array",
+                  "description": "Task dependencies (task_ids)",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_\\-]+$"
+                  }
+                },
+                "context7_libraries": {
+                  "type": "array",
+                  "description": "Required Context7 libraries",
+                  "items": {
+                    "type": "string",
+                    "minLength": 2
+                  }
+                },
+                "artifacts_output": {
+                  "type": "array",
+                  "description": "Expected output artifacts",
+                  "items": {
+                    "type": "string",
+                    "minLength": 3
+                  }
+                },
+                "validation_criteria": {
+                  "type": "string",
+                  "description": "Task completion validation criteria",
+                  "minLength": 10,
+                  "maxLength": 500
+                },
+                "human_checkpoint": {
+                  "type": "boolean",
+                  "description": "Whether human validation is required",
+                  "default": false
+                },
+                "estimated_duration": {
+                  "type": "string",
+                  "description": "Estimated task duration"
+                },
+                "complexity_factors": {
+                  "type": "array",
+                  "description": "Factors contributing to task complexity",
+                  "items": {
+                    "type": "string",
+                    "enum": ["NOVELTY", "COUPLING", "SCALE", "AMBIGUITY", "INTEGRATION", "PERFORMANCE"]
+                  }
+                },
+                "risk_factors": {
+                  "type": "array",
+                  "description": "Identified risk factors",
+                  "items": {
+                    "type": "object",
+                    "required": ["risk", "mitigation"],
+                    "properties": {
+                      "risk": {
+                        "type": "string",
+                        "minLength": 5,
+                        "maxLength": 200
+                      },
+                      "mitigation": {
+                        "type": "string",
+                        "minLength": 5,
+                        "maxLength": 200
+                      },
+                      "probability": {
+                        "type": "string",
+                        "enum": ["LOW", "MEDIUM", "HIGH"]
+                      },
+                      "impact": {
+                        "type": "string",
+                        "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "success_criteria": {
+      "type": "object",
+      "description": "Overall project success criteria",
+      "properties": {
+        "technical": {
+          "type": "array",
+          "description": "Technical success criteria",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          }
+        },
+        "functional": {
+          "type": "array",
+          "description": "Functional success criteria",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          }
+        },
+        "quality": {
+          "type": "array",
+          "description": "Quality success criteria",
+          "items": {
+            "type": "string",
+            "minLength": 5
+          }
+        }
+      }
+    },
+    "integration_points": {
+      "type": "array",
+      "description": "System integration points and interfaces",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50
+          },
+          "type": {
+            "type": "string",
+            "enum": ["API", "DATABASE", "FILE_SYSTEM", "EXTERNAL_SERVICE", "UI_COMPONENT", "LIBRARY"]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 200
+          },
+          "requirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "description": "Project assumptions that need validation",
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 200
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "description": "Project constraints and limitations",
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 200
+      }
+    }
+  },
+  "additionalProperties": false
+}

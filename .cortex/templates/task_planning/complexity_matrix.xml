@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<complexity_matrix version="1.0">
+  <metadata>
+    <title>Task Complexity Scoring Matrix</title>
+    <description>Deterministic complexity evaluation for task planning and cognitive strategy selection</description>
+    <version>1.0.0</version>
+    <threshold>
+      <cot_max>3</cot_max>
+      <tot_min>4</tot_min>
+    </threshold>
+    <confidence_level>0.85</confidence_level>
+  </metadata>
+
+  <metrics>
+    <metric id="NOVELTY" weight="0.3">
+      <name>Novelty and Innovation</name>
+      <description>How novel or innovative is the task relative to existing solutions</description>
+      <scores>
+        <score value="1">
+          <label>Routine</label>
+          <description>Well-established patterns, minimal innovation required</description>
+          <indicators>
+            <indicator>Copying existing implementations</indicator>
+            <indicator>Standard CRUD operations</indicator>
+            <indicator>Familiar technology stack</indicator>
+          </indicators>
+        </score>
+        <score value="2">
+          <label>Minor Innovation</label>
+          <description>Small variations on existing patterns</description>
+          <indicators>
+            <indicator>Adapting existing patterns to new context</indicator>
+            <indicator>Minor algorithm modifications</indicator>
+            <indicator>Incremental improvements</indicator>
+          </indicators>
+        </score>
+        <score value="3">
+          <label>Moderate Innovation</label>
+          <description>Significant adaptation or new approach within familiar domain</description>
+          <indicators>
+            <indicator>Combining existing patterns in new ways</indicator>
+            <indicator>New algorithms for known problems</indicator>
+            <indicator>Cross-domain pattern application</indicator>
+          </indicators>
+        </score>
+        <score value="4">
+          <label>High Innovation</label>
+          <description>Novel approaches or uncharted territory</description>
+          <indicators>
+            <indicator>Creating new patterns or architectures</indicator>
+            <indicator>Experimental technologies</indicator>
+            <indicator>Research-level problem solving</indicator>
+          </indicators>
+        </score>
+        <score value="5">
+          <label>Breakthrough</label>
+          <description>Cutting-edge innovation, paradigm shift</description>
+          <indicators>
+            <indicator>Fundamental algorithmic breakthroughs</indicator>
+            <indicator>New theoretical approaches</indicator>
+            <indicator>Industry-changing innovations</indicator>
+          </indicators>
+        </score>
+      </scores>
+    </metric>
+
+    <metric id="COUPLING" weight="0.25">
+      <name>System Coupling and Dependencies</name>
+      <description>Complexity arising from system interdependencies and integration points</description>
+      <scores>
+        <score value="1">
+          <label>Isolated</label>
+          <description>Self-contained, minimal external dependencies</description>
+          <indicators>
+            <indicator>Single module changes</indicator>
+            <indicator>No external API integrations</indicator>
+            <indicator>Minimal shared state</indicator>
+          </indicators>
+        </score>
+        <score value="2">
+          <label>Loosely Coupled</label>
+          <description>Few, well-defined integration points</description>
+          <indicators>
+            <indicator>2-3 system interactions</indicator>
+            <indicator>Standard API contracts</indicator>
+            <indicator>Clear interface boundaries</indicator>
+          </indicators>
+        </score>
+        <score value="3">
+          <label>Moderately Coupled</label>
+          <description>Multiple integration points with some complexity</description>
+          <indicators>
+            <indicator>4-6 system interactions</indicator>
+            <indicator>Some shared state management</indicator>
+            <indicator>Cross-service communication</indicator>
+          </indicators>
+        </score>
+        <score value="4">
+          <label>Tightly Coupled</label>
+          <description>Complex interdependencies across multiple systems</description>
+          <indicators>
+            <indicator>7+ system interactions</indicator>
+            <indicator>Complex state synchronization</indicator>
+            <indicator>Circular dependencies</indicator>
+          </indicators>
+        </score>
+        <score value="5">
+          <label>Highly Coupled</label>
+          <description>Extensive system-wide implications</description>
+          <indicators>
+            <indicator>System-wide architectural changes</indicator>
+            <indicator>Multiple data consistency requirements</indicator>
+            <indicator>Complex transaction management</indicator>
+          </indicators>
+        </score>
+      </scores>
+    </metric>
+
+    <metric id="SCALE" weight="0.2">
+      <name>Scale and Scope</name>
+      <description>Size and breadth of the implementation</description>
+      <scores>
+        <score value="1">
+          <label>Small</label>
+          <description>Single function or small component</description>
+          <indicators>
+            <indicator>1-2 files modified</indicator>
+            <indicator>Less than 100 lines of code</indicator>
+            <indicator>Single developer, few hours</indicator>
+          </indicators>
+        </score>
+        <score value="2">
+          <label>Medium</label>
+          <description>Multiple components or moderate feature</description>
+          <indicators>
+            <indicator>3-5 files modified</indicator>
+            <indicator>100-500 lines of code</indicator>
+            <indicator>1-2 developers, 1-2 days</indicator>
+          </indicators>
+        </score>
+        <score value="3">
+          <label>Large</label>
+          <description>Significant feature or subsystem</description>
+          <indicators>
+            <indicator>6-15 files modified</indicator>
+            <indicator>500-2000 lines of code</indicator>
+            <indicator>2-3 developers, 1-2 weeks</indicator>
+          </indicators>
+        </score>
+        <score value="4">
+          <label>Very Large</label>
+          <description>Major feature or system component</description>
+          <indicators>
+            <indicator>15+ files modified</indicator>
+            <indicator>2000+ lines of code</indicator>
+            <indicator>3+ developers, 2-4 weeks</indicator>
+          </indicators>
+        </score>
+        <score value="5">
+          <label>Massive</label>
+          <description>System-wide changes or new major subsystem</description>
+          <indicators>
+            <indicator>Hundreds of files affected</indicator>
+            <indicator>10000+ lines of code</indicator>
+            <indicator>Team effort, months</indicator>
+          </indicators>
+        </score>
+      </scores>
+    </metric>
+
+    <metric id="AMBIGUITY" weight="0.25">
+      <name>Requirements Ambiguity</name>
+      <description>Clarity and completeness of requirements and specifications</description>
+      <scores>
+        <score value="1">
+          <label>Crystal Clear</label>
+          <description>Fully specified requirements with clear acceptance criteria</description>
+          <indicators>
+            <indicator>Detailed specifications available</indicator>
+            <indicator>Clear acceptance criteria</indicator>
+            <indicator>No open questions</indicator>
+          </indicators>
+        </score>
+        <score value="2">
+          <label>Mostly Clear</label>
+          <description>Well-defined with minor clarifications needed</description>
+          <indicators>
+            <indicator>Good specifications with minor gaps</indicator>
+            <indicator>1-2 open questions</indicator>
+            <indicator>Clear overall direction</indicator>
+          </indicators>
+        </score>
+        <score value="3">
+          <label>Somewhat Ambiguous</label>
+          <description>Core requirements clear but details need clarification</description>
+          <indicators>
+            <indicator>High-level requirements clear</indicator>
+            <indicator>Several implementation details unclear</indicator>
+            <indicator>Need for stakeholder clarification</indicator>
+          </indicators>
+        </score>
+        <score value="4">
+          <label>Highly Ambiguous</label>
+          <description>Significant unknowns and unclear requirements</description>
+          <indicators>
+            <indicator>Vague or conflicting requirements</indicator>
+            <indicator>Multiple interpretation possibilities</indicator>
+            <indicator>Extensive research needed</indicator>
+          </indicators>
+        </score>
+        <score value="5">
+          <label>Completely Ambiguous</label>
+          <description>Requirements exploration and discovery needed</description>
+          <indicators>
+            <indicator>No clear requirements</indicator>
+            <indicator>Exploratory or research phase</indicator>
+            <indicator>Need for prototyping</indicator>
+          </indicators>
+        </score>
+      </scores>
+    </metric>
+  </metrics>
+
+  <calculation>
+    <formula>TCS = (NOVELTY * 0.3) + (COUPLING * 0.25) + (SCALE * 0.2) + (AMBIGUITY * 0.25)</formula>
+    <rounding>Round to nearest 0.1</rounding>
+    <strategy_selection>
+      <rule>TCS &lt;= 3.0 → CoT (Chain of Thought)</rule>
+      <rule>TCS &gt; 3.0 → ToT (Tree of Thoughts)</rule>
+    </strategy_selection>
+  </calculation>
+
+  <scoring_guide>
+    <instruction>Evaluate each metric independently based on the task description</instruction>
+    <instruction>Use the indicators to guide scoring decisions</instruction>
+    <instruction>Consider the worst-case scenario for each metric</instruction>
+    <instruction>Be conservative - higher scores for uncertainty</instruction>
+  </scoring_guide>
+
+  <examples>
+    <example>
+      <task>Add a new field to an existing database table and update the corresponding API</task>
+      <scores>
+        <novelty>1</novelty>
+        <coupling>2</coupling>
+        <scale>1</scale>
+        <ambiguity>1</ambiguity>
+      </scores>
+      <tcs>1.25</tcs>
+      <strategy>CoT</strategy>
+    </example>
+    
+    <example>
+      <task>Implement a new machine learning algorithm for recommendation system</task>
+      <scores>
+        <novelty>4</novelty>
+        <coupling>3</coupling>
+        <scale>3</scale>
+        <ambiguity>3</ambiguity>
+      </scores>
+      <tcs>3.25</tcs>
+      <strategy>ToT</strategy>
+    </example>
+
+    <example>
+      <task>Refactor authentication system to support multiple identity providers</task>
+      <scores>
+        <novelty>2</novelty>
+        <coupling>4</coupling>
+        <scale>3</scale>
+        <ambiguity>2</ambiguity>
+      </scores>
+      <tcs>2.75</tcs>
+      <strategy>CoT</strategy>
+    </example>
+  </examples>
+</complexity_matrix>

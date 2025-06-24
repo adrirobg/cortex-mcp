@@ -1,0 +1,114 @@
+
+{
+  "workflow_name": "Keymaker Task Planning Workflow",
+  "version": "1.0.0",
+  "description": "Structured workflow for automated task planning and construction kit generation",
+  "metadata": {
+    "created_by": "Keymaker Suite v2.8.6",
+    "purpose": "Cognitive load reduction through systematic task breakdown",
+    "strategy_types": ["CoT", "ToT"],
+    "estimated_duration": "15-45 minutes per task"
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "Analysis and Strategic Decision",
+      "description": "Initial assessment and cognitive strategy selection",
+      "estimated_time": "3-5 minutes",
+      "steps": [
+        "Analyze task description and requirements",
+        "Calculate Task Complexity Score (TCS)",
+        "Select cognitive strategy (CoT or ToT)"
+      ],
+      "outputs": [
+        "complexity_score",
+        "selected_strategy",
+        "reasoning_template"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Knowledge Retrieval",
+      "description": "Access relevant patterns and historical context",
+      "estimated_time": "2-3 minutes",
+      "steps": [
+        "Query lessons learned repository",
+        "Identify relevant patterns and anti-patterns",
+        "Retrieve similar task implementations"
+      ],
+      "outputs": [
+        "relevant_patterns",
+        "anti_patterns",
+        "historical_context"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Mission Map Generation",
+      "description": "Core planning phase using selected reasoning strategy",
+      "estimated_time": "8-15 minutes",
+      "steps": [
+        "Apply selected reasoning strategy",
+        "Generate structured implementation plan",
+        "Create mission_map.json with full task breakdown"
+      ],
+      "outputs": [
+        "mission_map.json",
+        "phase_breakdown",
+        "agent_assignments"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Artifact Distillation",
+      "description": "Generate supporting artifacts for execution",
+      "estimated_time": "2-4 minutes",
+      "steps": [
+        "Generate task-specific directives",
+        "Create library documentation checklist",
+        "Extract critical patterns and warnings"
+      ],
+      "outputs": [
+        "task_directives.md",
+        "library_checklist.md",
+        "critical_patterns"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Construction Kit Delivery",
+      "description": "Final validation and delivery preparation",
+      "estimated_time": "1-2 minutes",
+      "steps": [
+        "Validate all artifacts against schema",
+        "Generate completion summary",
+        "Report construction kit with artifact paths"
+      ],
+      "outputs": [
+        "validation_report",
+        "completion_summary",
+        "artifact_index"
+      ]
+    }
+  ],
+  "success_criteria": [
+    "All phases completed successfully",
+    "Mission map validates against schema",
+    "All artifacts generated and accessible",
+    "Construction kit ready for execution"
+  ],
+  "validation_checkpoints": [
+    {
+      "phase": 1,
+      "criteria": "TCS calculated and strategy selected"
+    },
+    {
+      "phase": 3,
+      "criteria": "Mission map JSON schema validation passes"
+    },
+    {
+      "phase": 5,
+      "criteria": "All artifacts present in task directory"
+    }
+  ]
+}

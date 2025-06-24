@@ -1,0 +1,108 @@
+{
+  "strategy": "chain_of_thought",
+  "description": "Sequential reasoning pattern for standard complexity tasks (TCS < 4)",
+  "usage_guidelines": {
+    "when_to_use": "Tasks with TCS scores 1-3, linear problem-solving approach",
+    "cognitive_load": "Low to Medium",
+    "time_estimate": "8-12 minutes",
+    "best_for": ["Incremental improvements", "Well-defined problems", "Standard implementations"]
+  },
+  "thought_templates": [
+    {
+      "id": 1,
+      "topic": "Data Analysis and Patterns",
+      "description": "Understanding the fundamental data structures and existing patterns",
+      "cognitive_focus": "Pattern recognition and data modeling",
+      "prompts": [
+        "What are the core data structures needed for this task?",
+        "What patterns exist in the current codebase that we can leverage?",
+        "What are the specific input/output requirements and constraints?",
+        "How does the data flow through the system currently?"
+      ],
+      "output_expectations": [
+        "Clear data structure definitions",
+        "Identified reusable patterns",
+        "Input/output specifications"
+      ]
+    },
+    {
+      "id": 2,
+      "topic": "Component/Module Design",
+      "description": "Architectural decisions and module interactions",
+      "cognitive_focus": "System design and component relationships",
+      "prompts": [
+        "What are the main components/modules needed for this implementation?",
+        "How do these components interact with existing modules in the system?",
+        "What are the clear interface contracts and boundaries?",
+        "What design patterns should be applied here?"
+      ],
+      "output_expectations": [
+        "Component architecture diagram",
+        "Interface definitions",
+        "Design pattern applications"
+      ]
+    },
+    {
+      "id": 3,
+      "topic": "Internal Component Logic",
+      "description": "Core algorithms and business logic implementation",
+      "cognitive_focus": "Algorithm design and state management",
+      "prompts": [
+        "What is the core algorithm or business logic that needs to be implemented?",
+        "What are the state management requirements and lifecycle considerations?",
+        "What validations and business rules must be enforced?",
+        "What are the performance and scalability considerations?"
+      ],
+      "output_expectations": [
+        "Algorithm pseudocode",
+        "State management strategy",
+        "Validation rules"
+      ]
+    },
+    {
+      "id": 4,
+      "topic": "Connections and Interactions",
+      "description": "System integration and dependency management",
+      "cognitive_focus": "Integration patterns and communication protocols",
+      "prompts": [
+        "How does this component integrate seamlessly with the existing system?",
+        "What are the dependency requirements and injection patterns?",
+        "What are the communication patterns (sync/async, events, APIs)?",
+        "How should this handle external service interactions?"
+      ],
+      "output_expectations": [
+        "Integration strategy",
+        "Dependency mapping",
+        "Communication protocols"
+      ]
+    },
+    {
+      "id": 5,
+      "topic": "Error and Edge Case Handling",
+      "description": "Robustness and reliability considerations",
+      "cognitive_focus": "Error handling and system resilience",
+      "prompts": [
+        "What specific errors and exceptions can occur in this implementation?",
+        "What are the critical edge cases that must be handled?",
+        "How should failures be handled and what are the recovery strategies?",
+        "What monitoring and logging should be implemented?"
+      ],
+      "output_expectations": [
+        "Error handling strategy",
+        "Edge case documentation",
+        "Recovery mechanisms"
+      ]
+    }
+  ],
+  "flow_guidance": {
+    "sequential_processing": "Each thought builds upon the previous ones",
+    "iteration_allowed": "Can revisit earlier thoughts with new insights",
+    "completion_criteria": "All 5 thoughts have clear outputs and connect logically"
+  },
+  "common_pitfalls": [
+    "Skipping data analysis phase",
+    "Designing components without considering existing patterns",
+    "Ignoring error handling until the end",
+    "Not considering integration complexity early"
+  ]
+}

@@ -423,7 +423,7 @@
   "success_criteria": {
     "technical": [
       "All 6 tools operational through MCP interface",
-      "Complete compliance with 4 Principios Rectores",
+      "Complete compliance with 5 Principios Rectores",
       ">90% test coverage with behavior-driven approach",
       "All quality gates pass (mypy, black, flake8)"
     ],

@@ -157,11 +157,12 @@ class LibraryChecklistPayload(BasePayload):
 Implements the Keymaker workflow tools for automated task planning
 and construction kit generation.
 
-Following the 4 Principios Rectores:
+Following the 5 Principios Rectores:
 1. Dogmatismo con Universal Response Schema ✅
 2. Servidor como Ejecutor Fiable ✅ 
 3. Estado en Claude, NO en Servidor ✅
 4. Testing Concurrente ✅
+5. **Simplicidad Radical** - No OVERENGINEERING. ELEGANT solutions, ZERO unnecessary complexity
 
 Anti-Over-Engineering Implementation:
 - Zero cognitive capabilities - pure deterministic utilities

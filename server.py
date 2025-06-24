@@ -4,11 +4,6 @@
 A Model Context Protocol server providing strategic cognition capabilities
 for Claude Code. Uses official FastMCP framework.
 
-Following the 4 Principios Rectores:
-1. Dogmatismo con Universal Response Schema
-2. Servidor como Ejecutor Fiable
-3. Estado en Claude, NO en Servidor  
-4. Testing Concurrente
 """
 
 import json
@@ -21,6 +16,14 @@ from mcp.server.fastmcp import FastMCP
 # Import BaseTool classes for direct instantiation
 from tools.planning_toolkit import PlanningTemplateTool, PlanningArtifactTool
 from tools.knowledge_management import RetrospectiveTool, KnowledgeIntegrationTool
+from tools.task_planning import (
+    KeymakerWorkflowTool,
+    ComplexityScoreTool,
+    ReasoningTemplateTool,
+    MissionMapTool,
+    TaskDirectivesTool,
+    LibraryChecklistTool
+)
 
 # Import prompt functions for native MCP prompts
 from prompts.planning_prompts import phase_preparation_simple_prompt
@@ -125,6 +128,97 @@ async def process_retrospective(
     """
     tool = KnowledgeIntegrationTool()
     return await tool.validate_and_execute(retrospective_file=retrospective_file)
+
+
+# ========================================
+# KEYMAKER TASK PLANNING TOOLS
+# Following Principio Rector #2: Servidor como Ejecutor Fiable
+# ========================================
+
+@app.tool(
+    name="get-keymaker-workflow",
+    description="Retrieve structured workflow template for task planning automation"
+)
+async def get_keymaker_workflow() -> Dict:
+    """Pure delegation to KeymakerWorkflowTool."""
+    tool = KeymakerWorkflowTool()
+    return await tool.validate_and_execute()
+
+
+@app.tool(
+    name="calculate-complexity-score",
+    description="Calculate Task Complexity Score (TCS) to determine planning strategy"
+)
+async def calculate_complexity_score(
+    task_description: Annotated[str, Field(
+        description="Description of the task to analyze for complexity"
+    )]
+) -> Dict:
+    """Pure delegation to ComplexityScoreTool."""
+    tool = ComplexityScoreTool()
+    return await tool.validate_and_execute(task_description=task_description)
+
+
+@app.tool(
+    name="get-reasoning-template",
+    description="Retrieve Chain-of-Thought (CoT) or Tree-of-Thoughts (ToT) reasoning template"
+)
+async def get_reasoning_template(
+    strategy_type: Annotated[str, Field(
+        description="Type of reasoning strategy: 'cot' or 'tot'"
+    )]
+) -> Dict:
+    """Pure delegation to ReasoningTemplateTool."""
+    tool = ReasoningTemplateTool()
+    return await tool.validate_and_execute(strategy_type=strategy_type)
+
+
+@app.tool(
+    name="save-mission-map",
+    description="Save and validate structured mission map for task execution"
+)
+async def save_mission_map(
+    task_id: Annotated[str, Field(
+        description="Unique identifier for the task"
+    )],
+    mission_content: Annotated[str, Field(
+        description="JSON content of the mission map"
+    )]
+) -> Dict:
+    """Pure delegation to MissionMapTool."""
+    tool = MissionMapTool()
+    return await tool.validate_and_execute(
+        task_id=task_id,
+        mission_content=mission_content
+    )
+
+
+@app.tool(
+    name="generate-task-directives",
+    description="Generate task-specific Do's and Don'ts from mission map analysis"
+)
+async def generate_task_directives(
+    mission_map_path: Annotated[str, Field(
+        description="Path to the mission map JSON file"
+    )]
+) -> Dict:
+    """Pure delegation to TaskDirectivesTool."""
+    tool = TaskDirectivesTool()
+    return await tool.validate_and_execute(mission_map_path=mission_map_path)
+
+
+@app.tool(
+    name="generate-library-checklist",
+    description="Generate Context7 library documentation checklist from mission map"
+)
+async def generate_library_checklist(
+    mission_map_path: Annotated[str, Field(
+        description="Path to the mission map JSON file"
+    )]
+) -> Dict:
+    """Pure delegation to LibraryChecklistTool."""
+    tool = LibraryChecklistTool()
+    return await tool.validate_and_execute(mission_map_path=mission_map_path)
 
 
 # ========================================
